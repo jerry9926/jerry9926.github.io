@@ -1,0 +1,57 @@
+---
+layout: post
+title: 	"单例的两种写法"
+date: 	2015-05-14 11:11:51
+categories: iOS 
+---
+
+**第一种，使用GCD，利用dispatch_once方法。**  
+dispatch_once函数如下：  
+{% highlight Objective-C %}
+void dispatch_once(dispatch_once_t *predicate, dispatch_block_t block);
+{% endhighlight %}
+
+`dispatch_once`接收两个参数，一个是`dispatch_once_t`，一个是`块参数`。对于给定的`predicate`，该函数保证相关代码块必定会执行，并且只执行一次，最重要的是这个方法是线程安全的。注意，对于只执行一次的块，传入的`predicate`必须是完全相同的，所以`predicate`常常会用`static`或者`global`来修饰。
+
+MyClass.h
+
+{% highlight Objective-C %}
++ (id)shareManager;
+{% endhighlight %}
+  
+
+MyClass.m
+
+{% highlight Objective-C %}
++ (id)shareManager {
+     static MyClass *shareMyClass;
+     @synchronized(self) {
+          if (shareMyClass == nil) {
+               shareMyClass = [[self alloc] init];
+          }
+     }
+     return shareMyClass;
+}
+{% endhighlight %}
+      		  
+     		  
+**第二种，不使用GCD**  
+MyClass.m
+
+{% highlight Objective-C %}
++ (id)shareManager {
+     static MyClass *shareMyClass;
+     @synchronized(self) {
+          if (shareMyClass == nil) {
+               shareMyClass = [[self alloc] init];
+          }
+     }
+     return shareMyClass;
+}
+{% endhighlight %}
+
+使用GCD的好处就是`dispatch_once`就确保了代码只会运行一次，并且不需要考虑线程安全的问题，因为GCD自己已经确保了线程的安全。
+  
+参考文章：  
+[http://www.galloway.me.uk/tutorials/singleton-classes/](http://www.galloway.me.uk/tutorials/singleton-classes/ "参考文章")  
+[http://blog.csdn.net/sakulafly/article/details/34948689](http://blog.csdn.net/sakulafly/article/details/34948689 "参考文章")

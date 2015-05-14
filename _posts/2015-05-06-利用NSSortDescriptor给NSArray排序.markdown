@@ -52,6 +52,6 @@ NSSortDescriptor仅对`NSSet`、`NSArray`、`NSMutableArray`可以排序，需�
 `- (void)sortUsingDescriptors:(NSArray *)sortDescriptors;` 这是NSMutableArray排序，没有返回值。
   
   
-参考文章：
-[http://nshipster.cn/nssortdescriptor/](http://nshipster.cn/nssortdescriptor/ "参考文章")
+参考文章：  
+[http://nshipster.cn/nssortdescriptor/](http://nshipster.cn/nssortdescriptor/ "参考文章")  
 [http://www.cnblogs.com/wuwangchuxin/p/3759141.html](http://www.cnblogs.com/wuwangchuxin/p/3759141.html "参考文章")
