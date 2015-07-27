@@ -1,0 +1,58 @@
+---
+layout: post
+title: 	"关于时间"
+date: 	2015-02-26 11:11:51
+categories: iOS 
+---
+
+
+{% highlight Objective-C %}
++ (NSInteger)helperTodayTimeInterval {
+     int today = [[[NSDate date] helperGetDayNumber] intValue];
+     int month = [[[NSDate date] helperGetMonthNumber] intValue];
+     int year = [[[NSDate date] helperGetYearNumber] intValue];
+     NSDate *todayDate = [NSDate helperGetDateWithYear:year andMonth:month andDay:today];
+     return [todayDate helperDateToTimeInterval];
+}
+{% endhighlight %}
+
+这个方法是用来计算今天的日期（零时零分）的时间戳。  
+代码的思路是：`通过当前时间找到对应的年月日 —> 通过年月日获取NSDate —> 通过NSDate获取时间戳`  
+这个思路是可以获取正确的时间戳的，但是明显绕了一圈。现在优化这个方法，思路如下：
+`通过当前时间获取时间戳 —> 将时间戳调整为当天的零时零分`  
+获取当前时间的时间戳非常简单，`NSInteger time_new = [[NSDate date] timeIntervalSince1970];`。现在获取了当前的时间戳，需要把超过零时零分的时间删掉。可以想到把时间戳取余，然后减掉就行了。`time_new = time_new - (time_new % (60*60*24))`。删掉之后，得到的时间戳发现得到的时间2015/2/26 8:0:0，多了八个小时。这是因为`timeIntervalSince1970这个方法是把时间跟1970年1月1日零时零分GMT（格林尼治时间）时间相减得到的秒数`。GMT时间比北京时间多了8小时时差。所以还要把这个时差减掉。计算时差的代码：
+{% highlight Objective-C %}
+NSTimeZone *zone = [NSTimeZone systemTimeZone];
+NSInteger interval = [zone secondsFromGMTForDate: [NSDate date]];
+{% endhighlight %}  
+
+这里已经解决了这个问题了。但是再想想，为什么不可以先减去时差，再减去超过零时零分的时间呢。像这样：
+{% highlight Objective-C %}
+time_new = time_new - interval;
+time_new = time_new - (time_new % (60*60*24));
+{% endhighlight %}  
+
+想了很久终于想通了。是因为当前的时间是相对北京时间零时零分超出的。如果先减去时差转成GMT时间，再减去超出的时间，并不能获得北京时间的零时零分，而是GMT时间的零时零分。  
+
+优化后的代码：
+{% highlight Objective-C %}
++ (NSInteger)helperTodayTimeInterval {
+     NSInteger time_new = [[NSDate date] timeIntervalSince1970];
+     NSTimeZone *zone = [NSTimeZone systemTimeZone];
+     NSInteger interval = [zone secondsFromGMTForDate: [NSDate date]];
+     time_new = time_new - (time_new % (60*60*24)) - interval;
+     return time_new;
+}
+{% endhighlight %}  
+
+ps:  
+1、在iOS上打印NSDate的本地时间时候，不管你怎么改变时间，打印出来的结果都是一样的，因为NSDate默认的description函数都是直接打印UTC时间。
+
+2、不管是在世界上哪个时区，`- (NSTimeInterval)timeIntervalSince1970;`打印这个时间，都会是相同的间隔。
+
+3、世界上所有的时间都是以这个时间为基准进行转换的，当进行时区转换的时候，基本思想应该是转换为UTC时间，然后再转换到目标时区的时间。如果有NSFormater就很强大了。[参考](http://note.tc.edu.tw/640.html "参考")  
+
+———2015.07.23更新———  
+4、如果想打印本地（系统的时区）的时间，使用：  
+`NSString *dateSting = [date descriptionWithLocale:[NSLocale systemLocale]];`
+
