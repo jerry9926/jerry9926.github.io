@@ -5,18 +5,24 @@
 
   <body>
 
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span3">
-        <!--Sidebar content-->
-          
+    <div class="container">
+      <div class="side-bar">
+      <!--Sidebar content-->
+        <div class="head-wrapper">
+          <img src="/assets/images/ui/icon.jpg" alt="kuler">
         </div>
-        <div class="span9">
-        <!--Body content-->
-          {{ content }}
+        <h1 class="title">库乐君的前端笔记本</h1>
+        <h2 class="decs">所谓文艺，不过是多走一些路，多看一些风景罢了</h2>
+        <ul class="nav">
+          <li><a href="/">首页</a></li>
+        </ul>
+        
+      </div>
+      <div class="content-contain">
+      <!--Body content-->
+        {{ content }}
 
-          {% include footer.html %}
-        </div>
+        {% include footer.html %}
       </div>
     </div>
 

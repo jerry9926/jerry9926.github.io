@@ -1,0 +1,63 @@
+.side-bar {
+    left: 0;
+    position: fixed;
+    height: 100%;
+    width: 25%;
+    background-color: #1a2a6d;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-image: url(/assets/images/ui/side-bar-bg.jpg);
+}
+
+.head-wrapper {
+    margin: 5rem auto 1rem;
+    width: 50%;
+}
+
+.head-wrapper img {
+    border-radius: 50%;
+}
+
+.title {
+    color: #fff;
+    font-size: 1.5rem;
+    padding-left: 1rem;
+}
+
+.decs {
+    color: #fff;
+    font-weight: normal;
+    padding-left: 1rem;
+    font-size: 1rem;
+    line-height: 1.2rem;
+    padding-right: 1rem;
+}
+
+.nav {
+    border-top: 2px #fff solid;
+    padding: 1rem 0 0;
+}
+
+.nav li {
+    text-align: center;
+    line-height: 25px;
+}
+
+.nav a {
+	color: #fff;
+}
+
+.nav>li>a:hover, .nav>li>a:focus {
+	color: #2b2b2b;
+	background-color: #FFF;
+}
+
+.content-contain {
+    background: #fff;
+    left: 0;
+    margin-left: 27%;
+    min-height: 100%;
+    position: absolute;
+    right: 0;
+    padding-right: 2%;
+}
