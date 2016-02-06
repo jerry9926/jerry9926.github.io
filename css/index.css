@@ -5,7 +5,7 @@
     width: 25%;
     background-color: #1a2a6d;
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: cover;
     background-image: url(/assets/images/ui/side-bar-bg.jpg);
 }
 
