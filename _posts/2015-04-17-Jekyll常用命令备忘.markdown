@@ -5,7 +5,7 @@ date:   2015-04-17 16:52:51
 categories: jekyll 
 ---
 
-**基本用法**  [\[参考\]](http://jekyllcn.com/docs/usage/ "命令参考")
+**基本用法**  <a href="http://jekyllcn.com/docs/usage/" target="_blank" title="命令参考">[参考]</a>
 {% highlight ruby%}
 $ jekyll build
 # => 当前文件夹中的内容将会生成到 ./_site 文件夹中。
@@ -21,7 +21,7 @@ $ jekyll build --watch
 #    查看改变，并且自动再生成。
 {% endhighlight %}
 
-**在本地进行预览** [\[参考\]](http://jekyllcn.com/docs/usage/ "命令参考")
+**在本地进行预览** <a href="http://jekyllcn.com/docs/usage/" target="_blank" title="命令参考">[参考]</a>
 {% highlight ruby%}
 $ jekyll serve
 # => 一个开发服务器将会运行在 http://localhost:4000/
