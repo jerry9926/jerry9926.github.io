@@ -147,16 +147,17 @@
  * Posts
  */
 .post-header {
+    padding-top: $spacing-unit;
     margin-bottom: $spacing-unit;
 }
 
 .post-title {
-    font-size: 2.8em;
+    font-size: 2em;
     letter-spacing: -1px;
     line-height: 1;
 
     @include media-query($on-laptop) {
-        font-size: 2.6em;
+        font-size: 1.8em;
     }
 }
 
@@ -186,4 +187,5 @@
             font-size: 1.4em;
         }
     }
+
 }
