@@ -1,0 +1,149 @@
+---
+layout: post
+title:  "CSS布局核心概念：盒模型"
+date:   2016-02-05 11:23:34
+categories: CSS
+
+---
+
+#盒模型
+页面上的每一个元素被看做一个矩形框，这个框由`内容`、`内边距`、`边框`、`外边距`组成。
+   
+
+###内边距
+如果元素添加背景，背景显示在内容和内边距上面。
+   
+###外边距
+外边距是透明的，用来控制元素之间的间隔。外边距可以是负值。
+   
+###外边距重叠( Collapsing margins )
+解释：指的是`毗邻`的两个或多个外边距 (margin) 会合并成一个外边距。
+其中所说的 margin 毗邻，可以归结为以下两点：
+-这两个或多个外边距没有被`非空内容`、`padding`、`border` 或 `clear` 分隔开。
+-这些 margin 都处于普通流中。`行内框(inline-block)`、`浮动框(float)`、`绝对定位框(absolute/fixed)`之间的外边距不会重叠。
+   
+
+
+
+####垂直方向
+是指具体的方位，只有`垂直方向`的 margin 才会重叠，也就是说，水平方向的 margin 不会发生重叠象。
+   
+**1、当两个或者更多的垂直外边距相遇时，它们发生重叠，这时外边距的高度等于两个叠加的外边距之中高度较大者的高度。**
+
+如图：
+  
+<img src="/assets/images/css_core_concept_box_model_1.png" alt="示例图片" width="60%">
+
+
+**2、当一个元素包含在另一个元素中时，如果没有内边距和边框将两者的外边距隔开，它们的上外边距/下外边距会发生叠加。**
+
+如图：  
+<img src="/assets/images/css_core_concept_box_model_2.png" alt="示例图片" width="60%">
+ 
+**3、如果有一个元素，没有内容、内边距、边框，有上下边距，这是上外边距和下外边距碰到一起，也会发生重叠。**
+  
+如图：
+
+<img src="/assets/images/css_core_concept_box_model_3.png" alt="示例图片" width="60%">
+  
+
+####折叠后 margin 的计算
+   
+**1、 参与折叠的 margin 都是正值：`取其中 margin 较大的值为最终 margin 值`。**
+
+例子：
+{% highlight html %}
+<div style="height:50px; margin-bottom:50px; width:50px; background-color: red;">A</div>
+<div style="height:50px; margin-top:100px; width:50px; background-color: green;">B</div>
+{% endhighlight %}
+   
+
+**2、参与折叠的 margin 都是负值：`取的是其中绝对值较大的，然后，从 0 位置，负向位移`。**
+
+例子：
+{% highlight html %}
+<div style="height:100px; margin-bottom:-75px; width:100px; background-color: red;">A</div>
+<div style="height:100px; margin-top:-50px; margin-left:50px; width:100px; background-color: green;">B</div>
+{% endhighlight %}
+
+如图：
+
+<img src="/assets/images/css_core_concept_box_model_4.png" alt="示例图片" width="60%">
+   
+   
+**3、参与折叠的 margin 中有正值，有负值：`先取出负 margin 中绝对值中最大的，然后，和正 margin 值中最大的 margin 相加`。**
+
+例子：
+{% highlight html %}
+<div style="height:50px; margin-bottom:-50px; width:50px; background-color: red;">A</div>
+<div style="height:50px; margin-top:100px; width:50px; background-color: green;">B</div>
+{% endhighlight %}
+
+如图：
+   
+<img src="/assets/images/css_core_concept_box_model_5.png" alt="示例图片" width="60%">
+
+上面的例子最终的 margin 应该是 `100 + (-50) = 50px`。
+   
+
+**4、相邻的 margin 要一起参与计算，不得分步计算**
+
+要注意，相邻的元素不一定非要是兄弟节点，父子节点也可以，即使不是兄弟父子节点也可以相邻。
+而且，`在计算时，相邻的 margin 要一起参与计算，不得分步计算`。
+
+一个复杂的实例：
+
+{% highlight html %}
+<div style="margin:50px 0; background-color:green; width:50px;">
+    <div style="margin:-60px 0;">
+           <div style="margin:150px 0;">A</div>
+    </div>
+</div>
+<div style="margin:-100px 0; background-color:green; width:50px;">
+    <div style="margin:-120px 0;">
+           <div style="margin:200px 0;">B</div>
+    </div>
+</div>
+{% endhighlight %}
+  
+
+错误的计算方式：算 A 和 B 之间的 margin，分别算 A 和其父元素的折叠，然后与其父元素的父元素的折叠，这个值算出来之后，应该是 90px。依此法算出 B 的为 80px；然后，A和B折叠，margin 为 90px。
+  
+**请注意，多个 margin 相邻折叠成一个 margin，所以计算的时候，应该取所有相关的值一起计算，而不能分开分步来算。**
+  
+以上例子中，A 和 B 之间的 margin 折叠产生的 margin，是6个相邻 margin 折叠的结果。将其 margin 值分为两组：
+  
+正值：50px，150px，200px
+
+负值：-60px，-100px，-120px   
+
+根据有正有负时的计算规则，正值的最大值为 200px，负值中绝对值最大的是 -120px，所以，最终折叠后的 margin 应该是 `200 + (-120) = 80px`。
+   
+####创建了块级格式化上下文(block format context)的元素，不和它的子元素发生 margin 折叠
+   
+以 “overflow : hidden” 的元素为例：
+   
+{% highlight html %}
+<div style="margin-top:50px; width:100px; height:100px; background-color:green; overflow:hidden;">
+    <div style="margin-top:50px; background-color:gold;">B</div>
+</div>
+{% endhighlight %}
+  
+###边框
+**CSS2.1有outline属性性，与border不同，轮廓绘制在元素框之上，不影响定位。**
+
+**CSS3的box-sizing属性可以定义要使用哪一种盒模型。**
+
+###来源：
+《精通CSS》
+   
+<a href="http://www.w3help.org/zh-cn/kb/006/" target="_blank">KB006: CSS 框模型( Box module )</a>
+
+###延伸阅读：
+
+<a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context" target="_blank">块级格式化上下文</a>
+
+<a href="http://kayosite.com/block-formatting-contexts-in-detail.html" target="_blank">详说 Block Formatting Contexts (块级格式化上下文)</a>
+
+
+
