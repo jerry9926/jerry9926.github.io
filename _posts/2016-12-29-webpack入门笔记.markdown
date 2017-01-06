@@ -1,0 +1,458 @@
+---
+layout: post
+title:    "webpack入门笔记"
+date:     2016-12-29 15:44:51
+categories: webpack 工具 
+---
+
+### 什么是WebPack
+
+ WebPack是**模块打包机**，它的做的事情就是：分析你的项目结构，找到Javascript模块以及其他一些浏览器不能直接运行的拓展语言（Scss、TypeScript等），并将其打包为浏览器可以运行的格式。
+
+<br>
+
+### WebPack和Grunt和Gulp相对比
+
+ WebPack和Grunt和Gulp本质上没有可比性，因为前者跟后者的功能并不一样。
+
+ Gulp/Grunt是一种能够优化前端的开发流程的工具。其工作方式是：在一个配置文件中，指明对某些文件进行类似编译，组合，压缩等任务的具体步骤，这个工具之后可以自动替你完成这些任务。
+
+ WebPack是一种模块化的解决方案，不过Webpack的优点使得Webpack可以替代Gulp/Grunt类的工具。其工作方式是：把你的项目当做一个整体，通过一个给定的主文件（如：index.js），Webpack将从这个文件开始找到你的项目的所有依赖文件，使用`loader`处理它们，最后打包为一个浏览器可识别的JavaScript文件。
+
+<br>
+
+### 安装
+
+    //全局安装
+    npm install -g webpack
+    //安装到你的项目目录
+    npm install --save-dev webpack
+
+<br>
+
+### 开始使用
+
+ 1、命令行 
+
+    全局安装：webpack {入口文件} {输出文件} 
+    本地安装：node_modules/.bin/webpack {入口文件} {输出文件}
+
+ 2、通过配置文件来使用
+
+创建配置文件`webpack.config.js`
+{% highlight javascript %}
+module.exports = {
+    entry:  __dirname + "/app/main.js",//已多次提及的唯一入口文件
+    output: {
+        path: __dirname + "/public",//打包后的文件存放的地方
+        filename: "bundle.js"//打包后输出文件的文件名
+    }
+}
+{% endhighlight %}
+
+    注：“__dirname”是node.js中的一个全局变量，它指向当前执行脚本所在的目录。
+
+ 使用方式同上，但是不需要写入口文件和输出文件了，因为已经在配置文件中定义了。
+
+ 通过npm命令使用
+    在package.json文件中可以设置命令
+{% highlight javascript %}
+"scripts": {
+    "start": "webpack --display-error-details"
+}
+{% endhighlight %}
+    注：在package.json中即使本地安装webpack也不需要写node_modules路径了，因为npm命令执行中已经有路径依赖
+
+<br>
+
+### 更多功能（配置项）- 生成Source Maps
+
+ 通过简单的配置后，Webpack在打包时可以为我们生成的source maps，这为我们提供了一种对应编译文件和源文件的方法，使得编译后的代码可读性更高，也更容易调试。
+
+ 配置source maps，需要配置`devtool`字段。`devtool`有四种值
+
+> **source-map** 
+
+>> 在一个单独的文件中产生一个完整且功能完全的文件。这个文件具有最好的source map，但是它会减慢打包文件的构建速度；
+
+> **cheap-module-source-map** 
+
+>> 在一个单独的文件中生成一个不带列映射的map，不带列映射提高项目构建速度，但是也使得浏览器开发者工具只能对应到具体的行，不能对应到具体的列（符号），会对调试造成不便；
+
+> **eval-source-map**
+
+>> 使用eval打包源文件模块，在同一个文件中生成干净的完整的source map。这个选项可以在不影响构建速度的前提下生成完整的sourcemap，但是对打包后输出的JS文件的执行具有性能和安全的隐患。不过在开发阶段这是一个非常好的选项，但是在生产阶段一定不要用这个选项；
+
+> **cheap-module-eval-source-map** 
+
+>> 这是在打包文件时最快的生成source map的方法，生成的Source Map 会和打包后的JavaScript文件同行显示，没有列映射，和eval-source-map选项具有相似的缺点；
+
+ - 上述选项由上到下打包速度越来越快，不过同时也具有越来越多的负面作用
+
+ - 在学习阶段以及在小到中性的项目上，`eval-source-map`是一个很好的选项，不过记得只在开发阶段使用它
+
+例如
+{% highlight javascript %}
+module.exports = {
+    devtool: 'eval-source-map',//配置生成Source Maps，选择合适的选项
+    entry:  __dirname + "/app/main.js",
+    output: {
+        path: __dirname + "/public",
+        filename: "bundle.js"
+    }
+}
+{% endhighlight %}
+
+<br>
+
+### 使用webpack构建本地服务器
+
+安装
+    
+    npm install --save-dev webpack-dev-server
+
+
+配置本地服务器，需要配置 `devserver` 字段。`devserver`有以下的属性
+
+> **contentBase**
+
+>> 默认webpack-dev-server会为根文件夹提供本地服务器，如果想为另外一个目录下的文件提供本地服务器，应该在这里设置其所在目录（本例设置到“public"目录）
+
+> **port**   
+
+>> 设置默认监听端口，如果省略，默认为"8080"
+
+> **inline**  
+
+>> 设置为true，当源文件改变时会自动刷新页面
+
+> **colors**   
+
+>> 设置为true，使终端输出的文件为彩色的
+
+ 配置实例
+{% highlight javascript %}
+module.exports = {
+    devtool: 'eval-source-map',
+
+    entry:  __dirname + "/app/main.js",
+    output: {
+        path: __dirname + "/public",
+        filename: "bundle.js"
+    },
+
+    devServer: {
+        contentBase: "./public",//本地服务器所加载的页面所在的目录
+        colors: true,//终端中输出结果为彩色
+        historyApiFallback: true,//不跳转
+        inline: true//实时刷新
+    }
+}
+{% endhighlight %}
+
+ 使用方式，在npm命令中加入
+     
+{% highlight javascript %}
+"scripts": {
+    "start": "webpack --display-error-details",
+    "server": "webpack-dev-server"
+}
+{% endhighlight %}
+
+<br>
+
+### Loaders
+
+ 通过使用`loader`，webpack可以把各种类型的文件进行处理，达到可以加载的目的
+ `loader`的使用，有两步，安装和配置
+ 比如需要加载json文件，我们可以使用`json-loader`
+
+ 安装
+
+    npm install --save-dev json-loader
+ 
+ 配置
+{% highlight javascript %}
+module: {
+    loaders: [
+        {
+            test: /\.json$/,
+            loader: "json"
+        }
+    ]
+}
+{% endhighlight %}
+    
+    现在就可以加载json文件了，使用
+    var content = require('./content.json');
+
+`loader`的配置一般要关注四个属性
+
+> **test**
+
+>> 必选，一个匹配`loader`所处理的文件的扩展名的正则表达式
+    
+> **loader**
+
+>> 必选，`loader`的名字
+
+> include/exclude
+
+>> 可选，手动添加必须处理的文件（文件夹）或忽略的文件（文件夹）
+
+> query
+
+>> 可选，为`loader`提供额外的配置选项
+
+<br>
+
+### Babel Loaders
+
+ `Babel` 是一个编译Javascript的平台，作用如下
+
+1、能够编辑下一代的ECMA语法，并转化成当前浏览器都使用的ECMA版本
+
+2、使用Javascriopt的拓展语言，比如react的jsx
+
+ 安装
+
+    npm install --save-dev babel-core babel-loader babel-preset-es2015 babel-preset-react
+
+ 配置
+
+{% highlight javascript %}
+module: {
+    loaders: [
+        {
+            test: /\.json$/,
+            loader: "json"
+        },
+        {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: 'babel',
+            query: {
+                presets: ['es2015','react']
+            }
+        }
+    ]
+}
+{% endhighlight %}
+    
+
+> Babel的配置选项
+
+>> `Babel`其实可以完全在`webpack.config.js`中进行配置，但是`babel`具有非常多的配置选项，可以把`babel`的配置选项放在一个单独的名为 `.babelrc`的配置文件中（webpack会自动调用`.babelrc`里的`babel`配置选项）
+
+ 分开后:
+{% highlight javascript %}
+// webpack.config.js
+module.exports = {
+    devtool: 'eval-source-map',
+
+    entry:  __dirname + "/app/main.js",
+    output: {
+        path: __dirname + "/public",
+        filename: "bundle.js"
+    },
+
+    module: {
+        loaders: [
+        {
+            test: /\.json$/,
+            loader: "json"
+        },
+        {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: 'babel'
+        }
+        ]
+    },
+
+    devServer: {...} // Omitted for brevity
+}
+
+//.babelrc
+{
+    "presets": ["react", "es2015"]
+}
+{% endhighlight %}
+    
+<br>
+
+### CSS Loaders
+ 安装
+
+    npm install --save-dev style-loader css-loader
+
+ 配置
+{% highlight javascript %}
+module: {
+    loaders: [
+    {
+        test: /\.json$/,
+        loader: "json"
+    },
+    {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel'
+    },
+    {
+        test: /\.css$/,
+        loader: 'style!css'//添加对样式表的处理
+    }
+    ]
+}
+{% endhighlight %}
+    注：感叹号的作用在于使同一文件能够使用不同类型的loader
+
+
+<br>
+
+### 插件
+    
+插件（Plugins）是用来拓展Webpack功能的，可以这么来说，loaders是在打包构建过程中用来处理源文件的（JSX，Scss，Less..），一次处理一个，插件并不直接操作单个文件，它直接对整个构建过程其作用。
+
+Webpack有很多内置插件，同时也有很多第三方插件。使用插件的方法跟使用loader差不多，也是安装和配置
+
+下面以常用的插件为例看看如何使用。
+
+> `HtmlWebpackPlugin`
+
+>> 这个插件作用是依据一个简单的模板，帮你生成最终的Html5文件。这个文件中自动引用了你打包后的JS文件。每次编译都在文件名中插入一个不同的哈希值。
+
+准备工作
+    
+1、移除public文件夹，利用此插件，HTML5文件会自动生成
+
+2、在app目录下，创建一个Html文件模板，这个模板包含title等其它你需要的元素，在编译过程中，本插件会依据此模板生成最终的html页面，模板源代码
+
+{% highlight html %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Webpack Sample Project</title>
+</head>
+<body>
+    <div id='root'>
+    </div>
+</body>
+</html>
+
+{% endhighlight %}
+
+ 安装
+
+    npm install --save-dev html-webpack-plugin
+
+ 配置
+
+ 方法同上,新建一个build文件夹用来存放最终的输出文件
+{% highlight javascript %}
+var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+    devtool: 'eval-source-map',
+
+    entry:  __dirname + "/app/main.js",
+    output: {
+        path: __dirname + "/build",
+        filename: "bundle.js"
+    },
+
+    module: {
+        loaders: [
+        { test: /\.json$/, loader: "json" },
+        { test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
+        { test: /\.css$/, loader: 'style!css?modules!postcss' }
+        ]
+    },
+    postcss: [
+    require('autoprefixer')
+    ],
+
+    plugins: [
+    new HtmlWebpackPlugin({
+        template: __dirname + "/app/index.tmpl.html"//new 一个这个插件的实例，并传入相关的参数
+    })
+    ],
+
+    devServer: {
+        colors: true,
+        historyApiFallback: true,
+        inline: true
+    }
+}
+{% endhighlight %}
+
+<br>
+
+### 更多插件
+    
+**`OccurenceOrderPlugin`** :为组件分配ID，通过这个插件webpack可以分析和优先考虑使用最多的模块，并为它们分配最小的ID
+
+**`UglifyJsPlugin`**：压缩JS代码；
+
+**`ExtractTextPlugin`**：分离CSS和JS文件
+    - 在webpack打包后的css会以内联的形式插入在html里面，利用ExtractTextPlugin可以把CSS文件抽离出来成独立文件，在html内自动加入引用的link
+
+{% highlight javascript %}
+    var webpack = require('webpack');
+    var HtmlWebpackPlugin = require('html-webpack-plugin');
+    var ExtraTextPlgin = require('extract-text-webpack-plugin');
+
+    module.exports = {
+        devtool: "eval-source-map", //配置生成Source Maps，选择合适的选项
+        entry:  __dirname + "/app/main.js", //已多次提及的唯一入口文件
+        output: {
+            path: __dirname + "/build", //打包后的文件存放的地方
+            filename: "bundle.js" //打包后输出文件的文件名
+        },
+        devServer: {
+            contentBase: "./public", //本地服务器所加载的页面所在的目录
+            colors: true, //终端中输出结果为彩色
+            historyApiFallback: true, //不跳转
+            inline: true //实时刷新
+        },
+        module: {
+            loaders: [
+                {
+                    test: /\.json$/,
+                    loader: "json"
+                },
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    loader: 'babel',
+                    query: {
+                        presets: ['es2015']
+                    }
+                },
+                {
+                    test: /\.css$/,
+                    loader: ExtraTextPlgin.extract('style','css') //添加对样式表的处理
+                }
+            ]
+        },
+        plugins: [
+            new HtmlWebpackPlugin({
+                template: __dirname + '/app/index.tml.html'
+            }),
+            new ExtraTextPlgin('index.css')
+        ]
+    }
+{% endhighlight %}
+
+<br>
+
+### 生产环境
+
+我们已经使用webpack构建了一个完整的开发环境。但是在产品阶段，可能还需要对打包的文件进行额外的处理，比如说优化，压缩，缓存以及分离CSS和JS。
+
+建议开发环境和生产环境分开配置，创建一个`webpack.production.config.js`的文件，在里面加上基本的配置，它和原始的`webpack.config.js`很相似。
+
