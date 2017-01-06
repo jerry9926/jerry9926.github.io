@@ -2,7 +2,8 @@
 layout: post
 title:  "【翻译】制作无限循环的滚动视图"
 date:   2015-04-27 9:11:51
-categories: iOS UIScrollView
+categories: iOS
+tag: UIScrollView
 ---
 原文：[http://iosdevelopertips.com/user-interface/creating-circular-and-infinite-uiscrollviews.html](http://iosdevelopertips.com/user-interface/creating-circular-and-infinite-uiscrollviews.html "原文链接")
 
