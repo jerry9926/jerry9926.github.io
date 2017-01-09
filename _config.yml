@@ -12,3 +12,5 @@ github_username:  jerry9926
 
 # Build settings
 markdown: kramdown
+paginate_per_category: true
+default_category: "en"
