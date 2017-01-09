@@ -14,3 +14,4 @@ github_username:  jerry9926
 markdown: kramdown
 paginate_per_category: true
 default_category: "en"
+safe: false
