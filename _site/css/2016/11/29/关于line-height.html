@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <title>line-height的一些知识点</title>
+    <link rel="canonical" href="http://jerry9926.github.io/css/2016/11/29/%E5%85%B3%E4%BA%8Eline-height.html">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="/css/main.css">
+    <link href="/css/index.css" rel="stylesheet">
+	<script src="/js/jquery-1.11.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+</head>
+
+
+  <body>
+
+    <div class="container">
+      <div class="side-bar">
+      <!--Sidebar content-->
+        <div class="head-wrapper">
+          <img src="/assets/images/ui/icon.jpg" alt="kuler">
+        </div>
+        <h1 class="title">库乐君的笔记本</h1>
+        <h2 class="decs">所谓文艺，不过是多走一些路，多看一些风景罢了</h2>
+        <ul class="nav">
+          <li><a href="/">首页</a></li>
+          
+          <li><a href="/categories/ios/" title="view all
+          posts">ios 6</a>
+          </li>
+          
+          <li><a href="/categories/jekyll/" title="view all
+          posts">jekyll 1</a>
+          </li>
+          
+          <li><a href="/categories/css/" title="view all
+          posts">css 2</a>
+          </li>
+          
+          <li><a href="/categories/javascript/" title="view all
+          posts">javascript 3</a>
+          </li>
+          
+          <li><a href="/categories/webpack/" title="view all
+          posts">webpack 1</a>
+          </li>
+          
+          <li><a href="/categories/工具/" title="view all
+          posts">工具 1</a>
+          </li>
+          
+        </ul>
+        
+      </div>
+      <div class="content-contain">
+      <!--Body content-->
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">line-height的一些知识点</h1>
+    <p class="post-meta">Nov 29, 2016</p>
+  </header>
+
+  <article class="post-content">
+    <h3 id="section">1. 基本定义</h3>
+
+<p>line-height 可以有<strong>5种值</strong></p>
+
+<ul>
+  <li>
+    <p>normal：<code>body{line-height:normal;}</code></p>
+  </li>
+  <li>
+    <p>inherit：<code>body{line-height:inherit;}</code></p>
+  </li>
+  <li>
+    <p>百分比：<code>body{line-height:120%;}</code></p>
+  </li>
+  <li>
+    <p>长度（px、em等）：<code>body{line-height:25px;}</code></p>
+  </li>
+  <li>
+    <p>纯数字：<code>body{line-height:1.2}</code></p>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="section-1">2. 继承</h3>
+<ul>
+  <li>
+    <p>不同的定义方式的继承情况有所不同</p>
+
+    <p>以此为例</p>
+  </li>
+</ul>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;style&gt;</span>
+<span class="nt">body</span> <span class="p">{</span>
+	<span class="k">font-size</span><span class="o">:</span> <span class="m">16px</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">p</span> <span class="p">{</span>
+	<span class="k">font-size</span><span class="o">:</span> <span class="m">12px</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+	<span class="nt">&lt;p&gt;</span>hello world<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/body&gt;</span></code></pre></div>
+
+<ul>
+  <li>百分比；body设置line-height: 120%</li>
+</ul>
+
+<table class="table table-striped">
+	<thead>
+	<tr>
+		<th>元素</th>
+		<th>font-size</th>
+		<th>line-height</th>
+		<th>计算后的line-height</th>
+	</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>body</td>
+			<td>16px</td>
+			<td>120%</td>
+			<td>16px*120%=19.2px</td>
+		</tr>
+		<tr>
+			<td>p</td>
+			<td>12px</td>
+			<td>19.2px</td>
+			<td>16px*120%=19.2px</td>
+		</tr>
+	</tbody>
+</table>
+
+<ul>
+  <li>长度值；body设置line-height: 20px</li>
+</ul>
+
+<table class="table table-striped">
+	<thead>
+	<tr>
+		<th>元素</th>
+		<th>font-size</th>
+		<th>line-height</th>
+		<th>计算后的line-height</th>
+	</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>body</td>
+			<td>16px</td>
+			<td>20px</td>
+			<td>20px</td>
+		</tr>
+		<tr>
+			<td>p</td>
+			<td>12px</td>
+			<td>20px</td>
+			<td>20px</td>
+		</tr>
+	</tbody>
+</table>
+
+<ul>
+  <li>normal；body设置line-height: normal（浏览器默认normal约为1.2）</li>
+</ul>
+
+<table class="table table-striped">
+	<thead>
+	<tr>
+		<th>元素</th>
+		<th>font-size</th>
+		<th>line-height</th>
+		<th>计算后的line-height</th>
+	</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>body</td>
+			<td>16px</td>
+			<td>normal</td>
+			<td>16px*约1.2=约19.2px</td>
+		</tr>
+		<tr>
+			<td>p</td>
+			<td>12px</td>
+			<td>normal</td>
+			<td>12px*约1.2=约13.44px</td>
+		</tr>
+	</tbody>
+</table>
+
+<ul>
+  <li>纯数字（系数）；body设置line-height:1.5</li>
+</ul>
+
+<table class="table table-striped">
+	<thead>
+	<tr>
+		<th>元素</th>
+		<th>font-size</th>
+		<th>line-height</th>
+		<th>计算后的line-height</th>
+	</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>body</td>
+			<td>16px</td>
+			<td>1.5</td>
+			<td>16px*1.5=24px</td>
+		</tr>
+		<tr>
+			<td>p</td>
+			<td>12px</td>
+			<td>1.5</td>
+			<td>12px*1.5=约18px</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>所以：一般来说设置line-height为纯数字是最理想的方式，因为会随着font-size而缩放</p>
+
+<p><br /></p>
+
+<h3 id="section-2">3. 特殊的情况</h3>
+
+<ul>
+  <li>说特殊的情况之前，先说一下CSS box，以下有四种box，例如html</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;p&gt;</span>
+	The <span class="nt">&lt;em&gt;</span> emphasis<span class="nt">&lt;/em&gt;</span>
+	element is defined as &quot;inline&quot;.
+<span class="nt">&lt;/p&gt;</span></code></pre></div>
+
+<ol>
+  <li>
+    <p><code>containing box</code>。这里p就是一个<code>containing box</code>，包裹了其他box</p>
+  </li>
+  <li>
+    <p><code>inline box</code>。每个inline元素或者文字就是被<code>inline box</code>包裹着的。这里的<code>inline box</code>有三个，[The]、[em元素]、[element is defined as “inline”.]，其中[The]、[element is defined as “inline”.]称为匿名<code>inline box</code></p>
+  </li>
+  <li>
+    <p><code>line box</code>。<code>line box</code>是看不见的，作用就是包裹着<code>inline box</code>。这个一行包含3个<code>inline box</code></p>
+  </li>
+  <li>
+    <p><code>content box</code>。是包围着文字的一个看不见的box，高度取决于font-size</p>
+  </li>
+</ol>
+
+<ul>
+  <li>
+    <p>概念：行间距就是<code>line-height</code>减去<code>font-size</code></p>
+
+    <p>例如：font-size: 16px;line-height: 20px;行间距20-14=4px。</p>
+  </li>
+  <li>
+    <p>行间距会分为两半，一半放在<code>content box</code>的顶部，一半在底部。</p>
+
+    <p>例如：文字顶部有半行间距2px，底部有2px</p>
+  </li>
+  <li>
+    <p>如果：<code>line-height</code>小于<code>font-size</code>，<code>inline box</code>的高度优先于行高。</p>
+
+    <p>例如：font-size: 16px;line-height: 12px，<code>content box</code>会溢出<code>inline box</code>的顶部和底部</p>
+  </li>
+  <li>
+    <p>line box的高度取决于内部最高的inline box的高度</p>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="section-3">相关问题</h3>
+
+<ul>
+  <li>
+    <p>一个空的div，高度是0，如果在div里面打入空格或者文字，div就会有高度。这个高度怎么产生的？</p>
+
+    <p>一般以为是文字撑开的。<strong>实际上并不是！而是<code>line-height</code>撑开的</strong>。</p>
+
+    <p>实验是，设置了<code>font-size:0</code>后，div高度就为0了，之后在设置<code>line-height</code>，div的高度就等于<code>line-height</code></p>
+
+    <p>而这里<code>line-height</code>产生的高度，其实就是line box的高度。</p>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h4 id="section-4">行高的垂直居中性</h4>
+
+<p><code>line-height</code>的最终表示的由<code>line box</code>实现的。而<code>line box</code>的高度不管是多少，里面的<code>inline box</code>总是在水平中垂线上显示的。利用这点特性就可以实现垂直居中</p>
+
+<p><br /></p>
+
+<blockquote>
+  <p><strong>1.单行文字垂直居中</strong></p>
+</blockquote>
+
+<blockquote>
+  <blockquote>
+    <p>一般说设置<code>line-height</code>值和<code>height</code>值一致可以实现垂直居中，实际上并不需要height，直接把<code>line-height</code>设置成需要的高度即可（正是因为行高的垂直居中性）</p>
+  </blockquote>
+</blockquote>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;d1&quot;</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;p&gt;</span>hello world<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;style&gt;</span>
+<span class="nt">div</span><span class="nf">#d1</span> <span class="nt">p</span> <span class="p">{</span>
+	<span class="k">line-height</span><span class="o">:</span> <span class="m">150px</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">&lt;/style&gt;</span></code></pre></div>
+
+<p><br /></p>
+
+<blockquote>
+  <p>2.多行文字垂直居中</p>
+</blockquote>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;d2&quot;</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;span&gt;</span>hello world hello world hello world hello world hello world hello world hello world <span class="nt">&lt;/span&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre></div>
+
+<p>首先看看常见的错误方式</p>
+
+<div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">div</span><span class="nf">#d2</span> <span class="p">{</span>
+	<span class="k">height</span><span class="o">:</span> <span class="m">150px</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">div</span><span class="nf">#d2</span> <span class="nt">span</span> <span class="p">{</span>
+	<span class="k">vertical-align</span><span class="o">:</span> <span class="k">middle</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>这个思路是用height给父元素（块状元素）设置一个height，然后里面的span（行内元素）设置了<code>vertical-align:middle；</code></p>
+
+<p>表面上看height用在块状元素上，<code>vertical-align</code>用在行内元素上，做的都对，但是怎么不是想象中的span在div垂直居中。浏览器怎么不按照css规范来渲染呢？（事实上了解这块概念后，浏览器这样显示并没有任何问题）</p>
+
+<blockquote>
+  <p>具体分析一下：</p>
+
+  <p><code>vertical-align</code>是调整<code>inline box</code>在<code>line box</code>中的垂直对齐位置，而不是<code>contain box</code>。本例中，div是<code>contain box</code>，span是<code>inline box</code>。设置<code>vertical-aglin</code>只会让span在当前行（所在的<code>line box</code>）里上下调整。</p>
+</blockquote>
+
+<p>知道了问题的本质之后，那如何修改。</p>
+
+<blockquote>
+  <p>思路：</p>
+
+  <ol>
+    <li>
+      <p>要让div变成<code>line-box</code>（事实上是让<code>line box</code>和<code>contain box</code>的高度一致）</p>
+    </li>
+    <li>
+      <p>span里多行文本产生的<code>line-box</code>要被消灭</p>
+    </li>
+  </ol>
+</blockquote>
+
+<div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">div</span><span class="nf">#d2</span> <span class="p">{</span>
+	<span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="m">#999</span> <span class="k">dashed</span><span class="p">;</span>
+	<span class="k">line-height</span><span class="o">:</span> <span class="m">150px</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">div</span><span class="nf">#d2</span><span class="nd">:after</span> <span class="p">{</span>
+	<span class="k">content</span><span class="o">:</span> <span class="s1">&#39; &#39;</span><span class="p">;</span> <span class="o">//</span> <span class="err">有个空格</span>
+<span class="p">}</span>
+<span class="nt">div</span><span class="nf">#d2</span> <span class="nt">span</span> <span class="p">{</span>
+	<span class="k">display</span><span class="o">:</span> <span class="k">inline</span><span class="o">-</span><span class="k">block</span><span class="p">;</span>
+	<span class="k">line-height</span><span class="o">:</span> <span class="k">normal</span><span class="p">;</span>
+	<span class="k">vertical-align</span><span class="o">:</span> <span class="k">middle</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<blockquote>
+  <p>div和伪类的设置就是为了达到第一个目的；</p>
+
+  <p>span的display设置为<code>inline-block</code>就是把span外部呈现inline的特性，就是一个<code>inline box</code>。同时对于自身又是一个<code>contain box</code>，所以这时span里面的<code>line box</code>不是相对div的<code>contain box</code>，而是span的<code>contain box</code>，所以达到了目的二。</p>
+
+  <p>这时<code>vertical-align:middle</code>调整span为垂直居中（终于达到目的了）</p>
+
+  <p>另外span的<code>line-height</code>要重新设置一下，因为父元素的<code>line-height</code>设置的值作为高度来用的，而不是行高。</p>
+</blockquote>
+
+<p><br /></p>
+
+<blockquote>
+  <p><strong>3.图片垂直居中</strong></p>
+</blockquote>
+
+<p>对于img元素来说，仿佛本来就是一个inline-block的元素</p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;d3&quot;</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">&quot;https://s1.bdp.cn/static/images/new_home/solution_sell_logo.png&quot;</span> <span class="na">alt=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">&quot;https://s1.bdp.cn/static/images/new_home/solution_baidu_logo.png&quot;</span> <span class="na">alt=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">&quot;https://s1.bdp.cn/static/images/new_home/solution_internet_logo.png&quot;</span> <span class="na">alt=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;style&gt;</span>
+<span class="nt">div</span><span class="nf">#d3</span> <span class="p">{</span>
+		<span class="k">line-height</span><span class="o">:</span> <span class="m">150px</span><span class="p">;</span>
+		<span class="k">font-size</span><span class="o">:</span> <span class="m">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">div</span><span class="nf">#d3</span> <span class="nt">img</span> <span class="p">{</span>
+		<span class="k">vertical-align</span><span class="o">:</span> <span class="k">middle</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">&lt;/style&gt;</span></code></pre></div>
+
+<ul>
+  <li>
+    <p>补充一个知识点：</p>
+
+    <p><code>inline-block</code>元素之间会自然存在一个间隙，这个不是bug。而是<code>inline-block</code>元素html代码中的空格，间隙就是空格。设置<code>font-size:0</code>可以使间隙消失。另外还有许多方式达到此目的，这里不过多讨论。</p>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="section-5">信息来源：</h3>
+<p><a href="http://www.cnblogs.com/fengzheng126/archive/2012/05/18/2507632.html" target="_blank">深入了解css的行高Line Height属性</a></p>
+
+<p><a href="http://www.zhangxinxu.com/wordpress/2009/11/css%E8%A1%8C%E9%AB%98line-height%E7%9A%84%E4%B8%80%E4%BA%9B%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%8F%8A%E5%BA%94%E7%94%A8/" target="_blank">css行高line-height的一些深入理解及应用</a></p>
+
+  </article>
+
+</div>
+
+
+        <footer class="site-footer">
+
+  <div class="wrapper">
+    <p class="footer-heading">Copyright © 2017 - <a href="/">库乐君的笔记本</a> - Base on <a href="http://github.com">Github</a> & <a href="http://jekyllrb.com">Jekyll</a></p>
+  </div>
+  <script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "https://hm.baidu.com/hm.js?075085658c25fed7cc4d8789f23c6519";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+</footer>
+
+      </div>
+    </div>
+
+  </body>
+
+</html>

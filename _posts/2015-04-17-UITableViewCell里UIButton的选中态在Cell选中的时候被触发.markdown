@@ -2,7 +2,8 @@
 layout: post
 title:  "UITableViewCell里UIButton的选中态在Cell选中的时候被触发"
 date:   2015-04-17 17:11:51
-categories: iOS UITableView
+categories: iOS
+tag: UITableView
 ---
 
 在iOS6中，tableViewCell中有UIButton。cell被选中的时候，button会显示高亮状态，如果不希望这样，需要重写cell的`setHightlighted`和`setSelected`方法

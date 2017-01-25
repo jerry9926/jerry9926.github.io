@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <title>ES6学习-解构赋值</title>
+    <link rel="canonical" href="http://jerry9926.github.io/javascript/2016/11/17/ES6%E5%AD%A6%E4%B9%A0-%E8%A7%A3%E6%9E%84%E8%B5%8B%E5%80%BC.html">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="/css/main.css">
+    <link href="/css/index.css" rel="stylesheet">
+	<script src="/js/jquery-1.11.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+</head>
+
+
+  <body>
+
+    <div class="container">
+      <div class="side-bar">
+      <!--Sidebar content-->
+        <div class="head-wrapper">
+          <img src="/assets/images/ui/icon.jpg" alt="kuler">
+        </div>
+        <h1 class="title">库乐君的笔记本</h1>
+        <h2 class="decs">所谓文艺，不过是多走一些路，多看一些风景罢了</h2>
+        <ul class="nav">
+          <li><a href="/">首页</a></li>
+          
+          <li><a href="/categories/ios/" title="view all
+          posts">ios 6</a>
+          </li>
+          
+          <li><a href="/categories/jekyll/" title="view all
+          posts">jekyll 1</a>
+          </li>
+          
+          <li><a href="/categories/css/" title="view all
+          posts">css 2</a>
+          </li>
+          
+          <li><a href="/categories/javascript/" title="view all
+          posts">javascript 3</a>
+          </li>
+          
+          <li><a href="/categories/webpack/" title="view all
+          posts">webpack 1</a>
+          </li>
+          
+          <li><a href="/categories/工具/" title="view all
+          posts">工具 1</a>
+          </li>
+          
+        </ul>
+        
+      </div>
+      <div class="content-contain">
+      <!--Body content-->
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">ES6学习-解构赋值</h1>
+    <p class="post-meta">Nov 17, 2016</p>
+  </header>
+
+  <article class="post-content">
+    <h3 id="section">基本用法</h3>
+
+<ul>
+  <li>
+    <p>从数组和对象中提取值，对变量进行赋值，这称为解构
+<code>
+var  [a, b, c] = [1, 2, 3];
+</code></p>
+  </li>
+  <li>
+    <p>如果解构不成功，变量的值就等于 <code>undefined</code></p>
+  </li>
+  <li>
+    <p>另一种情况是不完全解构，部分变量赋值成功，部分不成功</p>
+  </li>
+  <li>
+    <p>Set结构也可以使用数组的解构赋值</p>
+  </li>
+  <li>
+    <p>某种数据结构具有<code>Iterator接口</code>，都可以采用数组形式的解构赋值</p>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="section-1">默认值</h3>
+<ul>
+  <li>
+    <p>解构赋值允许指定默认值
+<code>
+var [foo = true] = []; // foo = true
+</code></p>
+  </li>
+  <li>
+    <p>如果一个数组成员不严格等于（===）undefined，默认值不会生效</p>
+  </li>
+  <li>
+    <p>默认值可以引用解构赋值的其他变量，但变量必须已经声明</p>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="section-2">对象的解构赋值</h3>
+
+<ul>
+  <li>
+    <p>数组的元素是按次序排列的，变量的值由它的位置决定，而对象属性必须与变量同名，才能取到正确的值</p>
+  </li>
+  <li>
+    <p>如果变量名与属性不一致，必须写成下面的样子</p>
+  </li>
+</ul>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">let</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span><span class="nx">first</span><span class="o">:</span> <span class="s1">&#39;helo&#39;</span><span class="p">,</span> <span class="nx">last</span><span class="o">:</span> <span class="s1">&#39;world&#39;</span><span class="p">};</span>
+<span class="kd">let</span> <span class="p">{</span><span class="nx">first</span><span class="o">:</span> <span class="nx">f</span><span class="p">,</span> <span class="nx">last</span><span class="o">:</span> <span class="nx">l</span><span class="p">}</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">;</span>
+<span class="nx">f</span> <span class="c1">// &#39;helo&#39;</span>
+<span class="nx">l</span> <span class="c1">// &#39;world&#39;</span></code></pre></div>
+
+<ul>
+  <li>也就是说，对象的解构赋值的内部机制，是先找到同名属性，然后再赋给对应的变量。真正被赋值的是后者，而不是前者
+    <ul>
+      <li>
+        <p>采用这种写法时，变量的声明和赋值是一体的</p>
+      </li>
+      <li>
+        <p>对于<code>let</code>和<code>const</code>来说，变量不能重新声明，所以一旦赋值的变量以前声明过，就会报错</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">let</span> <span class="nx">foo</span><span class="p">;</span>
+<span class="kd">let</span> <span class="p">{</span><span class="nx">foo</span><span class="p">}</span> <span class="o">=</span> <span class="p">{</span><span class="nx">foo</span><span class="o">:</span> <span class="mi">1</span><span class="p">};</span> <span class="c1">// SyntaxError: Duplicate declaration &quot;foo&quot;</span>
+<span class="p">({</span><span class="nx">foo</span><span class="p">}</span> <span class="o">=</span> <span class="p">{</span><span class="nx">foo</span><span class="o">:</span> <span class="mi">1</span><span class="p">});</span> <span class="c1">// 成功；注意这里的大括号的必须的</span></code></pre></div>
+
+<p><br /></p>
+
+<h3 id="section-3">字符串的解构赋值</h3>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="p">[</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">,</span> <span class="nx">c</span><span class="p">,</span> <span class="nx">d</span><span class="p">,</span> <span class="nx">e</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;hello&#39;</span>
+<span class="nx">a</span> <span class="c1">// &#39;h&#39; </span>
+<span class="nx">b</span> <span class="c1">// &#39;e&#39;</span>
+<span class="p">...</span></code></pre></div>
+
+<p><br /></p>
+
+<h3 id="section-4">数值和布尔值的解构赋值</h3>
+
+<ul>
+  <li>
+    <p>如果等号的右边是数值和布尔值，则会先转为对象</p>
+  </li>
+  <li>
+    <p>由于undefined和null无法转为对象，所以对它们进行解构赋值，都会报错</p>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="section-5">函数参数的解构赋值</h3>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">add</span><span class="p">([</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">])</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">add</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]);</span></code></pre></div>
+
+<ul>
+  <li>函数add参数表面上是一个数组，但是传入参数的那一刻，参数数组被解构成变量x和y。函数内部感受到的参数就是x和y</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="section-6">圆括号问题</h3>
+<ul>
+  <li>对于编译器来说，一个式子到底是模式，还是表达式，没有办法从一开始就知道，必须解析到（或解析不到）等号才能知道。由此带来的问题是，如果模式中出现圆括号怎么处理。
+    <ul>
+      <li>
+        <p>只要有可能，就不要在模式中放置圆括号。</p>
+      </li>
+      <li>
+        <p>在变量声明语句中，不能带有圆括号<code>var [(a)] = [1];</code></p>
+      </li>
+      <li>
+        <p>函数参数中，模式不能带有圆括号<code>function f([(z)]) { return z;}</code></p>
+      </li>
+      <li>
+        <p>赋值语句中，不能将整个模式，或嵌套模式中的一层，放在圆括号之中</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<ul>
+  <li><code>({ p: a }) = { p: 42 };</code>
+    <ul>
+      <li>
+        <p>可以使用圆括号的情况只有一种：赋值语句的非模式部分，可以使用圆括</p>
+      </li>
+      <li>
+        <p><code>[(b)] = [3]; // 正确</code></p>
+      </li>
+      <li>
+        <p><code>({ p: (d) } = {}); // 正确</code></p>
+      </li>
+      <li>
+        <p>首先它们都是赋值语句，而不是声明语句</p>
+      </li>
+      <li>
+        <p>其次它们的圆括号都不属于模式的一部分</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="section-7">用途</h3>
+
+<ul>
+  <li>交换变量的值
+<code>[x, y] = [y, x];</code>
+    <ul>
+      <li>从函数返回多个值</li>
+      <li>函数参数的定义</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// 参数是一组有次序的值</span>
+<span class="kd">function</span> <span class="nx">f</span><span class="p">([</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">z</span><span class="p">])</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="nx">f</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]);</span>
+<span class="c1">// 参数是一组无次序的值</span>
+<span class="kd">function</span> <span class="nx">f</span><span class="p">({</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">z</span><span class="p">})</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+<span class="nx">f</span><span class="p">({</span><span class="nx">z</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">x</span><span class="o">:</span> <span class="mi">1</span><span class="p">});</span></code></pre></div>
+
+<p><br /></p>
+
+<ul>
+  <li>提取JSON数据</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">jsonData</span> <span class="o">=</span> <span class="p">{</span>
+<span class="nx">id</span><span class="o">:</span> <span class="mi">42</span><span class="p">,</span>
+<span class="nx">status</span><span class="o">:</span> <span class="s2">&quot;OK&quot;</span><span class="p">,</span>
+<span class="nx">data</span><span class="o">:</span> <span class="p">[</span><span class="mi">867</span><span class="p">,</span> <span class="mi">5309</span><span class="p">]</span>
+<span class="p">};</span>
+<span class="kd">let</span> <span class="p">{</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">status</span><span class="p">,</span> <span class="nx">data</span><span class="o">:</span> <span class="nx">number</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">jsonData</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">id</span><span class="p">,</span> <span class="nx">status</span><span class="p">,</span> <span class="nx">number</span><span class="p">);</span> <span class="c1">// 42, &quot;OK&quot;, [867, 5309]</span></code></pre></div>
+
+<p><br /></p>
+
+<ul>
+  <li>函数参数的默认值</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">jQuery</span><span class="p">.</span><span class="nx">ajax</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">async</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">beforeSend</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{},</span>
+    <span class="nx">cache</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">complete</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{},</span>
+    <span class="nx">crossDomain</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nx">global</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="c1">// ... more config</span>
+<span class="p">})</span> <span class="p">{</span>
+    <span class="c1">// ... do stuff</span>
+<span class="p">};</span></code></pre></div>
+
+<p><br /></p>
+
+<ul>
+  <li>遍历Map结构
+    <ul>
+      <li>输入模块的指定方法
+  <code>const { SourceMapConsumer, SourceNode } = require("source-map");</code></li>
+    </ul>
+  </li>
+</ul>
+
+  </article>
+
+</div>
+
+
+        <footer class="site-footer">
+
+  <div class="wrapper">
+    <p class="footer-heading">Copyright © 2017 - <a href="/">库乐君的笔记本</a> - Base on <a href="http://github.com">Github</a> & <a href="http://jekyllrb.com">Jekyll</a></p>
+  </div>
+  <script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "https://hm.baidu.com/hm.js?075085658c25fed7cc4d8789f23c6519";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+</footer>
+
+      </div>
+    </div>
+
+  </body>
+
+</html>
