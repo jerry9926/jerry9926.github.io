@@ -27,6 +27,7 @@ module Jekyll
 
   # Generator class invoked from Jekyll
   class CategoryArchiveGenerator < Generator
+    safe true
     def generate(site)
       posts_group_by_category(site).each do |category, list|
         site.pages << CategoryArchivePage.new(site, CategoryArchiveUtil.archive_base(site), category, list)
