@@ -3,7 +3,7 @@ layout: post
 title: 	"关于约束firstItem和secondItem"
 date: 	2015-08-27 17:57:51
 categories: iOS
-tag: AutoLayout
+tags: AutoLayout
 ---
 
 今天在一个autolayout 的问题上面，发现了约束里面的firstItem和secondItem的区别。

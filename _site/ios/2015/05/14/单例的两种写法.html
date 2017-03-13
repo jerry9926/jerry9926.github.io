@@ -36,8 +36,8 @@
           posts">ios 6</a>
           </li>
           
-          <li><a href="/jekyll/" title="view all
-          posts">jekyll 1</a>
+          <li><a href="/工具/" title="view all
+          posts">工具 3</a>
           </li>
           
           <li><a href="/css/" title="view all
@@ -46,14 +46,6 @@
           
           <li><a href="/javascript/" title="view all
           posts">javascript 3</a>
-          </li>
-          
-          <li><a href="/webpack/" title="view all
-          posts">webpack 1</a>
-          </li>
-          
-          <li><a href="/工具/" title="view all
-          posts">工具 1</a>
           </li>
           
         </ul>
@@ -69,16 +61,18 @@
   </header>
 
   <article class="post-content">
-    <p><strong>第一种，使用GCD，利用dispatch_once方法。</strong><br />
+    <p><strong>第一种，使用GCD，利用dispatch_once方法。</strong><br/>
 dispatch_once函数如下：</p>
 
 <div class="highlight"><pre><code class="language-objective-c" data-lang="objective-c"><span class="kt">void</span> <span class="nf">dispatch_once</span><span class="p">(</span><span class="kt">dispatch_once_t</span> <span class="o">*</span><span class="n">predicate</span><span class="p">,</span> <span class="kt">dispatch_block_t</span> <span class="n">block</span><span class="p">);</span></code></pre></div>
+
 
 <p><code>dispatch_once</code>接收两个参数，一个是<code>dispatch_once_t</code>，一个是<code>块参数</code>。对于给定的<code>predicate</code>，该函数保证相关代码块必定会执行，并且只执行一次，最重要的是这个方法是线程安全的。注意，对于只执行一次的块，传入的<code>predicate</code>必须是完全相同的，所以<code>predicate</code>常常会用<code>static</code>或者<code>global</code>来修饰。</p>
 
 <p>MyClass.h</p>
 
 <div class="highlight"><pre><code class="language-objective-c" data-lang="objective-c"><span class="p">+</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">shareManager</span><span class="p">;</span></code></pre></div>
+
 
 <p>MyClass.m</p>
 
@@ -92,7 +86,8 @@ dispatch_once函数如下：</p>
      <span class="k">return</span> <span class="n">shareMyClass</span><span class="p">;</span>
 <span class="p">}</span></code></pre></div>
 
-<p><strong>第二种，不使用GCD</strong><br />
+
+<p><strong>第二种，不使用GCD</strong><br/>
 MyClass.m</p>
 
 <div class="highlight"><pre><code class="language-objective-c" data-lang="objective-c"><span class="p">+</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">shareManager</span> <span class="p">{</span>
@@ -105,10 +100,11 @@ MyClass.m</p>
      <span class="k">return</span> <span class="n">shareMyClass</span><span class="p">;</span>
 <span class="p">}</span></code></pre></div>
 
+
 <p>使用GCD的好处就是<code>dispatch_once</code>就确保了代码只会运行一次，并且不需要考虑线程安全的问题，因为GCD自己已经确保了线程的安全。</p>
 
-<p>参考文章：<br />
-<a href="http://www.galloway.me.uk/tutorials/singleton-classes/" title="参考文章">http://www.galloway.me.uk/tutorials/singleton-classes/</a><br />
+<p>参考文章：<br/>
+<a href="http://www.galloway.me.uk/tutorials/singleton-classes/" title="参考文章">http://www.galloway.me.uk/tutorials/singleton-classes/</a><br/>
 <a href="http://blog.csdn.net/sakulafly/article/details/34948689" title="参考文章">http://blog.csdn.net/sakulafly/article/details/34948689</a></p>
 
   </article>

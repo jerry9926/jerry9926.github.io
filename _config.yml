@@ -11,7 +11,7 @@ url: "http://jerry9926.github.io" # the base hostname & protocol for your site
 github_username:  jerry9926
 
 # Build settings
-markdown: kramdown
+markdown: rdiscount
 paginate_per_category: true
 default_category: "en"
 safe: false

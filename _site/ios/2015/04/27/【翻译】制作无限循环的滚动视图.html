@@ -36,8 +36,8 @@
           posts">ios 6</a>
           </li>
           
-          <li><a href="/jekyll/" title="view all
-          posts">jekyll 1</a>
+          <li><a href="/工具/" title="view all
+          posts">工具 3</a>
           </li>
           
           <li><a href="/css/" title="view all
@@ -46,14 +46,6 @@
           
           <li><a href="/javascript/" title="view all
           posts">javascript 3</a>
-          </li>
-          
-          <li><a href="/webpack/" title="view all
-          posts">webpack 1</a>
-          </li>
-          
-          <li><a href="/工具/" title="view all
-          posts">工具 1</a>
           </li>
           
         </ul>
@@ -74,7 +66,8 @@
 <p>在给iPhone应用做翻页功能的时候，很多时候需要页面无限循环。例如，你有一个小的画册要显示，你想要滑过所有内容，然后从最后一个可以滑到开始那个。用户可以继续滑动只要他们想滑，在一个视图的内容同一个方向可以一直滑动。
 这里有两个思路可以做到这个效果：</p>
 
-<h4 id="section">重复最后的视图</h4>
+<h4>重复最后的视图</h4>
+
 <p>第一个观点对小型的循环是最好的方法。假设你有十张图片要显示。当用户在第一张图片的时候要向左滑动，会让用户看到第十张图片。当用户在第十张图片的时候向右滑动，让用户看到第一张。这里的逻辑需要我们把图片按顺序的添加进来，同时在第一张图片的左边加一张第十张的图片，在第十张的图片右边加一张第一张的图片。</p>
 
 <p><img src="http://jerry9926.github.io/assets/images/scrollingInfiniteLoop_1.jpg" alt="示例图片" /></p>
@@ -94,7 +87,9 @@
     <span class="p">}</span>
 <span class="p">}</span></code></pre></div>
 
-<h4 id="section-1">只有三张图片</h4>
+
+<h4>只有三张图片</h4>
+
 <p>有时候你想要一个无限循环的页面，但你不想加载很多的内容。例如，在UIScrollView里面你有很多内容要显示。这种情况下，加载大量的数据就不是很理想的方式了。
 这时候的逻辑就是保持UIScrollView里就是三个页面。每一个页面都会加载数据，而用户一直看的时候中间的页面加载的内容。当用户滚到到一个新的页面，每一个页面的内容都会被重置，并且偏移量会回到中间的页面，用户正在看的页面。这种做法即使你有大量的数据要滚动，都不会同时加载。同一时间只会加载三张图片。</p>
 
@@ -183,9 +178,9 @@
     <span class="p">[</span><span class="n">scrollView</span> <span class="nl">scrollRectToVisible</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">320</span><span class="p">,</span><span class="mi">416</span><span class="p">)</span> <span class="nl">animated</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
 <span class="p">}</span></code></pre></div>
 
+
 <p>下载源码
 <a href="http://iosdevelopertips.com/wp-content/uploads/2010/11/CircularScrollView.zip">Xcode Project – Circular UI Scrollview</a></p>
-
 
   </article>
 

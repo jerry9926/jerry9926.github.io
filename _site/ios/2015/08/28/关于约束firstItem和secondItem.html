@@ -36,8 +36,8 @@
           posts">ios 6</a>
           </li>
           
-          <li><a href="/jekyll/" title="view all
-          posts">jekyll 1</a>
+          <li><a href="/工具/" title="view all
+          posts">工具 3</a>
           </li>
           
           <li><a href="/css/" title="view all
@@ -46,14 +46,6 @@
           
           <li><a href="/javascript/" title="view all
           posts">javascript 3</a>
-          </li>
-          
-          <li><a href="/webpack/" title="view all
-          posts">webpack 1</a>
-          </li>
-          
-          <li><a href="/工具/" title="view all
-          posts">工具 1</a>
           </li>
           
         </ul>
@@ -74,7 +66,8 @@
 
 <div class="highlight"><pre><code class="language-objective-c" data-lang="objective-c"><span class="n">FirstItem</span><span class="p">.</span><span class="n">Attribute1</span> <span class="o">=</span> <span class="p">(</span><span class="n">SecondItem</span><span class="p">.</span><span class="n">Attribute2</span> <span class="o">*</span> <span class="n">Multiplier</span><span class="p">)</span> <span class="o">+</span> <span class="n">Constant</span></code></pre></div>
 
-<p>firstItem的属性等于secondItem的属性乘以比例加上约束的值。<br />
+
+<p>firstItem的属性等于secondItem的属性乘以比例加上约束的值。<br/>
 这个定义其实我们都是知道的了。需要注意的是，我们一直关注的就是两个约束之间的关系，但是还有一个重要的信息没有关注的。就是<code>firstItem是等号左边的值</code>，也就是说通过这个约束，<code>根据secondItem的属性（比例和约束值）可以得到firstItem的属性</code>。</p>
 
 <p>这个结论对实际问题有什么影响呢。就在今天遇到的一个问题就有关系。说一下这个场景。
@@ -87,11 +80,12 @@
 <p>图片的约束设置：也是有上下左右的约束，并且有一个比例的约束，如图：
 <img src="http://jerry9926.github.io/assets/images/fisrtItemAndSecondItem_3.jpg" alt="示例图片" /></p>
 
-<p>就是这样的设置，看起来是没有问题的。<br />
+<p>就是这样的设置，看起来是没有问题的。<br/>
 这个UITableviewCell的显示的过程，就是先要确定高度，然后再渲染内容。
 那根据现在的约束是不是可以正确的计算出高度呢。计算高度是使用系统的方法：</p>
 
 <div class="highlight"><pre><code class="language-objective-c" data-lang="objective-c"><span class="p">[</span><span class="n">cell</span><span class="p">.</span><span class="n">contentView</span> <span class="nl">systemLayoutSizeFittingSize</span><span class="p">:</span><span class="n">UILayoutFittingCompressedSize</span><span class="p">]</span></code></pre></div>
+
 
 <p>计算高度前就做了必要的设置：</p>
 
@@ -102,7 +96,8 @@
 <span class="c1">// 设置图片</span>
 <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">bbsImageView</span> <span class="nl">setImage</span><span class="p">:[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="s">@&quot;bg_bbs_read_topic&quot;</span><span class="p">]];</span></code></pre></div>
 
-<p>这个时候就发现一个问题啊。就是图片是网络上面加载的图片，这有一个异步的过程，现在设置只是开始下载，<code>图片还没有真正设置上去。那图片的显示会正常吗？</code><br />
+
+<p>这个时候就发现一个问题啊。就是图片是网络上面加载的图片，这有一个异步的过程，现在设置只是开始下载，<code>图片还没有真正设置上去。那图片的显示会正常吗？</code><br/>
 一开始的时候，并没有好的思路，先随便加载了一张本地的图片，hack了这个问题。
 但是，其实还有一个更根本的问题就是，<code>这里图片不设置就不能正常显示吗？毕竟图片是设置了足够多的约束的。</code></p>
 

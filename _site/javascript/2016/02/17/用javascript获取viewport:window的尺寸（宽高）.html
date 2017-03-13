@@ -36,8 +36,8 @@
           posts">ios 6</a>
           </li>
           
-          <li><a href="/jekyll/" title="view all
-          posts">jekyll 1</a>
+          <li><a href="/工具/" title="view all
+          posts">工具 3</a>
           </li>
           
           <li><a href="/css/" title="view all
@@ -46,14 +46,6 @@
           
           <li><a href="/javascript/" title="view all
           posts">javascript 3</a>
-          </li>
-          
-          <li><a href="/webpack/" title="view all
-          posts">webpack 1</a>
-          </li>
-          
-          <li><a href="/工具/" title="view all
-          posts">工具 1</a>
           </li>
           
         </ul>
@@ -80,15 +72,18 @@
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">viewportwidth</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">innerWidth</span><span class="p">,</span>
 <span class="nx">viewportheight</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">innerHeight</span></code></pre></div>
 
+
 <p><strong>IE6</strong></p>
 
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">viewportwidth</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">documentElement</span><span class="p">.</span><span class="nx">clientWidth</span><span class="p">,</span>
 <span class="nx">viewportheight</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">documentElement</span><span class="p">.</span><span class="nx">clientHeight</span></code></pre></div>
 
+
 <p><strong>IE6以下</strong></p>
 
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">viewportwidth</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">clientWidth</span><span class="p">,</span>
 <span class="nx">viewportheight</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">clientHeight</span></code></pre></div>
+
 
 <p>可以使用以下方法</p>
 
@@ -102,6 +97,7 @@
     <span class="p">}</span>
     <span class="k">return</span> <span class="p">{</span> <span class="nx">width</span> <span class="o">:</span> <span class="nx">e</span><span class="p">[</span> <span class="nx">a</span><span class="o">+</span><span class="s1">&#39;Width&#39;</span> <span class="p">]</span> <span class="p">,</span> <span class="nx">height</span> <span class="o">:</span> <span class="nx">e</span><span class="p">[</span> <span class="nx">a</span><span class="o">+</span><span class="s1">&#39;Height&#39;</span> <span class="p">]</span> <span class="p">};</span>
 <span class="p">}</span></code></pre></div>
+
 
 <p>长版：</p>
 
@@ -133,6 +129,7 @@
        <span class="nx">viewportwidth</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">clientWidth</span><span class="p">,</span>
        <span class="nx">viewportheight</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">clientHeight</span>
  <span class="p">}</span></code></pre></div>
+
 
 <p>参考：<a href="https://andylangton.co.uk/blog/development/get-viewportwindow-size-width-and-height-javascript" target="_blank">get-viewportwindow-size-width-and-height-javascript</a></p>
 

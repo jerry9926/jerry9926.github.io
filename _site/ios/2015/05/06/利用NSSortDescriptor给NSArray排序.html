@@ -36,8 +36,8 @@
           posts">ios 6</a>
           </li>
           
-          <li><a href="/jekyll/" title="view all
-          posts">jekyll 1</a>
+          <li><a href="/工具/" title="view all
+          posts">工具 3</a>
           </li>
           
           <li><a href="/css/" title="view all
@@ -46,14 +46,6 @@
           
           <li><a href="/javascript/" title="view all
           posts">javascript 3</a>
-          </li>
-          
-          <li><a href="/webpack/" title="view all
-          posts">webpack 1</a>
-          </li>
-          
-          <li><a href="/工具/" title="view all
-          posts">工具 1</a>
           </li>
           
         </ul>
@@ -102,19 +94,20 @@
 <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;以时间降序排列: %@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">voteArray</span> <span class="nl">sortedArrayUsingDescriptors</span><span class="p">:</span><span class="l">@[</span><span class="n">timeSortDescriptor</span><span class="l">]</span><span class="p">]);</span>
 <span class="c1">// 1420300800, 1420214400, 1420128000, 1420041600</span></code></pre></div>
 
+
 <p>NSSortDescriptor仅对<code>NSSet</code>、<code>NSArray</code>、<code>NSMutableArray</code>可以排序，需要注意的是</p>
 
-<p><strong>NSSet</strong><br />
+<p><strong>NSSet</strong><br/>
 <code>- (NSArray *)sortedArrayUsingDescriptors:(NSArray *)sortDescriptors;</code> 这是对NSSet排序，返回一个NSArray。</p>
 
-<p><strong>NSArray</strong><br />
+<p><strong>NSArray</strong><br/>
 <code>- (NSArray *)sortedArrayUsingDescriptors:(NSArray *)sortDescriptors;</code> 这是对NSArray排序，返回一个新的NSArray，注意内存泄漏。</p>
 
-<p><strong>NSMutableArray</strong><br />
+<p><strong>NSMutableArray</strong><br/>
 <code>- (void)sortUsingDescriptors:(NSArray *)sortDescriptors;</code> 这是NSMutableArray排序，没有返回值。</p>
 
-<p>参考文章：<br />
-<a href="http://nshipster.cn/nssortdescriptor/" title="参考文章">http://nshipster.cn/nssortdescriptor/</a><br />
+<p>参考文章：<br/>
+<a href="http://nshipster.cn/nssortdescriptor/" title="参考文章">http://nshipster.cn/nssortdescriptor/</a><br/>
 <a href="http://www.cnblogs.com/wuwangchuxin/p/3759141.html" title="参考文章">http://www.cnblogs.com/wuwangchuxin/p/3759141.html</a></p>
 
   </article>
