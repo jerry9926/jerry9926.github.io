@@ -6,29 +6,89 @@
 </description>
     <link>http://jerry9926.github.io/</link>
     <atom:link href="http://jerry9926.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 10 Mar 2017 10:30:04 +0800</pubDate>
-    <lastBuildDate>Fri, 10 Mar 2017 10:30:04 +0800</lastBuildDate>
+    <pubDate>Mon, 13 Mar 2017 21:26:33 +0800</pubDate>
+    <lastBuildDate>Mon, 13 Mar 2017 21:26:33 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
+        <title>jekyll + github page标签页404</title>
+        <description>&lt;p&gt;关于jekyll+githubpage的标签页的问题，终于解决掉了，记录一下。&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h2&gt;说说背景&lt;/h2&gt;
+
+&lt;p&gt;一开始希望能够给博客加上分类页的功能，google一下后根据&lt;a href=&quot;http://pizn.github.io/2012/02/23/use-category-plugin-for-jekyll-blog.html&quot;&gt;这篇文章&lt;/a&gt;，一步一步跟来做，在本地&lt;code&gt;jekyll server&lt;/code&gt;测试的时候可以实现了（以为结束了）。但是看到文章的最后有一段，隐隐感到不靠谱。内容如下：&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;六、需要注意的，还有我疑惑的（需要大家帮忙看看的）
+因为添加了插件，所以要确保你的 config.yml 文件里面的 safe 属性值为 false，因为这 个属性值为 true 的时候是使自定义插件失效。
+我疑惑的是，我在本地完成上面的步骤之后，分类列表的每个分类链接可以成功到达分类的详细列表页面（即 category_index.html)，然而我上传到 github，没有报错，却无法到达那个页面，显示 404 错误。求大牛帮忙解决。&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;后来我提交了代码到github之后，打开网页点击分类页，果然跟那位网友一样，分类页显示404……&lt;/p&gt;
+
+&lt;p&gt;于是继续找找别人有没有什么解决方案。很多文章都是说怎么做这个分类页的，而几乎都没有提到上面放在github上之后页面访问不了的问题。
+后来我了解到github所提供的&lt;code&gt;jekyll&lt;/code&gt;解析功能因为安全原因，不完全支持&lt;code&gt;jekyll&lt;/code&gt;的一些插件或者扩展功能。&lt;/p&gt;
+
+&lt;p&gt;在&lt;a href=&quot;https://crispgm.com/page/48-tips-for-jekyll-you-should-know.html&quot;&gt;这篇文章&lt;/a&gt;有所提及。&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;在 GitHub Pages 只可以使用部分插件
+由于安全性等原因的考虑，在 GitHub Pages 平台上只能使用白名单中的 7 个 Jekyll 插件。它们分别是：Jekyll Sitemap, Jekyll SEO Tag, github-metadata, Jekyll Feed, Jekyll Redirect From, Jemoji 和 Jekyll Mentions。
+详见 https://help.github.com/articles/adding-jekyll-plugins-to-a-github-pages-site/。&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;然后我又看到这篇文章里面说到，可以让github不解析&lt;code&gt;jekyll&lt;/code&gt;。&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;在根目录下创建 .nojekyll 文件可以跳过 Jekyll 解析
+GitHub Pages 支持 Jekyll 或者原始文件。最初 GitHub Pages 只支持 Jekyll，后来 GitHub 允许在 Repo 根目录下添加 .nojekyll 跳过解析。详见 https://github.com/blog/572-bypassing-jekyll-on-github-pages。&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;在使用&lt;code&gt;jekyll server&lt;/code&gt;或者&lt;code&gt;jekyll build&lt;/code&gt;的时候，都是会生成&lt;code&gt;_site&lt;/code&gt;文件夹的。其实里面就是这个静态网站的全部内容，包括分类页面！那么现在就可以解决404的问题了。&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h2&gt;解决方法&lt;/h2&gt;
+
+&lt;p&gt;1、就是在跟目录放一个名为&lt;code&gt;.nojekyll&lt;/code&gt;的文件，目的是让github不解析&lt;code&gt;jeykll&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;2、就是把这个github仓库的内容调整一下，整个内容就只要&lt;code&gt;_site&lt;/code&gt;文件夹里面的内容就可以了（加上上面那个文件），其他统统都不需要。因为这个就是静态网站的全部内容了。那么其他的文件怎么处理呢。很简单，我们新建一个分支（比如名为：source），现在这个分支就是所有源码的内容，而github page对应的分支（项目博客对应&lt;code&gt;gh-pages&lt;/code&gt;分支，个人或机构博客对应&lt;code&gt;master&lt;/code&gt;分支）就是网站的内容。&lt;/p&gt;
+
+&lt;p&gt;然后把代码提交上去，刷新博客，终于不是404，出现了分类页面的了！&lt;/p&gt;
+
+&lt;p&gt;参考资料：
+&lt;a href=&quot;http://pizn.github.io/2012/02/23/use-category-plugin-for-jekyll-blog.html&quot;&gt;http://pizn.github.io/2012/02/23/use-category-plugin-for-jekyll-blog.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://crispgm.com/page/48-tips-for-jekyll-you-should-know.html&quot;&gt;https://crispgm.com/page/48-tips-for-jekyll-you-should-know.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://stackoverflow.com/questions/13189188/how-do-i-stop-github-from-regenerating-jekyll-site&quot;&gt;http://stackoverflow.com/questions/13189188/how-do-i-stop-github-from-regenerating-jekyll-site&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Fri, 10 Mar 2017 18:52:51 +0800</pubDate>
+        <link>http://jerry9926.github.io/%E5%B7%A5%E5%85%B7/2017/03/10/jekyll+githubpage%E6%A0%87%E7%AD%BE%E9%A1%B5404.html</link>
+        <guid isPermaLink="true">http://jerry9926.github.io/%E5%B7%A5%E5%85%B7/2017/03/10/jekyll+githubpage%E6%A0%87%E7%AD%BE%E9%A1%B5404.html</guid>
+        
+        <category>jekyll</category>
+        
+        
+        <category>工具</category>
+        
+      </item>
+    
+      <item>
         <title>webpack入门笔记</title>
-        <description>&lt;h3 id=&quot;webpack&quot;&gt;什么是WebPack&lt;/h3&gt;
+        <description>&lt;h3&gt;什么是WebPack&lt;/h3&gt;
 
-&lt;p&gt;WebPack是&lt;strong&gt;模块打包机&lt;/strong&gt;，它的做的事情就是：分析你的项目结构，找到Javascript模块以及其他一些浏览器不能直接运行的拓展语言（Scss、TypeScript等），并将其打包为浏览器可以运行的格式。&lt;/p&gt;
+&lt;p&gt; WebPack是&lt;strong&gt;模块打包机&lt;/strong&gt;，它的做的事情就是：分析你的项目结构，找到Javascript模块以及其他一些浏览器不能直接运行的拓展语言（Scss、TypeScript等），并将其打包为浏览器可以运行的格式。&lt;/p&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;webpackgruntgulp&quot;&gt;WebPack和Grunt和Gulp相对比&lt;/h3&gt;
+&lt;h3&gt;WebPack和Grunt和Gulp相对比&lt;/h3&gt;
 
-&lt;p&gt;WebPack和Grunt和Gulp本质上没有可比性，因为前者跟后者的功能并不一样。&lt;/p&gt;
+&lt;p&gt; WebPack和Grunt和Gulp本质上没有可比性，因为前者跟后者的功能并不一样。&lt;/p&gt;
 
-&lt;p&gt;Gulp/Grunt是一种能够优化前端的开发流程的工具。其工作方式是：在一个配置文件中，指明对某些文件进行类似编译，组合，压缩等任务的具体步骤，这个工具之后可以自动替你完成这些任务。&lt;/p&gt;
+&lt;p&gt; Gulp/Grunt是一种能够优化前端的开发流程的工具。其工作方式是：在一个配置文件中，指明对某些文件进行类似编译，组合，压缩等任务的具体步骤，这个工具之后可以自动替你完成这些任务。&lt;/p&gt;
 
-&lt;p&gt;WebPack是一种模块化的解决方案，不过Webpack的优点使得Webpack可以替代Gulp/Grunt类的工具。其工作方式是：把你的项目当做一个整体，通过一个给定的主文件（如：index.js），Webpack将从这个文件开始找到你的项目的所有依赖文件，使用&lt;code&gt;loader&lt;/code&gt;处理它们，最后打包为一个浏览器可识别的JavaScript文件。&lt;/p&gt;
+&lt;p&gt; WebPack是一种模块化的解决方案，不过Webpack的优点使得Webpack可以替代Gulp/Grunt类的工具。其工作方式是：把你的项目当做一个整体，通过一个给定的主文件（如：index.js），Webpack将从这个文件开始找到你的项目的所有依赖文件，使用&lt;code&gt;loader&lt;/code&gt;处理它们，最后打包为一个浏览器可识别的JavaScript文件。&lt;/p&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;section&quot;&gt;安装&lt;/h3&gt;
+&lt;h3&gt;安装&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code&gt;//全局安装
 npm install -g webpack
@@ -36,17 +96,17 @@ npm install -g webpack
 npm install --save-dev webpack
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;section-1&quot;&gt;开始使用&lt;/h3&gt;
+&lt;h3&gt;开始使用&lt;/h3&gt;
 
-&lt;p&gt;1、命令行&lt;/p&gt;
+&lt;p&gt; 1、命令行&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;全局安装：webpack {入口文件} {输出文件} 
 本地安装：node_modules/.bin/webpack {入口文件} {输出文件}
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;2、通过配置文件来使用&lt;/p&gt;
+&lt;p&gt; 2、通过配置文件来使用&lt;/p&gt;
 
 &lt;p&gt;创建配置文件&lt;code&gt;webpack.config.js&lt;/code&gt;&lt;/p&gt;
 
@@ -58,77 +118,52 @@ npm install --save-dev webpack
     &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+
 &lt;pre&gt;&lt;code&gt;注：“__dirname”是node.js中的一个全局变量，它指向当前执行脚本所在的目录。
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;使用方式同上，但是不需要写入口文件和输出文件了，因为已经在配置文件中定义了。&lt;/p&gt;
+&lt;p&gt; 使用方式同上，但是不需要写入口文件和输出文件了，因为已经在配置文件中定义了。&lt;/p&gt;
 
-&lt;p&gt;通过npm命令使用
+&lt;p&gt; 通过npm命令使用
     在package.json文件中可以设置命令&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;scripts&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;s2&quot;&gt;&amp;quot;start&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;webpack --display-error-details&amp;quot;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+
 &lt;pre&gt;&lt;code&gt;注：在package.json中即使本地安装webpack也不需要写node_modules路径了，因为npm命令执行中已经有路径依赖
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;source-maps&quot;&gt;更多功能（配置项）- 生成Source Maps&lt;/h3&gt;
+&lt;h3&gt;更多功能（配置项）- 生成Source Maps&lt;/h3&gt;
 
-&lt;p&gt;通过简单的配置后，Webpack在打包时可以为我们生成的source maps，这为我们提供了一种对应编译文件和源文件的方法，使得编译后的代码可读性更高，也更容易调试。&lt;/p&gt;
+&lt;p&gt; 通过简单的配置后，Webpack在打包时可以为我们生成的source maps，这为我们提供了一种对应编译文件和源文件的方法，使得编译后的代码可读性更高，也更容易调试。&lt;/p&gt;
 
-&lt;p&gt;配置source maps，需要配置&lt;code&gt;devtool&lt;/code&gt;字段。&lt;code&gt;devtool&lt;/code&gt;有四种值&lt;/p&gt;
+&lt;p&gt; 配置source maps，需要配置&lt;code&gt;devtool&lt;/code&gt;字段。&lt;code&gt;devtool&lt;/code&gt;有四种值&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;source-map&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;source-map&lt;/strong&gt;&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;在一个单独的文件中产生一个完整且功能完全的文件。这个文件具有最好的source map，但是它会减慢打包文件的构建速度；&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;在一个单独的文件中产生一个完整且功能完全的文件。这个文件具有最好的source map，但是它会减慢打包文件的构建速度；&lt;/p&gt;&lt;/blockquote&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;cheap-module-source-map&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;cheap-module-source-map&lt;/strong&gt;&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;在一个单独的文件中生成一个不带列映射的map，不带列映射提高项目构建速度，但是也使得浏览器开发者工具只能对应到具体的行，不能对应到具体的列（符号），会对调试造成不便；&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;在一个单独的文件中生成一个不带列映射的map，不带列映射提高项目构建速度，但是也使得浏览器开发者工具只能对应到具体的行，不能对应到具体的列（符号），会对调试造成不便；&lt;/p&gt;&lt;/blockquote&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;eval-source-map&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;eval-source-map&lt;/strong&gt;&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;使用eval打包源文件模块，在同一个文件中生成干净的完整的source map。这个选项可以在不影响构建速度的前提下生成完整的sourcemap，但是对打包后输出的JS文件的执行具有性能和安全的隐患。不过在开发阶段这是一个非常好的选项，但是在生产阶段一定不要用这个选项；&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;使用eval打包源文件模块，在同一个文件中生成干净的完整的source map。这个选项可以在不影响构建速度的前提下生成完整的sourcemap，但是对打包后输出的JS文件的执行具有性能和安全的隐患。不过在开发阶段这是一个非常好的选项，但是在生产阶段一定不要用这个选项；&lt;/p&gt;&lt;/blockquote&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;cheap-module-eval-source-map&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;cheap-module-eval-source-map&lt;/strong&gt;&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;这是在打包文件时最快的生成source map的方法，生成的Source Map 会和打包后的JavaScript文件同行显示，没有列映射，和eval-source-map选项具有相似的缺点；&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;这是在打包文件时最快的生成source map的方法，生成的Source Map 会和打包后的JavaScript文件同行显示，没有列映射，和eval-source-map选项具有相似的缺点；&lt;/p&gt;&lt;/blockquote&gt;&lt;/blockquote&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;上述选项由上到下打包速度越来越快，不过同时也具有越来越多的负面作用&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;在学习阶段以及在小到中性的项目上，&lt;code&gt;eval-source-map&lt;/code&gt;是一个很好的选项，不过记得只在开发阶段使用它&lt;/p&gt;
-  &lt;/li&gt;
+&lt;li&gt;&lt;p&gt;上述选项由上到下打包速度越来越快，不过同时也具有越来越多的负面作用&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;在学习阶段以及在小到中性的项目上，&lt;code&gt;eval-source-map&lt;/code&gt;是一个很好的选项，不过记得只在开发阶段使用它&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
 
 &lt;p&gt;例如&lt;/p&gt;
 
@@ -141,9 +176,10 @@ npm install --save-dev webpack
     &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;webpack-1&quot;&gt;使用webpack构建本地服务器&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;使用webpack构建本地服务器&lt;/h3&gt;
 
 &lt;p&gt;安装&lt;/p&gt;
 
@@ -152,47 +188,23 @@ npm install --save-dev webpack
 
 &lt;p&gt;配置本地服务器，需要配置 &lt;code&gt;devserver&lt;/code&gt; 字段。&lt;code&gt;devserver&lt;/code&gt;有以下的属性&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;contentBase&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;contentBase&lt;/strong&gt;&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;默认webpack-dev-server会为根文件夹提供本地服务器，如果想为另外一个目录下的文件提供本地服务器，应该在这里设置其所在目录（本例设置到“public”目录）&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;默认webpack-dev-server会为根文件夹提供本地服务器，如果想为另外一个目录下的文件提供本地服务器，应该在这里设置其所在目录（本例设置到“public&quot;目录）&lt;/p&gt;&lt;/blockquote&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;port&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;port&lt;/strong&gt;&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;设置默认监听端口，如果省略，默认为”8080”&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;设置默认监听端口，如果省略，默认为&quot;8080&quot;&lt;/p&gt;&lt;/blockquote&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;inline&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;inline&lt;/strong&gt;&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;设置为true，当源文件改变时会自动刷新页面&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;设置为true，当源文件改变时会自动刷新页面&lt;/p&gt;&lt;/blockquote&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;colors&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;colors&lt;/strong&gt;&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;设置为true，使终端输出的文件为彩色的&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;设置为true，使终端输出的文件为彩色的&lt;/p&gt;&lt;/blockquote&gt;&lt;/blockquote&gt;
 
-&lt;p&gt;配置实例&lt;/p&gt;
+&lt;p&gt; 配置实例&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;exports&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;nx&quot;&gt;devtool&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;eval-source-map&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
@@ -211,27 +223,29 @@ npm install --save-dev webpack
     &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;使用方式，在npm命令中加入&lt;/p&gt;
+
+&lt;p&gt; 使用方式，在npm命令中加入&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;scripts&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;s2&quot;&gt;&amp;quot;start&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;webpack --display-error-details&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;s2&quot;&gt;&amp;quot;server&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;webpack-dev-server&amp;quot;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;loaders&quot;&gt;Loaders&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;p&gt;通过使用&lt;code&gt;loader&lt;/code&gt;，webpack可以把各种类型的文件进行处理，达到可以加载的目的
+&lt;h3&gt;Loaders&lt;/h3&gt;
+
+&lt;p&gt; 通过使用&lt;code&gt;loader&lt;/code&gt;，webpack可以把各种类型的文件进行处理，达到可以加载的目的
  &lt;code&gt;loader&lt;/code&gt;的使用，有两步，安装和配置
  比如需要加载json文件，我们可以使用&lt;code&gt;json-loader&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;安装&lt;/p&gt;
+&lt;p&gt; 安装&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;npm install --save-dev json-loader
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;配置&lt;/p&gt;
+&lt;p&gt; 配置&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;nx&quot;&gt;loaders&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
@@ -242,68 +256,45 @@ npm install --save-dev webpack
     &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+
 &lt;pre&gt;&lt;code&gt;现在就可以加载json文件了，使用
 var content = require(&#39;./content.json&#39;);
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;code&gt;loader&lt;/code&gt;的配置一般要关注四个属性&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;test&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;test&lt;/strong&gt;&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;必选，一个匹配&lt;code&gt;loader&lt;/code&gt;所处理的文件的扩展名的正则表达式&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;必选，一个匹配&lt;code&gt;loader&lt;/code&gt;所处理的文件的扩展名的正则表达式&lt;/p&gt;&lt;/blockquote&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;loader&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;loader&lt;/strong&gt;&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;必选，&lt;code&gt;loader&lt;/code&gt;的名字&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;必选，&lt;code&gt;loader&lt;/code&gt;的名字&lt;/p&gt;&lt;/blockquote&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;include/exclude&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;include/exclude&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;可选，手动添加必须处理的文件（文件夹）或忽略的文件（文件夹）&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;可选，手动添加必须处理的文件（文件夹）或忽略的文件（文件夹）&lt;/p&gt;&lt;/blockquote&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;query&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;query&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;可选，为&lt;code&gt;loader&lt;/code&gt;提供额外的配置选项&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;可选，为&lt;code&gt;loader&lt;/code&gt;提供额外的配置选项&lt;/p&gt;&lt;/blockquote&gt;&lt;/blockquote&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;babel-loaders&quot;&gt;Babel Loaders&lt;/h3&gt;
+&lt;h3&gt;Babel Loaders&lt;/h3&gt;
 
-&lt;p&gt;&lt;code&gt;Babel&lt;/code&gt; 是一个编译Javascript的平台，作用如下&lt;/p&gt;
+&lt;p&gt; &lt;code&gt;Babel&lt;/code&gt; 是一个编译Javascript的平台，作用如下&lt;/p&gt;
 
 &lt;p&gt;1、能够编辑下一代的ECMA语法，并转化成当前浏览器都使用的ECMA版本&lt;/p&gt;
 
 &lt;p&gt;2、使用Javascriopt的拓展语言，比如react的jsx&lt;/p&gt;
 
-&lt;p&gt;安装&lt;/p&gt;
+&lt;p&gt; 安装&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;npm install --save-dev babel-core babel-loader babel-preset-es2015 babel-preset-react
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;配置&lt;/p&gt;
+&lt;p&gt; 配置&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;nx&quot;&gt;loaders&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
@@ -322,17 +313,12 @@ var content = require(&#39;./content.json&#39;);
     &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;Babel的配置选项&lt;/p&gt;
-&lt;/blockquote&gt;
 
-&lt;blockquote&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;&lt;code&gt;Babel&lt;/code&gt;其实可以完全在&lt;code&gt;webpack.config.js&lt;/code&gt;中进行配置，但是&lt;code&gt;babel&lt;/code&gt;具有非常多的配置选项，可以把&lt;code&gt;babel&lt;/code&gt;的配置选项放在一个单独的名为 &lt;code&gt;.babelrc&lt;/code&gt;的配置文件中（webpack会自动调用&lt;code&gt;.babelrc&lt;/code&gt;里的&lt;code&gt;babel&lt;/code&gt;配置选项）&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;Babel的配置选项&lt;/p&gt;
 
-&lt;p&gt;分开后:&lt;/p&gt;
+&lt;blockquote&gt;&lt;p&gt;&lt;code&gt;Babel&lt;/code&gt;其实可以完全在&lt;code&gt;webpack.config.js&lt;/code&gt;中进行配置，但是&lt;code&gt;babel&lt;/code&gt;具有非常多的配置选项，可以把&lt;code&gt;babel&lt;/code&gt;的配置选项放在一个单独的名为 &lt;code&gt;.babelrc&lt;/code&gt;的配置文件中（webpack会自动调用&lt;code&gt;.babelrc&lt;/code&gt;里的&lt;code&gt;babel&lt;/code&gt;配置选项）&lt;/p&gt;&lt;/blockquote&gt;&lt;/blockquote&gt;
+
+&lt;p&gt; 分开后:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// webpack.config.js&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;exports&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -366,15 +352,17 @@ var content = require(&#39;./content.json&#39;);
     &lt;span class=&quot;s2&quot;&gt;&amp;quot;presets&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;react&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;es2015&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;css-loaders&quot;&gt;CSS Loaders&lt;/h3&gt;
-&lt;p&gt;安装&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;CSS Loaders&lt;/h3&gt;
+
+&lt;p&gt; 安装&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;npm install --save-dev style-loader css-loader
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;配置&lt;/p&gt;
+&lt;p&gt; 配置&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;nx&quot;&gt;loaders&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
@@ -394,12 +382,13 @@ var content = require(&#39;./content.json&#39;);
     &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+
 &lt;pre&gt;&lt;code&gt;注：感叹号的作用在于使同一文件能够使用不同类型的loader
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;section-2&quot;&gt;插件&lt;/h3&gt;
+&lt;h3&gt;插件&lt;/h3&gt;
 
 &lt;p&gt;插件（Plugins）是用来拓展Webpack功能的，可以这么来说，loaders是在打包构建过程中用来处理源文件的（JSX，Scss，Less..），一次处理一个，插件并不直接操作单个文件，它直接对整个构建过程其作用。&lt;/p&gt;
 
@@ -407,15 +396,9 @@ var content = require(&#39;./content.json&#39;);
 
 &lt;p&gt;下面以常用的插件为例看看如何使用。&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;code&gt;HtmlWebpackPlugin&lt;/code&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;&lt;code&gt;HtmlWebpackPlugin&lt;/code&gt;&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;这个插件作用是依据一个简单的模板，帮你生成最终的Html5文件。这个文件中自动引用了你打包后的JS文件。每次编译都在文件名中插入一个不同的哈希值。&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;这个插件作用是依据一个简单的模板，帮你生成最终的Html5文件。这个文件中自动引用了你打包后的JS文件。每次编译都在文件名中插入一个不同的哈希值。&lt;/p&gt;&lt;/blockquote&gt;&lt;/blockquote&gt;
 
 &lt;p&gt;准备工作&lt;/p&gt;
 
@@ -435,14 +418,15 @@ var content = require(&#39;./content.json&#39;);
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;安装&lt;/p&gt;
+
+&lt;p&gt; 安装&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;npm install --save-dev html-webpack-plugin
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;配置&lt;/p&gt;
+&lt;p&gt; 配置&lt;/p&gt;
 
-&lt;p&gt;方法同上,新建一个build文件夹用来存放最终的输出文件&lt;/p&gt;
+&lt;p&gt; 方法同上,新建一个build文件夹用来存放最终的输出文件&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;webpack&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;webpack&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;HtmlWebpackPlugin&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;html-webpack-plugin&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
@@ -480,9 +464,10 @@ var content = require(&#39;./content.json&#39;);
     &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;section-3&quot;&gt;更多插件&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;更多插件&lt;/h3&gt;
 
 &lt;p&gt;&lt;strong&gt;&lt;code&gt;OccurenceOrderPlugin&lt;/code&gt;&lt;/strong&gt; :为组件分配ID，通过这个插件webpack可以分析和优先考虑使用最多的模块，并为它们分配最小的ID&lt;/p&gt;
 
@@ -536,21 +521,21 @@ var content = require(&#39;./content.json&#39;);
         &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;section-4&quot;&gt;生产环境&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;生产环境&lt;/h3&gt;
 
 &lt;p&gt;我们已经使用webpack构建了一个完整的开发环境。但是在产品阶段，可能还需要对打包的文件进行额外的处理，比如说优化，压缩，缓存以及分离CSS和JS。&lt;/p&gt;
 
 &lt;p&gt;建议开发环境和生产环境分开配置，创建一个&lt;code&gt;webpack.production.config.js&lt;/code&gt;的文件，在里面加上基本的配置，它和原始的&lt;code&gt;webpack.config.js&lt;/code&gt;很相似。&lt;/p&gt;
-
 </description>
         <pubDate>Thu, 29 Dec 2016 23:44:51 +0800</pubDate>
-        <link>http://jerry9926.github.io/webpack/%E5%B7%A5%E5%85%B7/2016/12/29/webpack%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0.html</link>
-        <guid isPermaLink="true">http://jerry9926.github.io/webpack/%E5%B7%A5%E5%85%B7/2016/12/29/webpack%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0.html</guid>
-        
+        <link>http://jerry9926.github.io/%E5%B7%A5%E5%85%B7/2016/12/29/webpack%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0.html</link>
+        <guid isPermaLink="true">http://jerry9926.github.io/%E5%B7%A5%E5%85%B7/2016/12/29/webpack%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0.html</guid>
         
         <category>webpack</category>
+        
         
         <category>工具</category>
         
@@ -558,362 +543,331 @@ var content = require(&#39;./content.json&#39;);
     
       <item>
         <title>line-height的一些知识点</title>
-        <description>&lt;h3 id=&quot;section&quot;&gt;1. 基本定义&lt;/h3&gt;
+        <description>&lt;h3&gt;1. 基本定义&lt;/h3&gt;
 
 &lt;p&gt;line-height 可以有&lt;strong&gt;5种值&lt;/strong&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;normal：&lt;code&gt;body{line-height:normal;}&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;inherit：&lt;code&gt;body{line-height:inherit;}&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;百分比：&lt;code&gt;body{line-height:120%;}&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;长度（px、em等）：&lt;code&gt;body{line-height:25px;}&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;纯数字：&lt;code&gt;body{line-height:1.2}&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
+&lt;li&gt;&lt;p&gt;normal：&lt;code&gt;body{line-height:normal;}&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;inherit：&lt;code&gt;body{line-height:inherit;}&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;百分比：&lt;code&gt;body{line-height:120%;}&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;长度（px、em等）：&lt;code&gt;body{line-height:25px;}&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;纯数字：&lt;code&gt;body{line-height:1.2}&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;section-1&quot;&gt;2. 继承&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;2. 继承&lt;/h3&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;不同的定义方式的继承情况有所不同&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;不同的定义方式的继承情况有所不同&lt;/p&gt;
 
-    &lt;p&gt;以此为例&lt;/p&gt;
-  &lt;/li&gt;
+&lt;p&gt;  以此为例&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;style&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;body&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;font-size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;16px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;font-size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;16px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;font-size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;12px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;font-size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;12px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/style&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
-	&lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;hello world&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;hello world&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;百分比；body设置line-height: 120%&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;table class=&quot;table table-striped&quot;&gt;
-	&lt;thead&gt;
-	&lt;tr&gt;
-		&lt;th&gt;元素&lt;/th&gt;
-		&lt;th&gt;font-size&lt;/th&gt;
-		&lt;th&gt;line-height&lt;/th&gt;
-		&lt;th&gt;计算后的line-height&lt;/th&gt;
-	&lt;/tr&gt;
-	&lt;/thead&gt;
-	&lt;tbody&gt;
-		&lt;tr&gt;
-			&lt;td&gt;body&lt;/td&gt;
-			&lt;td&gt;16px&lt;/td&gt;
-			&lt;td&gt;120%&lt;/td&gt;
-			&lt;td&gt;16px*120%=19.2px&lt;/td&gt;
-		&lt;/tr&gt;
-		&lt;tr&gt;
-			&lt;td&gt;p&lt;/td&gt;
-			&lt;td&gt;12px&lt;/td&gt;
-			&lt;td&gt;19.2px&lt;/td&gt;
-			&lt;td&gt;16px*120%=19.2px&lt;/td&gt;
-		&lt;/tr&gt;
-	&lt;/tbody&gt;
-&lt;/table&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;长度值；body设置line-height: 20px&lt;/li&gt;
+&lt;li&gt;百分比；body设置line-height: 120%&lt;/li&gt;
 &lt;/ul&gt;
 
+
 &lt;table class=&quot;table table-striped&quot;&gt;
-	&lt;thead&gt;
-	&lt;tr&gt;
-		&lt;th&gt;元素&lt;/th&gt;
-		&lt;th&gt;font-size&lt;/th&gt;
-		&lt;th&gt;line-height&lt;/th&gt;
-		&lt;th&gt;计算后的line-height&lt;/th&gt;
-	&lt;/tr&gt;
-	&lt;/thead&gt;
-	&lt;tbody&gt;
-		&lt;tr&gt;
-			&lt;td&gt;body&lt;/td&gt;
-			&lt;td&gt;16px&lt;/td&gt;
-			&lt;td&gt;20px&lt;/td&gt;
-			&lt;td&gt;20px&lt;/td&gt;
-		&lt;/tr&gt;
-		&lt;tr&gt;
-			&lt;td&gt;p&lt;/td&gt;
-			&lt;td&gt;12px&lt;/td&gt;
-			&lt;td&gt;20px&lt;/td&gt;
-			&lt;td&gt;20px&lt;/td&gt;
-		&lt;/tr&gt;
-	&lt;/tbody&gt;
+    &lt;thead&gt;
+    &lt;tr&gt;
+        &lt;th&gt;元素&lt;/th&gt;
+        &lt;th&gt;font-size&lt;/th&gt;
+        &lt;th&gt;line-height&lt;/th&gt;
+        &lt;th&gt;计算后的line-height&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;body&lt;/td&gt;
+            &lt;td&gt;16px&lt;/td&gt;
+            &lt;td&gt;120%&lt;/td&gt;
+            &lt;td&gt;16px*120%=19.2px&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;p&lt;/td&gt;
+            &lt;td&gt;12px&lt;/td&gt;
+            &lt;td&gt;19.2px&lt;/td&gt;
+            &lt;td&gt;16px*120%=19.2px&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
 &lt;/table&gt;
+
 
 &lt;ul&gt;
-  &lt;li&gt;normal；body设置line-height: normal（浏览器默认normal约为1.2）&lt;/li&gt;
+&lt;li&gt;长度值；body设置line-height: 20px&lt;/li&gt;
 &lt;/ul&gt;
 
+
 &lt;table class=&quot;table table-striped&quot;&gt;
-	&lt;thead&gt;
-	&lt;tr&gt;
-		&lt;th&gt;元素&lt;/th&gt;
-		&lt;th&gt;font-size&lt;/th&gt;
-		&lt;th&gt;line-height&lt;/th&gt;
-		&lt;th&gt;计算后的line-height&lt;/th&gt;
-	&lt;/tr&gt;
-	&lt;/thead&gt;
-	&lt;tbody&gt;
-		&lt;tr&gt;
-			&lt;td&gt;body&lt;/td&gt;
-			&lt;td&gt;16px&lt;/td&gt;
-			&lt;td&gt;normal&lt;/td&gt;
-			&lt;td&gt;16px*约1.2=约19.2px&lt;/td&gt;
-		&lt;/tr&gt;
-		&lt;tr&gt;
-			&lt;td&gt;p&lt;/td&gt;
-			&lt;td&gt;12px&lt;/td&gt;
-			&lt;td&gt;normal&lt;/td&gt;
-			&lt;td&gt;12px*约1.2=约13.44px&lt;/td&gt;
-		&lt;/tr&gt;
-	&lt;/tbody&gt;
+    &lt;thead&gt;
+    &lt;tr&gt;
+        &lt;th&gt;元素&lt;/th&gt;
+        &lt;th&gt;font-size&lt;/th&gt;
+        &lt;th&gt;line-height&lt;/th&gt;
+        &lt;th&gt;计算后的line-height&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;body&lt;/td&gt;
+            &lt;td&gt;16px&lt;/td&gt;
+            &lt;td&gt;20px&lt;/td&gt;
+            &lt;td&gt;20px&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;p&lt;/td&gt;
+            &lt;td&gt;12px&lt;/td&gt;
+            &lt;td&gt;20px&lt;/td&gt;
+            &lt;td&gt;20px&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
 &lt;/table&gt;
+
 
 &lt;ul&gt;
-  &lt;li&gt;纯数字（系数）；body设置line-height:1.5&lt;/li&gt;
+&lt;li&gt;normal；body设置line-height: normal（浏览器默认normal约为1.2）&lt;/li&gt;
 &lt;/ul&gt;
 
+
 &lt;table class=&quot;table table-striped&quot;&gt;
-	&lt;thead&gt;
-	&lt;tr&gt;
-		&lt;th&gt;元素&lt;/th&gt;
-		&lt;th&gt;font-size&lt;/th&gt;
-		&lt;th&gt;line-height&lt;/th&gt;
-		&lt;th&gt;计算后的line-height&lt;/th&gt;
-	&lt;/tr&gt;
-	&lt;/thead&gt;
-	&lt;tbody&gt;
-		&lt;tr&gt;
-			&lt;td&gt;body&lt;/td&gt;
-			&lt;td&gt;16px&lt;/td&gt;
-			&lt;td&gt;1.5&lt;/td&gt;
-			&lt;td&gt;16px*1.5=24px&lt;/td&gt;
-		&lt;/tr&gt;
-		&lt;tr&gt;
-			&lt;td&gt;p&lt;/td&gt;
-			&lt;td&gt;12px&lt;/td&gt;
-			&lt;td&gt;1.5&lt;/td&gt;
-			&lt;td&gt;12px*1.5=约18px&lt;/td&gt;
-		&lt;/tr&gt;
-	&lt;/tbody&gt;
+    &lt;thead&gt;
+    &lt;tr&gt;
+        &lt;th&gt;元素&lt;/th&gt;
+        &lt;th&gt;font-size&lt;/th&gt;
+        &lt;th&gt;line-height&lt;/th&gt;
+        &lt;th&gt;计算后的line-height&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;body&lt;/td&gt;
+            &lt;td&gt;16px&lt;/td&gt;
+            &lt;td&gt;normal&lt;/td&gt;
+            &lt;td&gt;16px*约1.2=约19.2px&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;p&lt;/td&gt;
+            &lt;td&gt;12px&lt;/td&gt;
+            &lt;td&gt;normal&lt;/td&gt;
+            &lt;td&gt;12px*约1.2=约13.44px&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
 &lt;/table&gt;
+
+
+&lt;ul&gt;
+&lt;li&gt;纯数字（系数）；body设置line-height:1.5&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;table class=&quot;table table-striped&quot;&gt;
+    &lt;thead&gt;
+    &lt;tr&gt;
+        &lt;th&gt;元素&lt;/th&gt;
+        &lt;th&gt;font-size&lt;/th&gt;
+        &lt;th&gt;line-height&lt;/th&gt;
+        &lt;th&gt;计算后的line-height&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;body&lt;/td&gt;
+            &lt;td&gt;16px&lt;/td&gt;
+            &lt;td&gt;1.5&lt;/td&gt;
+            &lt;td&gt;16px*1.5=24px&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;p&lt;/td&gt;
+            &lt;td&gt;12px&lt;/td&gt;
+            &lt;td&gt;1.5&lt;/td&gt;
+            &lt;td&gt;12px*1.5=约18px&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
+
 
 &lt;p&gt;所以：一般来说设置line-height为纯数字是最理想的方式，因为会随着font-size而缩放&lt;/p&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;section-2&quot;&gt;3. 特殊的情况&lt;/h3&gt;
+&lt;h3&gt;3. 特殊的情况&lt;/h3&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;说特殊的情况之前，先说一下CSS box，以下有四种box，例如html&lt;/li&gt;
+&lt;li&gt;说特殊的情况之前，先说一下CSS box，以下有四种box，例如html&lt;/li&gt;
 &lt;/ul&gt;
+
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;
-	The &lt;span class=&quot;nt&quot;&gt;&amp;lt;em&amp;gt;&lt;/span&gt; emphasis&lt;span class=&quot;nt&quot;&gt;&amp;lt;/em&amp;gt;&lt;/span&gt;
-	element is defined as &amp;quot;inline&amp;quot;.
+    The &lt;span class=&quot;nt&quot;&gt;&amp;lt;em&amp;gt;&lt;/span&gt; emphasis&lt;span class=&quot;nt&quot;&gt;&amp;lt;/em&amp;gt;&lt;/span&gt;
+    element is defined as &amp;quot;inline&amp;quot;.
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+
 &lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code&gt;containing box&lt;/code&gt;。这里p就是一个&lt;code&gt;containing box&lt;/code&gt;，包裹了其他box&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code&gt;inline box&lt;/code&gt;。每个inline元素或者文字就是被&lt;code&gt;inline box&lt;/code&gt;包裹着的。这里的&lt;code&gt;inline box&lt;/code&gt;有三个，[The]、[em元素]、[element is defined as “inline”.]，其中[The]、[element is defined as “inline”.]称为匿名&lt;code&gt;inline box&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code&gt;line box&lt;/code&gt;。&lt;code&gt;line box&lt;/code&gt;是看不见的，作用就是包裹着&lt;code&gt;inline box&lt;/code&gt;。这个一行包含3个&lt;code&gt;inline box&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code&gt;content box&lt;/code&gt;。是包围着文字的一个看不见的box，高度取决于font-size&lt;/p&gt;
-  &lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;containing box&lt;/code&gt;。这里p就是一个&lt;code&gt;containing box&lt;/code&gt;，包裹了其他box&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;inline box&lt;/code&gt;。每个inline元素或者文字就是被&lt;code&gt;inline box&lt;/code&gt;包裹着的。这里的&lt;code&gt;inline box&lt;/code&gt;有三个，[The]、[em元素]、[element is defined as &quot;inline&quot;.]，其中[The]、[element is defined as &quot;inline&quot;.]称为匿名&lt;code&gt;inline box&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;line box&lt;/code&gt;。&lt;code&gt;line box&lt;/code&gt;是看不见的，作用就是包裹着&lt;code&gt;inline box&lt;/code&gt;。这个一行包含3个&lt;code&gt;inline box&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;content box&lt;/code&gt;。是包围着文字的一个看不见的box，高度取决于font-size&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;概念：行间距就是&lt;code&gt;line-height&lt;/code&gt;减去&lt;code&gt;font-size&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt; 例如：font-size: 16px;line-height: 20px;行间距20-14=4px。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;行间距会分为两半，一半放在&lt;code&gt;content box&lt;/code&gt;的顶部，一半在底部。&lt;/p&gt;
+
+&lt;p&gt; 例如：文字顶部有半行间距2px，底部有2px&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;如果：&lt;code&gt;line-height&lt;/code&gt;小于&lt;code&gt;font-size&lt;/code&gt;，&lt;code&gt;inline box&lt;/code&gt;的高度优先于行高。&lt;/p&gt;
+
+&lt;p&gt; 例如：font-size: 16px;line-height: 12px，&lt;code&gt;content box&lt;/code&gt;会溢出&lt;code&gt;inline box&lt;/code&gt;的顶部和底部&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;line box的高度取决于内部最高的inline box的高度&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;概念：行间距就是&lt;code&gt;line-height&lt;/code&gt;减去&lt;code&gt;font-size&lt;/code&gt;&lt;/p&gt;
 
-    &lt;p&gt;例如：font-size: 16px;line-height: 20px;行间距20-14=4px。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;行间距会分为两半，一半放在&lt;code&gt;content box&lt;/code&gt;的顶部，一半在底部。&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-    &lt;p&gt;例如：文字顶部有半行间距2px，底部有2px&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;如果：&lt;code&gt;line-height&lt;/code&gt;小于&lt;code&gt;font-size&lt;/code&gt;，&lt;code&gt;inline box&lt;/code&gt;的高度优先于行高。&lt;/p&gt;
-
-    &lt;p&gt;例如：font-size: 16px;line-height: 12px，&lt;code&gt;content box&lt;/code&gt;会溢出&lt;code&gt;inline box&lt;/code&gt;的顶部和底部&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;line box的高度取决于内部最高的inline box的高度&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;section-3&quot;&gt;相关问题&lt;/h3&gt;
+&lt;h3&gt;相关问题&lt;/h3&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;一个空的div，高度是0，如果在div里面打入空格或者文字，div就会有高度。这个高度怎么产生的？&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;一个空的div，高度是0，如果在div里面打入空格或者文字，div就会有高度。这个高度怎么产生的？&lt;/p&gt;
 
-    &lt;p&gt;一般以为是文字撑开的。&lt;strong&gt;实际上并不是！而是&lt;code&gt;line-height&lt;/code&gt;撑开的&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt; 一般以为是文字撑开的。&lt;strong&gt;实际上并不是！而是&lt;code&gt;line-height&lt;/code&gt;撑开的&lt;/strong&gt;。&lt;/p&gt;
 
-    &lt;p&gt;实验是，设置了&lt;code&gt;font-size:0&lt;/code&gt;后，div高度就为0了，之后在设置&lt;code&gt;line-height&lt;/code&gt;，div的高度就等于&lt;code&gt;line-height&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt; 实验是，设置了&lt;code&gt;font-size:0&lt;/code&gt;后，div高度就为0了，之后在设置&lt;code&gt;line-height&lt;/code&gt;，div的高度就等于&lt;code&gt;line-height&lt;/code&gt;&lt;/p&gt;
 
-    &lt;p&gt;而这里&lt;code&gt;line-height&lt;/code&gt;产生的高度，其实就是line box的高度。&lt;/p&gt;
-  &lt;/li&gt;
+&lt;p&gt; 而这里&lt;code&gt;line-height&lt;/code&gt;产生的高度，其实就是line box的高度。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;section-4&quot;&gt;行高的垂直居中性&lt;/h4&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h4&gt;行高的垂直居中性&lt;/h4&gt;
 
 &lt;p&gt;&lt;code&gt;line-height&lt;/code&gt;的最终表示的由&lt;code&gt;line box&lt;/code&gt;实现的。而&lt;code&gt;line box&lt;/code&gt;的高度不管是多少，里面的&lt;code&gt;inline box&lt;/code&gt;总是在水平中垂线上显示的。利用这点特性就可以实现垂直居中&lt;/p&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;1.单行文字垂直居中&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;1.单行文字垂直居中&lt;/strong&gt;&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;blockquote&gt;
-    &lt;p&gt;一般说设置&lt;code&gt;line-height&lt;/code&gt;值和&lt;code&gt;height&lt;/code&gt;值一致可以实现垂直居中，实际上并不需要height，直接把&lt;code&gt;line-height&lt;/code&gt;设置成需要的高度即可（正是因为行高的垂直居中性）&lt;/p&gt;
-  &lt;/blockquote&gt;
-&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;p&gt;一般说设置&lt;code&gt;line-height&lt;/code&gt;值和&lt;code&gt;height&lt;/code&gt;值一致可以实现垂直居中，实际上并不需要height，直接把&lt;code&gt;line-height&lt;/code&gt;设置成需要的高度即可（正是因为行高的垂直居中性）&lt;/p&gt;&lt;/blockquote&gt;&lt;/blockquote&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;d1&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-	&lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;hello world&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;hello world&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;style&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;#d1&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;line-height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;150px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;line-height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;150px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/style&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;2.多行文字垂直居中&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;2.多行文字垂直居中&lt;/p&gt;&lt;/blockquote&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;d2&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-	&lt;span class=&quot;nt&quot;&gt;&amp;lt;span&amp;gt;&lt;/span&gt;hello world hello world hello world hello world hello world hello world hello world &lt;span class=&quot;nt&quot;&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;span&amp;gt;&lt;/span&gt;hello world hello world hello world hello world hello world hello world hello world &lt;span class=&quot;nt&quot;&gt;&amp;lt;/span&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 
 &lt;p&gt;首先看看常见的错误方式&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;#d2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;150px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;150px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;#d2&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;span&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;vertical-align&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;middle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;vertical-align&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;middle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 
 &lt;p&gt;这个思路是用height给父元素（块状元素）设置一个height，然后里面的span（行内元素）设置了&lt;code&gt;vertical-align:middle；&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;表面上看height用在块状元素上，&lt;code&gt;vertical-align&lt;/code&gt;用在行内元素上，做的都对，但是怎么不是想象中的span在div垂直居中。浏览器怎么不按照css规范来渲染呢？（事实上了解这块概念后，浏览器这样显示并没有任何问题）&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;具体分析一下：&lt;/p&gt;
+&lt;blockquote&gt;&lt;p&gt;具体分析一下：&lt;/p&gt;
 
-  &lt;p&gt;&lt;code&gt;vertical-align&lt;/code&gt;是调整&lt;code&gt;inline box&lt;/code&gt;在&lt;code&gt;line box&lt;/code&gt;中的垂直对齐位置，而不是&lt;code&gt;contain box&lt;/code&gt;。本例中，div是&lt;code&gt;contain box&lt;/code&gt;，span是&lt;code&gt;inline box&lt;/code&gt;。设置&lt;code&gt;vertical-aglin&lt;/code&gt;只会让span在当前行（所在的&lt;code&gt;line box&lt;/code&gt;）里上下调整。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;vertical-align&lt;/code&gt;是调整&lt;code&gt;inline box&lt;/code&gt;在&lt;code&gt;line box&lt;/code&gt;中的垂直对齐位置，而不是&lt;code&gt;contain box&lt;/code&gt;。本例中，div是&lt;code&gt;contain box&lt;/code&gt;，span是&lt;code&gt;inline box&lt;/code&gt;。设置&lt;code&gt;vertical-aglin&lt;/code&gt;只会让span在当前行（所在的&lt;code&gt;line box&lt;/code&gt;）里上下调整。&lt;/p&gt;&lt;/blockquote&gt;
 
-&lt;p&gt;知道了问题的本质之后，那如何修改。&lt;/p&gt;
+&lt;p&gt; 知道了问题的本质之后，那如何修改。&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;思路：&lt;/p&gt;
+&lt;blockquote&gt;&lt;p&gt;思路：&lt;/p&gt;
 
-  &lt;ol&gt;
-    &lt;li&gt;
-      &lt;p&gt;要让div变成&lt;code&gt;line-box&lt;/code&gt;（事实上是让&lt;code&gt;line box&lt;/code&gt;和&lt;code&gt;contain box&lt;/code&gt;的高度一致）&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li&gt;
-      &lt;p&gt;span里多行文本产生的&lt;code&gt;line-box&lt;/code&gt;要被消灭&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;要让div变成&lt;code&gt;line-box&lt;/code&gt;（事实上是让&lt;code&gt;line box&lt;/code&gt;和&lt;code&gt;contain box&lt;/code&gt;的高度一致）&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;span里多行文本产生的&lt;code&gt;line-box&lt;/code&gt;要被消灭&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
 &lt;/blockquote&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;#d2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;border&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1px&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;#999&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;dashed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;line-height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;150px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;border&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1px&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;#999&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;dashed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;line-height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;150px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;#d2&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:after&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;有个空格&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;有个空格&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;#d2&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;span&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;display&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;inline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;block&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;line-height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;normal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;vertical-align&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;middle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;display&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;inline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;block&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;line-height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;normal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;vertical-align&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;middle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;div和伪类的设置就是为了达到第一个目的；&lt;/p&gt;
 
-  &lt;p&gt;span的display设置为&lt;code&gt;inline-block&lt;/code&gt;就是把span外部呈现inline的特性，就是一个&lt;code&gt;inline box&lt;/code&gt;。同时对于自身又是一个&lt;code&gt;contain box&lt;/code&gt;，所以这时span里面的&lt;code&gt;line box&lt;/code&gt;不是相对div的&lt;code&gt;contain box&lt;/code&gt;，而是span的&lt;code&gt;contain box&lt;/code&gt;，所以达到了目的二。&lt;/p&gt;
+&lt;blockquote&gt;&lt;p&gt;div和伪类的设置就是为了达到第一个目的；&lt;/p&gt;
 
-  &lt;p&gt;这时&lt;code&gt;vertical-align:middle&lt;/code&gt;调整span为垂直居中（终于达到目的了）&lt;/p&gt;
+&lt;p&gt;span的display设置为&lt;code&gt;inline-block&lt;/code&gt;就是把span外部呈现inline的特性，就是一个&lt;code&gt;inline box&lt;/code&gt;。同时对于自身又是一个&lt;code&gt;contain box&lt;/code&gt;，所以这时span里面的&lt;code&gt;line box&lt;/code&gt;不是相对div的&lt;code&gt;contain box&lt;/code&gt;，而是span的&lt;code&gt;contain box&lt;/code&gt;，所以达到了目的二。&lt;/p&gt;
 
-  &lt;p&gt;另外span的&lt;code&gt;line-height&lt;/code&gt;要重新设置一下，因为父元素的&lt;code&gt;line-height&lt;/code&gt;设置的值作为高度来用的，而不是行高。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;这时&lt;code&gt;vertical-align:middle&lt;/code&gt;调整span为垂直居中（终于达到目的了）&lt;/p&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;另外span的&lt;code&gt;line-height&lt;/code&gt;要重新设置一下，因为父元素的&lt;code&gt;line-height&lt;/code&gt;设置的值作为高度来用的，而不是行高。&lt;/p&gt;&lt;/blockquote&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;3.图片垂直居中&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;3.图片垂直居中&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
 
 &lt;p&gt;对于img元素来说，仿佛本来就是一个inline-block的元素&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;d3&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-		&lt;span class=&quot;nt&quot;&gt;&amp;lt;img&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;https://s1.bdp.cn/static/images/new_home/solution_sell_logo.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;alt=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-		&lt;span class=&quot;nt&quot;&gt;&amp;lt;img&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;https://s1.bdp.cn/static/images/new_home/solution_baidu_logo.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;alt=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-		&lt;span class=&quot;nt&quot;&gt;&amp;lt;img&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;https://s1.bdp.cn/static/images/new_home/solution_internet_logo.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;alt=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;img&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;https://s1.bdp.cn/static/images/new_home/solution_sell_logo.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;alt=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;img&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;https://s1.bdp.cn/static/images/new_home/solution_baidu_logo.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;alt=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;img&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;https://s1.bdp.cn/static/images/new_home/solution_internet_logo.png&amp;quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;alt=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;style&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;#d3&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;line-height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;150px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;font-size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;line-height&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;150px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;font-size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;#d3&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;img&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;vertical-align&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;middle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;vertical-align&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;middle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/style&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;补充一个知识点：&lt;/p&gt;
 
-    &lt;p&gt;&lt;code&gt;inline-block&lt;/code&gt;元素之间会自然存在一个间隙，这个不是bug。而是&lt;code&gt;inline-block&lt;/code&gt;元素html代码中的空格，间隙就是空格。设置&lt;code&gt;font-size:0&lt;/code&gt;可以使间隙消失。另外还有许多方式达到此目的，这里不过多讨论。&lt;/p&gt;
-  &lt;/li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;补充一个知识点：&lt;/p&gt;
+
+&lt;p&gt; &lt;code&gt;inline-block&lt;/code&gt;元素之间会自然存在一个间隙，这个不是bug。而是&lt;code&gt;inline-block&lt;/code&gt;元素html代码中的空格，间隙就是空格。设置&lt;code&gt;font-size:0&lt;/code&gt;可以使间隙消失。另外还有许多方式达到此目的，这里不过多讨论。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;section-5&quot;&gt;信息来源：&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;信息来源：&lt;/h3&gt;
+
 &lt;p&gt;&lt;a href=&quot;http://www.cnblogs.com/fengzheng126/archive/2012/05/18/2507632.html&quot; target=&quot;_blank&quot;&gt;深入了解css的行高Line Height属性&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;http://www.zhangxinxu.com/wordpress/2009/11/css%E8%A1%8C%E9%AB%98line-height%E7%9A%84%E4%B8%80%E4%BA%9B%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%8F%8A%E5%BA%94%E7%94%A8/&quot; target=&quot;_blank&quot;&gt;css行高line-height的一些深入理解及应用&lt;/a&gt;&lt;/p&gt;
@@ -929,7 +883,7 @@ var content = require(&#39;./content.json&#39;);
     
       <item>
         <title>ES6学习-Promise</title>
-        <description>&lt;h3 id=&quot;promise-&quot;&gt;Promise 的基本格式&lt;/h3&gt;
+        <description>&lt;h3&gt;Promise 的基本格式&lt;/h3&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;promise&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getAsyncPromise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;fileA.txt&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -938,178 +892,139 @@ var content = require(&#39;./content.json&#39;);
     &lt;span class=&quot;c1&quot;&gt;// 获取文件内容失败时的处理&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;api&quot;&gt;API&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;API&lt;/h3&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;三种类型&lt;/strong&gt;的API&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Constructor 构造函数 &lt;code&gt;Promise&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;三种类型&lt;/strong&gt;的API&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Constructor 构造函数 &lt;code&gt;Promise&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;promise&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;reject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;c1&quot;&gt;// 异步处理&lt;/span&gt;
     &lt;span class=&quot;c1&quot;&gt;// 处理结束后，调用resolve或 reject&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;Instance Method 实例方法 &lt;code&gt;then&lt;/code&gt; &lt;code&gt;catch&lt;/code&gt;&lt;/p&gt;
 
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;p&gt;对于通过&lt;code&gt;new&lt;/code&gt; 生成的promise对象为了设置其值&lt;code&gt;resolve/reject&lt;/code&gt;
-  时调用的回调函数，可以使用&lt;code&gt;promise.then()&lt;/code&gt;实例方法。&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;&lt;code&gt;promise.then(onFulfilled, onRejected)&lt;/code&gt;，成功时&lt;code&gt;onFulfilled&lt;/code&gt;会被调用，失败时&lt;code&gt;onRejected&lt;/code&gt;会被调用&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;&lt;code&gt;onFulfilled&lt;/code&gt;和&lt;code&gt;onRejected&lt;/code&gt;都是&lt;strong&gt;可选参数&lt;/strong&gt;&lt;/p&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Static Method 静态方法&lt;/p&gt;
-  &lt;/li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Instance Method 实例方法 &lt;code&gt;then&lt;/code&gt; &lt;code&gt;catch&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;对于通过&lt;code&gt;new&lt;/code&gt; 生成的promise对象为了设置其值&lt;code&gt;resolve/reject&lt;/code&gt;
+时调用的回调函数，可以使用&lt;code&gt;promise.then()&lt;/code&gt;实例方法。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;promise.then(onFulfilled, onRejected)&lt;/code&gt;，成功时&lt;code&gt;onFulfilled&lt;/code&gt;会被调用，失败时&lt;code&gt;onRejected&lt;/code&gt;会被调用&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;onFulfilled&lt;/code&gt;和&lt;code&gt;onRejected&lt;/code&gt;都是&lt;strong&gt;可选参数&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Static Method 静态方法&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;race&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resovle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;reject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;promise&quot;&gt;Promise的状态&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;Promise的状态&lt;/h3&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;有&lt;strong&gt;三种状态&lt;/strong&gt;
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;p&gt;has-resolution = Fulfilled&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;has-rejection = Rejected&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;unresolved = Pending&lt;/p&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;没有公开访问状态的api方法&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;从Pending转换为&lt;code&gt;Fulfilled&lt;/code&gt;或&lt;code&gt;Rejected&lt;/code&gt;之后，promise的状态不会再改变&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code&gt;Fulfilled&lt;/code&gt;和&lt;code&gt;Rejected&lt;/code&gt;这两种状态是&lt;strong&gt;不可变&lt;/strong&gt;的&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;当promise的对象状态发生变化时，用&lt;code&gt;.then&lt;/code&gt;来定义只会被调用一次的函数&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;有&lt;strong&gt;三种状态&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;has-resolution = Fulfilled&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;has-rejection = Rejected&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;unresolved = Pending&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;没有公开访问状态的api方法&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;从Pending转换为&lt;code&gt;Fulfilled&lt;/code&gt;或&lt;code&gt;Rejected&lt;/code&gt;之后，promise的状态不会再改变&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;Fulfilled&lt;/code&gt;和&lt;code&gt;Rejected&lt;/code&gt;这两种状态是&lt;strong&gt;不可变&lt;/strong&gt;的&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;当promise的对象状态发生变化时，用&lt;code&gt;.then&lt;/code&gt;来定义只会被调用一次的函数&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;promise-1&quot;&gt;编写promise对象的处理方法&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;编写promise对象的处理方法&lt;/h3&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;被resolve后的处理，可以在 &lt;code&gt;.then&lt;/code&gt; 方法中传入想要调用的函数&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;被reject后的处理，可以在 &lt;code&gt;.then&lt;/code&gt; 的第二个参数或者是在 &lt;code&gt;.catch&lt;/code&gt; 方法中设置想要调用的函数&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;一般说来，使用 &lt;code&gt;.catch&lt;/code&gt; 来将resolve和reject处理分开来写是比较推荐的做法&lt;/p&gt;
-  &lt;/li&gt;
+&lt;li&gt;&lt;p&gt;被resolve后的处理，可以在 &lt;code&gt;.then&lt;/code&gt; 方法中传入想要调用的函数&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;被reject后的处理，可以在 &lt;code&gt;.then&lt;/code&gt; 的第二个参数或者是在 &lt;code&gt;.catch&lt;/code&gt; 方法中设置想要调用的函数&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;一般说来，使用 &lt;code&gt;.catch&lt;/code&gt; 来将resolve和reject处理分开来写是比较推荐的做法&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;promiseresolve&quot;&gt;Promise.resolve&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;Promise.resolve&lt;/h3&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;静态方法&lt;code&gt;Promise.resolve(value)&lt;/code&gt;可以认为是 &lt;code&gt;new Promise()&lt;/code&gt; 方法的快捷方式&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;比如 &lt;code&gt;Promise.resolve(42);&lt;/code&gt; 可以认为是以下代码的语法糖&lt;/p&gt;
-  &lt;/li&gt;
+&lt;li&gt;&lt;p&gt;静态方法&lt;code&gt;Promise.resolve(value)&lt;/code&gt;可以认为是 &lt;code&gt;new Promise()&lt;/code&gt; 方法的快捷方式&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;比如 &lt;code&gt;Promise.resolve(42);&lt;/code&gt; 可以认为是以下代码的语法糖&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
     &lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;42&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;方法 &lt;code&gt;Promise.resolve(value);&lt;/code&gt; 的返回值也是一个promise对象&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code&gt;Promise.resolve&lt;/code&gt; 方法另一个作用就是将 thenable 对象转换为promise对象。thenable指的是一个具有 &lt;code&gt;.then&lt;/code&gt; 方法的对象。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;除了在编写使用Promise的类库等软件时需要对Thenable有所了解之外，通常作为end-user使用的时候，我们可能不会用到此功能。&lt;/p&gt;
-  &lt;/li&gt;
+&lt;li&gt;&lt;p&gt;方法 &lt;code&gt;Promise.resolve(value);&lt;/code&gt; 的返回值也是一个promise对象&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;Promise.resolve&lt;/code&gt; 方法另一个作用就是将 thenable 对象转换为promise对象。thenable指的是一个具有 &lt;code&gt;.then&lt;/code&gt; 方法的对象。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;除了在编写使用Promise的类库等软件时需要对Thenable有所了解之外，通常作为end-user使用的时候，我们可能不会用到此功能。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;promisereject&quot;&gt;Promise.reject&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;Promise.reject&lt;/h3&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code&gt;Promise.reject(error)&lt;/code&gt; 是和 &lt;code&gt;Promise.resolve(value)&lt;/code&gt; 类似的静态方法&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;比如 &lt;code&gt;Promise.reject(new Error(&quot;出错了&quot;))&lt;/code&gt; 就是下面代码的语法糖形式&lt;/p&gt;
-  &lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;Promise.reject(error)&lt;/code&gt; 是和 &lt;code&gt;Promise.resolve(value)&lt;/code&gt; 类似的静态方法&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;比如 &lt;code&gt;Promise.reject(new Error(&quot;出错了&quot;))&lt;/code&gt; 就是下面代码的语法糖形式&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;reject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
     &lt;span class=&quot;nx&quot;&gt;reject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;出错了&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;promise-2&quot;&gt;Promise只能进行异步操作？&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;Promise只能进行异步操作？&lt;/h3&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;Promise在规范上规定 Promise &lt;strong&gt;只能使用异步调用方式&lt;/strong&gt;。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;即使在调用 &lt;code&gt;promise.then&lt;/code&gt; 注册回调函数的时候promise对象已经是确定的状态，Promise也会以异步的方式调用该回调函数&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;关于这个问题，在 &lt;a href=&quot;http://effectivejs.com/&quot;&gt;Effective JavaScript&lt;/a&gt; 的 &lt;strong&gt;第67项 不要对异步回调函数进行同步调用&lt;/strong&gt; 中也有详细介绍。&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;Promise在规范上规定 Promise &lt;strong&gt;只能使用异步调用方式&lt;/strong&gt;。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;即使在调用 &lt;code&gt;promise.then&lt;/code&gt; 注册回调函数的时候promise对象已经是确定的状态，Promise也会以异步的方式调用该回调函数&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;关于这个问题，在 &lt;a href=&quot;http://effectivejs.com/&quot;&gt;Effective JavaScript&lt;/a&gt; 的 &lt;strong&gt;第67项 不要对异步回调函数进行同步调用&lt;/strong&gt; 中也有详细介绍。&lt;/p&gt;
 
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;p&gt;绝对不能对异步回调函数（即使在数据已经就绪）进行同步调用。&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;如果对异步回调函数进行同步调用的话，处理顺序可能会与预期不符，可能带来意料之外的后果。&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;对异步回调函数进行同步调用，还可能导致栈溢出或异常处理错乱等问题。&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;如果想在将来某时刻调用异步回调函数的话，可以使用 &lt;code&gt;setTimeout&lt;/code&gt; 等异步API。&lt;/p&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;由于Promise保证了每次调用都是以异步方式进行的，所以我们在实际编码中不需要调用 &lt;code&gt;setTimeout&lt;/code&gt; 来自己实现异步调用&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;promisethen&quot;&gt;Promise#then&lt;/h3&gt;
 &lt;ul&gt;
-  &lt;li&gt;promise可以写成方法链的形式&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;绝对不能对异步回调函数（即使在数据已经就绪）进行同步调用。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;如果对异步回调函数进行同步调用的话，处理顺序可能会与预期不符，可能带来意料之外的后果。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;对异步回调函数进行同步调用，还可能导致栈溢出或异常处理错乱等问题。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;如果想在将来某时刻调用异步回调函数的话，可以使用 &lt;code&gt;setTimeout&lt;/code&gt; 等异步API。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;由于Promise保证了每次调用都是以异步方式进行的，所以我们在实际编码中不需要调用 &lt;code&gt;setTimeout&lt;/code&gt; 来自己实现异步调用&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;Promise#then&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;promise可以写成方法链的形式&lt;/li&gt;
+&lt;/ul&gt;
+
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;aPromise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;taskA&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
     &lt;span class=&quot;c1&quot;&gt;// task A&lt;/span&gt;
@@ -1119,12 +1034,15 @@ var content = require(&#39;./content.json&#39;);
     &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;promise-chain-&quot;&gt;promise chain 中如何传递参数&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;promise chain 中如何传递参数&lt;/h3&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;Task A 中 return 的返回值，会在 Task B 执行时传给它&lt;/li&gt;
+&lt;li&gt;Task A 中 return 的返回值，会在 Task B 执行时传给它&lt;/li&gt;
 &lt;/ul&gt;
+
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;doubleUp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
@@ -1146,16 +1064,20 @@ var content = require(&#39;./content.json&#39;);
     &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+
 &lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;Promise#then&lt;/code&gt; 不仅仅是注册一个回调函数那么简单，它还会将回调函数的返回值进行变换，创建并返回一个promise对象。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Promise#then&lt;/code&gt; 不仅仅是注册一个回调函数那么简单，它还会将回调函数的返回值进行变换，创建并返回一个promise对象。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;thenpromise&quot;&gt;每次调用then都会返回一个新创建的promise对象&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;每次调用then都会返回一个新创建的promise对象&lt;/h3&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;then 的错误使用方法&lt;/li&gt;
+&lt;li&gt;then 的错误使用方法&lt;/li&gt;
 &lt;/ul&gt;
+
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;badAsyncCall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;promise&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
@@ -1166,13 +1088,16 @@ var content = require(&#39;./content.json&#39;);
     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+
 &lt;ul&gt;
-  &lt;li&gt;这种写法有很多问题，首先在 &lt;code&gt;promise.then&lt;/code&gt; 中产生的异常不会被外部捕获，此外，也不能得到 then 的返回值，即使其有返回值。
-    &lt;ul&gt;
-      &lt;li&gt;正确的写法&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
+&lt;li&gt;这种写法有很多问题，首先在 &lt;code&gt;promise.then&lt;/code&gt; 中产生的异常不会被外部捕获，此外，也不能得到 then 的返回值，即使其有返回值。
+
+&lt;ul&gt;
+&lt;li&gt;正确的写法&lt;/li&gt;
 &lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;anAsyncCall&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;promise&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
@@ -1182,48 +1107,44 @@ var content = require(&#39;./content.json&#39;);
     &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;promiseall&quot;&gt;promise.all&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;promise.all&lt;/h3&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code&gt;promise.all&lt;/code&gt; 接收一个promise对象的数组作为参数，当这个数组里的所有promise对象全部变为resolve或reject状态的时候，它才会调用&lt;code&gt;.then&lt;/code&gt;方法。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;传递给&lt;code&gt;Promise.all&lt;/code&gt;的promise并不是一个个的顺序执行，而是同时开始、并行执行的。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;每个promise的结果（resolve或reject时传递的参数值），和传递给&lt;code&gt;Promise.all&lt;/code&gt;的promise数组的顺序是一致的。&lt;/p&gt;
-  &lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;promise.all&lt;/code&gt; 接收一个promise对象的数组作为参数，当这个数组里的所有promise对象全部变为resolve或reject状态的时候，它才会调用&lt;code&gt;.then&lt;/code&gt;方法。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;传递给&lt;code&gt;Promise.all&lt;/code&gt;的promise并不是一个个的顺序执行，而是同时开始、并行执行的。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;每个promise的结果（resolve或reject时传递的参数值），和传递给&lt;code&gt;Promise.all&lt;/code&gt;的promise数组的顺序是一致的。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;promiserace&quot;&gt;promise.race&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;promise.race&lt;/h3&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;promise.race&lt;/code&gt;使用方法和&lt;code&gt;Promise.all&lt;/code&gt;一样，接收一个promise对象数组为参数。当数组里只要有一个promise对象进入FulFilled或者Rejected状态，就会继续进行后面的处理。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;promise.race&lt;/code&gt;使用方法和&lt;code&gt;Promise.all&lt;/code&gt;一样，接收一个promise对象数组为参数。当数组里只要有一个promise对象进入FulFilled或者Rejected状态，就会继续进行后面的处理。&lt;/li&gt;
 &lt;/ul&gt;
+
 
 &lt;p&gt;-当一个promise变为确定(FulFilled)状态后，并不会取消其他promise对象的执行。&lt;/p&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;then-or-catch&quot;&gt;then or catch&lt;/h3&gt;
+&lt;h3&gt;then or catch&lt;/h3&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;使用&lt;code&gt;promise.then(onFulfilled, onRejacted)&lt;/code&gt;的话，在&lt;code&gt;onFulfilled&lt;/code&gt;中发生异常的话，在&lt;code&gt;onRejected&lt;/code&gt;中是捕获不到这个异常的。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;在&lt;code&gt;promise.then(onFulfilled).catch(onRejected)&lt;/code&gt;的情况下，&lt;code&gt;then&lt;/code&gt;中产生的异常能在.&lt;code&gt;catch&lt;/code&gt;中捕获&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code&gt;.then&lt;/code&gt;和&lt;code&gt;.catch&lt;/code&gt;在本质上是没有区别的，需要注意分场合使用。&lt;/p&gt;
-  &lt;/li&gt;
+&lt;li&gt;&lt;p&gt;使用&lt;code&gt;promise.then(onFulfilled, onRejacted)&lt;/code&gt;的话，在&lt;code&gt;onFulfilled&lt;/code&gt;中发生异常的话，在&lt;code&gt;onRejected&lt;/code&gt;中是捕获不到这个异常的。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;在&lt;code&gt;promise.then(onFulfilled).catch(onRejected)&lt;/code&gt;的情况下，&lt;code&gt;then&lt;/code&gt;中产生的异常能在.&lt;code&gt;catch&lt;/code&gt;中捕获&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;.then&lt;/code&gt;和&lt;code&gt;.catch&lt;/code&gt;在本质上是没有区别的，需要注意分场合使用。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;section&quot;&gt;来源：&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;来源：&lt;/h3&gt;
+
 &lt;p&gt;&lt;a href=&quot;http://liubin.org/promises-book/&quot; target=&quot;_blank&quot;&gt;JavaScript Promise迷你书（中文版）&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 19 Nov 2016 04:59:51 +0800</pubDate>
@@ -1237,176 +1158,149 @@ var content = require(&#39;./content.json&#39;);
     
       <item>
         <title>ES6学习-解构赋值</title>
-        <description>&lt;h3 id=&quot;section&quot;&gt;基本用法&lt;/h3&gt;
+        <description>&lt;h3&gt;基本用法&lt;/h3&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;从数组和对象中提取值，对变量进行赋值，这称为解构
+&lt;li&gt;&lt;p&gt;从数组和对象中提取值，对变量进行赋值，这称为解构
 &lt;code&gt;
 var  [a, b, c] = [1, 2, 3];
-&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;如果解构不成功，变量的值就等于 &lt;code&gt;undefined&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;另一种情况是不完全解构，部分变量赋值成功，部分不成功&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Set结构也可以使用数组的解构赋值&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;某种数据结构具有&lt;code&gt;Iterator接口&lt;/code&gt;，都可以采用数组形式的解构赋值&lt;/p&gt;
-  &lt;/li&gt;
+&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;如果解构不成功，变量的值就等于 &lt;code&gt;undefined&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;另一种情况是不完全解构，部分变量赋值成功，部分不成功&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Set结构也可以使用数组的解构赋值&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;某种数据结构具有&lt;code&gt;Iterator接口&lt;/code&gt;，都可以采用数组形式的解构赋值&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;section-1&quot;&gt;默认值&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;默认值&lt;/h3&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;解构赋值允许指定默认值
+&lt;li&gt;&lt;p&gt;解构赋值允许指定默认值
 &lt;code&gt;
 var [foo = true] = []; // foo = true
-&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;如果一个数组成员不严格等于（===）undefined，默认值不会生效&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;默认值可以引用解构赋值的其他变量，但变量必须已经声明&lt;/p&gt;
-  &lt;/li&gt;
+&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;如果一个数组成员不严格等于（===）undefined，默认值不会生效&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;默认值可以引用解构赋值的其他变量，但变量必须已经声明&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;section-2&quot;&gt;对象的解构赋值&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;对象的解构赋值&lt;/h3&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;数组的元素是按次序排列的，变量的值由它的位置决定，而对象属性必须与变量同名，才能取到正确的值&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;如果变量名与属性不一致，必须写成下面的样子&lt;/p&gt;
-  &lt;/li&gt;
+&lt;li&gt;&lt;p&gt;数组的元素是按次序排列的，变量的值由它的位置决定，而对象属性必须与变量同名，才能取到正确的值&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;如果变量名与属性不一致，必须写成下面的样子&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;obj&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;first&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;helo&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;last&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;world&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
 &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;first&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;last&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;l&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;obj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// &amp;#39;helo&amp;#39;&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;l&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// &amp;#39;world&amp;#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+
 &lt;ul&gt;
-  &lt;li&gt;也就是说，对象的解构赋值的内部机制，是先找到同名属性，然后再赋给对应的变量。真正被赋值的是后者，而不是前者
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;p&gt;采用这种写法时，变量的声明和赋值是一体的&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;对于&lt;code&gt;let&lt;/code&gt;和&lt;code&gt;const&lt;/code&gt;来说，变量不能重新声明，所以一旦赋值的变量以前声明过，就会报错&lt;/p&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
+&lt;li&gt;也就是说，对象的解构赋值的内部机制，是先找到同名属性，然后再赋给对应的变量。真正被赋值的是后者，而不是前者
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;采用这种写法时，变量的声明和赋值是一体的&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;对于&lt;code&gt;let&lt;/code&gt;和&lt;code&gt;const&lt;/code&gt;来说，变量不能重新声明，所以一旦赋值的变量以前声明过，就会报错&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// SyntaxError: Duplicate declaration &amp;quot;foo&amp;quot;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 成功；注意这里的大括号的必须的&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;section-3&quot;&gt;字符串的解构赋值&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;字符串的解构赋值&lt;/h3&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;hello&amp;#39;&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// &amp;#39;h&amp;#39; &lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// &amp;#39;e&amp;#39;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;section-4&quot;&gt;数值和布尔值的解构赋值&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;数值和布尔值的解构赋值&lt;/h3&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;如果等号的右边是数值和布尔值，则会先转为对象&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;由于undefined和null无法转为对象，所以对它们进行解构赋值，都会报错&lt;/p&gt;
-  &lt;/li&gt;
+&lt;li&gt;&lt;p&gt;如果等号的右边是数值和布尔值，则会先转为对象&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;由于undefined和null无法转为对象，所以对它们进行解构赋值，都会报错&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;section-5&quot;&gt;函数参数的解构赋值&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;函数参数的解构赋值&lt;/h3&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+
 &lt;ul&gt;
-  &lt;li&gt;函数add参数表面上是一个数组，但是传入参数的那一刻，参数数组被解构成变量x和y。函数内部感受到的参数就是x和y&lt;/li&gt;
+&lt;li&gt;函数add参数表面上是一个数组，但是传入参数的那一刻，参数数组被解构成变量x和y。函数内部感受到的参数就是x和y&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;section-6&quot;&gt;圆括号问题&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;圆括号问题&lt;/h3&gt;
+
 &lt;ul&gt;
-  &lt;li&gt;对于编译器来说，一个式子到底是模式，还是表达式，没有办法从一开始就知道，必须解析到（或解析不到）等号才能知道。由此带来的问题是，如果模式中出现圆括号怎么处理。
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;p&gt;只要有可能，就不要在模式中放置圆括号。&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;在变量声明语句中，不能带有圆括号&lt;code&gt;var [(a)] = [1];&lt;/code&gt;&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;函数参数中，模式不能带有圆括号&lt;code&gt;function f([(z)]) { return z;}&lt;/code&gt;&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;赋值语句中，不能将整个模式，或嵌套模式中的一层，放在圆括号之中&lt;/p&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
+&lt;li&gt;对于编译器来说，一个式子到底是模式，还是表达式，没有办法从一开始就知道，必须解析到（或解析不到）等号才能知道。由此带来的问题是，如果模式中出现圆括号怎么处理。
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;只要有可能，就不要在模式中放置圆括号。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;在变量声明语句中，不能带有圆括号&lt;code&gt;var [(a)] = [1];&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;函数参数中，模式不能带有圆括号&lt;code&gt;function f([(z)]) { return z;}&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;赋值语句中，不能将整个模式，或嵌套模式中的一层，放在圆括号之中&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;({ p: a }) = { p: 42 };&lt;/code&gt;
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;p&gt;可以使用圆括号的情况只有一种：赋值语句的非模式部分，可以使用圆括&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;&lt;code&gt;[(b)] = [3]; // 正确&lt;/code&gt;&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;&lt;code&gt;({ p: (d) } = {}); // 正确&lt;/code&gt;&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;首先它们都是赋值语句，而不是声明语句&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;其次它们的圆括号都不属于模式的一部分&lt;/p&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
+&lt;li&gt;&lt;code&gt;({ p: a }) = { p: 42 };&lt;/code&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;可以使用圆括号的情况只有一种：赋值语句的非模式部分，可以使用圆括&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;[(b)] = [3]; // 正确&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;({ p: (d) } = {}); // 正确&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;首先它们都是赋值语句，而不是声明语句&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;其次它们的圆括号都不属于模式的一部分&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;section-7&quot;&gt;用途&lt;/h3&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h3&gt;用途&lt;/h3&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;交换变量的值
+&lt;li&gt;交换变量的值
 &lt;code&gt;[x, y] = [y, x];&lt;/code&gt;
-    &lt;ul&gt;
-      &lt;li&gt;从函数返回多个值&lt;/li&gt;
-      &lt;li&gt;函数参数的定义&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
+
+&lt;ul&gt;
+&lt;li&gt;从函数返回多个值&lt;/li&gt;
+&lt;li&gt;函数参数的定义&lt;/li&gt;
 &lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// 参数是一组有次序的值&lt;/span&gt;
 &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
@@ -1415,11 +1309,13 @@ var [foo = true] = []; // foo = true
 &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;提取JSON数据&lt;/li&gt;
+&lt;li&gt;提取JSON数据&lt;/li&gt;
 &lt;/ul&gt;
+
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;jsonData&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;42&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
@@ -1429,11 +1325,13 @@ var [foo = true] = []; // foo = true
 &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;status&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;jsonData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;status&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 42, &amp;quot;OK&amp;quot;, [867, 5309]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;函数参数的默认值&lt;/li&gt;
+&lt;li&gt;函数参数的默认值&lt;/li&gt;
 &lt;/ul&gt;
+
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;jQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ajax&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;nx&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
@@ -1447,16 +1345,19 @@ var [foo = true] = []; // foo = true
     &lt;span class=&quot;c1&quot;&gt;// ... do stuff&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;遍历Map结构
-    &lt;ul&gt;
-      &lt;li&gt;输入模块的指定方法
-  &lt;code&gt;const { SourceMapConsumer, SourceNode } = require(&quot;source-map&quot;);&lt;/code&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
+&lt;li&gt;遍历Map结构
+
+&lt;ul&gt;
+&lt;li&gt;输入模块的指定方法
+&lt;code&gt;const { SourceMapConsumer, SourceNode } = require(&quot;source-map&quot;);&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
 </description>
         <pubDate>Thu, 17 Nov 2016 04:11:51 +0800</pubDate>
         <link>http://jerry9926.github.io/javascript/2016/11/17/ES6%E5%AD%A6%E4%B9%A0-%E8%A7%A3%E6%9E%84%E8%B5%8B%E5%80%BC.html</link>
@@ -1480,15 +1381,18 @@ var [foo = true] = []; // foo = true
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;viewportwidth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerWidth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;viewportheight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerHeight&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+
 &lt;p&gt;&lt;strong&gt;IE6&lt;/strong&gt;&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;viewportwidth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;documentElement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;clientWidth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;viewportheight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;documentElement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;clientHeight&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+
 &lt;p&gt;&lt;strong&gt;IE6以下&lt;/strong&gt;&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;viewportwidth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementsByTagName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;body&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;clientWidth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;viewportheight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementsByTagName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;body&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;clientHeight&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 
 &lt;p&gt;可以使用以下方法&lt;/p&gt;
 
@@ -1502,6 +1406,7 @@ var [foo = true] = []; // foo = true
     &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Width&amp;#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;height&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Height&amp;#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 
 &lt;p&gt;长版：&lt;/p&gt;
 
@@ -1534,6 +1439,7 @@ var [foo = true] = []; // foo = true
        &lt;span class=&quot;nx&quot;&gt;viewportheight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementsByTagName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;body&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;clientHeight&lt;/span&gt;
  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+
 &lt;p&gt;参考：&lt;a href=&quot;https://andylangton.co.uk/blog/development/get-viewportwindow-size-width-and-height-javascript&quot; target=&quot;_blank&quot;&gt;get-viewportwindow-size-width-and-height-javascript&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Wed, 17 Feb 2016 17:54:34 +0800</pubDate>
@@ -1547,42 +1453,47 @@ var [foo = true] = []; // foo = true
     
       <item>
         <title>CSS布局核心概念：盒模型</title>
-        <description>&lt;h1 id=&quot;section&quot;&gt;盒模型&lt;/h1&gt;
+        <description>&lt;h1&gt;盒模型&lt;/h1&gt;
+
 &lt;p&gt;页面上的每一个元素被看做一个矩形框，这个框由&lt;code&gt;内容&lt;/code&gt;、&lt;code&gt;内边距&lt;/code&gt;、&lt;code&gt;边框&lt;/code&gt;、&lt;code&gt;外边距&lt;/code&gt;组成。&lt;/p&gt;
 
-&lt;h3 id=&quot;section-1&quot;&gt;内边距&lt;/h3&gt;
+&lt;h3&gt;内边距&lt;/h3&gt;
+
 &lt;p&gt;如果元素添加背景，背景显示在内容和内边距上面。&lt;/p&gt;
 
-&lt;h3 id=&quot;section-2&quot;&gt;外边距&lt;/h3&gt;
+&lt;h3&gt;外边距&lt;/h3&gt;
+
 &lt;p&gt;外边距是透明的，用来控制元素之间的间隔。外边距可以是负值。&lt;/p&gt;
 
-&lt;h3 id=&quot;collapsing-margins-&quot;&gt;外边距重叠( Collapsing margins )&lt;/h3&gt;
+&lt;h3&gt;外边距重叠( Collapsing margins )&lt;/h3&gt;
+
 &lt;p&gt;解释：指的是&lt;code&gt;毗邻&lt;/code&gt;的两个或多个外边距 (margin) 会合并成一个外边距。
 其中所说的 margin 毗邻，可以归结为以下两点：
 -这两个或多个外边距没有被&lt;code&gt;非空内容&lt;/code&gt;、&lt;code&gt;padding&lt;/code&gt;、&lt;code&gt;border&lt;/code&gt; 或 &lt;code&gt;clear&lt;/code&gt; 分隔开。
 -这些 margin 都处于普通流中。&lt;code&gt;行内框(inline-block)&lt;/code&gt;、&lt;code&gt;浮动框(float)&lt;/code&gt;、&lt;code&gt;绝对定位框(absolute/fixed)&lt;/code&gt;之间的外边距不会重叠。&lt;/p&gt;
 
-&lt;h4 id=&quot;section-3&quot;&gt;垂直方向&lt;/h4&gt;
+&lt;h4&gt;垂直方向&lt;/h4&gt;
+
 &lt;p&gt;是指具体的方位，只有&lt;code&gt;垂直方向&lt;/code&gt;的 margin 才会重叠，也就是说，水平方向的 margin 不会发生重叠象。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;1、当两个或者更多的垂直外边距相遇时，它们发生重叠，这时外边距的高度等于两个叠加的外边距之中高度较大者的高度。&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;如图：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/images/css_core_concept_box_model_1.png&quot; alt=&quot;示例图片&quot; width=&quot;60%&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/css_core_concept_box_model_1.png&quot; alt=&quot;示例图片&quot; width=&quot;60%&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;2、当一个元素包含在另一个元素中时，如果没有内边距和边框将两者的外边距隔开，它们的上外边距/下外边距会发生叠加。&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;如图：&lt;br /&gt;
-&lt;img src=&quot;/assets/images/css_core_concept_box_model_2.png&quot; alt=&quot;示例图片&quot; width=&quot;60%&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;如图：&lt;br/&gt;
+&lt;img src=&quot;/assets/images/css_core_concept_box_model_2.png&quot; alt=&quot;示例图片&quot; width=&quot;60%&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;3、如果有一个元素，没有内容、内边距、边框，有上下边距，这是上外边距和下外边距碰到一起，也会发生重叠。&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;如图：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/images/css_core_concept_box_model_3.png&quot; alt=&quot;示例图片&quot; width=&quot;60%&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/css_core_concept_box_model_3.png&quot; alt=&quot;示例图片&quot; width=&quot;60%&quot;&gt;&lt;/p&gt;
 
-&lt;h4 id=&quot;margin-&quot;&gt;折叠后 margin 的计算&lt;/h4&gt;
+&lt;h4&gt;折叠后 margin 的计算&lt;/h4&gt;
 
 &lt;p&gt;&lt;strong&gt;1、 参与折叠的 margin 都是正值：&lt;code&gt;取其中 margin 较大的值为最终 margin 值&lt;/code&gt;。&lt;/strong&gt;&lt;/p&gt;
 
@@ -1591,6 +1502,7 @@ var [foo = true] = []; // foo = true
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;height:50px; margin-bottom:50px; width:50px; background-color: red;&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;A&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;height:50px; margin-top:100px; width:50px; background-color: green;&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;B&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+
 &lt;p&gt;&lt;strong&gt;2、参与折叠的 margin 都是负值：&lt;code&gt;取的是其中绝对值较大的，然后，从 0 位置，负向位移&lt;/code&gt;。&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;例子：&lt;/p&gt;
@@ -1598,9 +1510,10 @@ var [foo = true] = []; // foo = true
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;height:100px; margin-bottom:-75px; width:100px; background-color: red;&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;A&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;height:100px; margin-top:-50px; margin-left:50px; width:100px; background-color: green;&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;B&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+
 &lt;p&gt;如图：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/images/css_core_concept_box_model_4.png&quot; alt=&quot;示例图片&quot; width=&quot;60%&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/css_core_concept_box_model_4.png&quot; alt=&quot;示例图片&quot; width=&quot;60%&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;3、参与折叠的 margin 中有正值，有负值：&lt;code&gt;先取出负 margin 中绝对值中最大的，然后，和正 margin 值中最大的 margin 相加&lt;/code&gt;。&lt;/strong&gt;&lt;/p&gt;
 
@@ -1609,9 +1522,10 @@ var [foo = true] = []; // foo = true
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;height:50px; margin-bottom:-50px; width:50px; background-color: red;&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;A&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;height:50px; margin-top:100px; width:50px; background-color: green;&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;B&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+
 &lt;p&gt;如图：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/images/css_core_concept_box_model_5.png&quot; alt=&quot;示例图片&quot; width=&quot;60%&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/css_core_concept_box_model_5.png&quot; alt=&quot;示例图片&quot; width=&quot;60%&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;上面的例子最终的 margin 应该是 &lt;code&gt;100 + (-50) = 50px&lt;/code&gt;。&lt;/p&gt;
 
@@ -1633,6 +1547,7 @@ var [foo = true] = []; // foo = true
     &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+
 &lt;p&gt;错误的计算方式：算 A 和 B 之间的 margin，分别算 A 和其父元素的折叠，然后与其父元素的父元素的折叠，这个值算出来之后，应该是 90px。依此法算出 B 的为 80px；然后，A和B折叠，margin 为 90px。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;请注意，多个 margin 相邻折叠成一个 margin，所以计算的时候，应该取所有相关的值一起计算，而不能分开分步来算。&lt;/strong&gt;&lt;/p&gt;
@@ -1645,7 +1560,7 @@ var [foo = true] = []; // foo = true
 
 &lt;p&gt;根据有正有负时的计算规则，正值的最大值为 200px，负值中绝对值最大的是 -120px，所以，最终折叠后的 margin 应该是 &lt;code&gt;200 + (-120) = 80px&lt;/code&gt;。&lt;/p&gt;
 
-&lt;h4 id=&quot;block-format-context-margin-&quot;&gt;创建了块级格式化上下文(block format context)的元素，不和它的子元素发生 margin 折叠&lt;/h4&gt;
+&lt;h4&gt;创建了块级格式化上下文(block format context)的元素，不和它的子元素发生 margin 折叠&lt;/h4&gt;
 
 &lt;p&gt;以 “overflow : hidden” 的元素为例：&lt;/p&gt;
 
@@ -1653,22 +1568,24 @@ var [foo = true] = []; // foo = true
     &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;margin-top:50px; background-color:gold;&amp;quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;B&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id=&quot;section-4&quot;&gt;边框&lt;/h3&gt;
+
+&lt;h3&gt;边框&lt;/h3&gt;
+
 &lt;p&gt;&lt;strong&gt;CSS2.1有outline属性性，与border不同，轮廓绘制在元素框之上，不影响定位。&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;CSS3的box-sizing属性可以定义要使用哪一种盒模型。&lt;/strong&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;section-5&quot;&gt;来源：&lt;/h3&gt;
+&lt;h3&gt;来源：&lt;/h3&gt;
+
 &lt;p&gt;《精通CSS》&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;http://www.w3help.org/zh-cn/kb/006/&quot; target=&quot;_blank&quot;&gt;KB006: CSS 框模型( Box module )&lt;/a&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;section-6&quot;&gt;延伸阅读：&lt;/h3&gt;
+&lt;h3&gt;延伸阅读：&lt;/h3&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context&quot; target=&quot;_blank&quot;&gt;块级格式化上下文&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;http://kayosite.com/block-formatting-contexts-in-detail.html&quot; target=&quot;_blank&quot;&gt;详说 Block Formatting Contexts (块级格式化上下文)&lt;/a&gt;&lt;/p&gt;
-
 </description>
         <pubDate>Fri, 05 Feb 2016 19:23:34 +0800</pubDate>
         <link>http://jerry9926.github.io/css/2016/02/05/CSS%E5%B8%83%E5%B1%80%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%EF%BC%9A%E7%9B%92%E6%A8%A1%E5%9E%8B.html</link>
@@ -1686,7 +1603,8 @@ var [foo = true] = []; // foo = true
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;&lt;span class=&quot;n&quot;&gt;FirstItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Attribute1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SecondItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Attribute2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Multiplier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Constant&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;firstItem的属性等于secondItem的属性乘以比例加上约束的值。&lt;br /&gt;
+
+&lt;p&gt;firstItem的属性等于secondItem的属性乘以比例加上约束的值。&lt;br/&gt;
 这个定义其实我们都是知道的了。需要注意的是，我们一直关注的就是两个约束之间的关系，但是还有一个重要的信息没有关注的。就是&lt;code&gt;firstItem是等号左边的值&lt;/code&gt;，也就是说通过这个约束，&lt;code&gt;根据secondItem的属性（比例和约束值）可以得到firstItem的属性&lt;/code&gt;。&lt;/p&gt;
 
 &lt;p&gt;这个结论对实际问题有什么影响呢。就在今天遇到的一个问题就有关系。说一下这个场景。
@@ -1699,11 +1617,12 @@ var [foo = true] = []; // foo = true
 &lt;p&gt;图片的约束设置：也是有上下左右的约束，并且有一个比例的约束，如图：
 &lt;img src=&quot;http://jerry9926.github.io/assets/images/fisrtItemAndSecondItem_3.jpg&quot; alt=&quot;示例图片&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;就是这样的设置，看起来是没有问题的。&lt;br /&gt;
+&lt;p&gt;就是这样的设置，看起来是没有问题的。&lt;br/&gt;
 这个UITableviewCell的显示的过程，就是先要确定高度，然后再渲染内容。
 那根据现在的约束是不是可以正确的计算出高度呢。计算高度是使用系统的方法：&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cell&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;contentView&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;systemLayoutSizeFittingSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UILayoutFittingCompressedSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 
 &lt;p&gt;计算高度前就做了必要的设置：&lt;/p&gt;
 
@@ -1714,7 +1633,8 @@ var [foo = true] = []; // foo = true
 &lt;span class=&quot;c1&quot;&gt;// 设置图片&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bbsImageView&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;setImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:[&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;UIImage&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;imageNamed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&amp;quot;bg_bbs_read_topic&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]];&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;这个时候就发现一个问题啊。就是图片是网络上面加载的图片，这有一个异步的过程，现在设置只是开始下载，&lt;code&gt;图片还没有真正设置上去。那图片的显示会正常吗？&lt;/code&gt;&lt;br /&gt;
+
+&lt;p&gt;这个时候就发现一个问题啊。就是图片是网络上面加载的图片，这有一个异步的过程，现在设置只是开始下载，&lt;code&gt;图片还没有真正设置上去。那图片的显示会正常吗？&lt;/code&gt;&lt;br/&gt;
 一开始的时候，并没有好的思路，先随便加载了一张本地的图片，hack了这个问题。
 但是，其实还有一个更根本的问题就是，&lt;code&gt;这里图片不设置就不能正常显示吗？毕竟图片是设置了足够多的约束的。&lt;/code&gt;&lt;/p&gt;
 </description>
@@ -1742,16 +1662,18 @@ var [foo = true] = []; // foo = true
     
       <item>
         <title>单例的两种写法</title>
-        <description>&lt;p&gt;&lt;strong&gt;第一种，使用GCD，利用dispatch_once方法。&lt;/strong&gt;&lt;br /&gt;
+        <description>&lt;p&gt;&lt;strong&gt;第一种，使用GCD，利用dispatch_once方法。&lt;/strong&gt;&lt;br/&gt;
 dispatch_once函数如下：&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;dispatch_once&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;dispatch_once_t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predicate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;dispatch_block_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;block&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 
 &lt;p&gt;&lt;code&gt;dispatch_once&lt;/code&gt;接收两个参数，一个是&lt;code&gt;dispatch_once_t&lt;/code&gt;，一个是&lt;code&gt;块参数&lt;/code&gt;。对于给定的&lt;code&gt;predicate&lt;/code&gt;，该函数保证相关代码块必定会执行，并且只执行一次，最重要的是这个方法是线程安全的。注意，对于只执行一次的块，传入的&lt;code&gt;predicate&lt;/code&gt;必须是完全相同的，所以&lt;code&gt;predicate&lt;/code&gt;常常会用&lt;code&gt;static&lt;/code&gt;或者&lt;code&gt;global&lt;/code&gt;来修饰。&lt;/p&gt;
 
 &lt;p&gt;MyClass.h&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;&lt;span class=&quot;p&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shareManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 
 &lt;p&gt;MyClass.m&lt;/p&gt;
 
@@ -1765,7 +1687,8 @@ dispatch_once函数如下：&lt;/p&gt;
      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shareMyClass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;strong&gt;第二种，不使用GCD&lt;/strong&gt;&lt;br /&gt;
+
+&lt;p&gt;&lt;strong&gt;第二种，不使用GCD&lt;/strong&gt;&lt;br/&gt;
 MyClass.m&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;&lt;span class=&quot;p&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shareManager&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -1778,76 +1701,16 @@ MyClass.m&lt;/p&gt;
      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shareMyClass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+
 &lt;p&gt;使用GCD的好处就是&lt;code&gt;dispatch_once&lt;/code&gt;就确保了代码只会运行一次，并且不需要考虑线程安全的问题，因为GCD自己已经确保了线程的安全。&lt;/p&gt;
 
-&lt;p&gt;参考文章：&lt;br /&gt;
-&lt;a href=&quot;http://www.galloway.me.uk/tutorials/singleton-classes/&quot; title=&quot;参考文章&quot;&gt;http://www.galloway.me.uk/tutorials/singleton-classes/&lt;/a&gt;&lt;br /&gt;
+&lt;p&gt;参考文章：&lt;br/&gt;
+&lt;a href=&quot;http://www.galloway.me.uk/tutorials/singleton-classes/&quot; title=&quot;参考文章&quot;&gt;http://www.galloway.me.uk/tutorials/singleton-classes/&lt;/a&gt;&lt;br/&gt;
 &lt;a href=&quot;http://blog.csdn.net/sakulafly/article/details/34948689&quot; title=&quot;参考文章&quot;&gt;http://blog.csdn.net/sakulafly/article/details/34948689&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 14 May 2015 19:11:51 +0800</pubDate>
         <link>http://jerry9926.github.io/ios/2015/05/14/%E5%8D%95%E4%BE%8B%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%86%99%E6%B3%95.html</link>
         <guid isPermaLink="true">http://jerry9926.github.io/ios/2015/05/14/%E5%8D%95%E4%BE%8B%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%86%99%E6%B3%95.html</guid>
-        
-        
-        <category>ios</category>
-        
-      </item>
-    
-      <item>
-        <title>利用NSSortDescriptor给NSArray排序</title>
-        <description>&lt;p&gt;利用&lt;code&gt;NSSortDescriptor&lt;/code&gt;排序，可以对数组里面的对象的某一个属性来进行排序。&lt;/p&gt;
-
-&lt;p&gt;NSSortDescriptor的组成，&lt;code&gt;key&lt;/code&gt;建，&lt;code&gt;ascending&lt;/code&gt;升序。另外还有一个属性，关于排序的值之间的比较，这是一个可选参数。默认情况下， 是一个简单的对比排序，也可以通过一个选择器（&lt;code&gt;SEL&lt;/code&gt;）或者比较器（&lt;code&gt;NSComparator&lt;/code&gt;）而发生改变。
-*任何时候当你在为面向用户的字符串排序时，一定要加入&lt;code&gt;localizedStandardCompare:&lt;/code&gt;选择器，它将根据当前语言环境的语言规则进行排序（语言环境可能会根据大小写，变音符号等等的顺序而发生改变）。&lt;/p&gt;
-
-&lt;p&gt;假设有一组数据，反应投票的情况，voteInfo，有投票人(NSString *)name、投票时间(NSInteger)time、投票结果(BOOL)result&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;&lt;span class=&quot;bp&quot;&gt;NSArray&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;names&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;l&quot;&gt;@[&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;@&amp;quot;Alice&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;@&amp;quot;Bob&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;@&amp;quot;Charlie&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;@&amp;quot;Quentin&amp;quot;&lt;/span&gt; &lt;span class=&quot;l&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;bp&quot;&gt;NSArray&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;times&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;l&quot;&gt;@[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;@1420041600&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;@1420128000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;@1420214400&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;@1420300800&lt;/span&gt; &lt;span class=&quot;l&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;bp&quot;&gt;NSArray&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;results&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;l&quot;&gt;@[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;@1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;@0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;@0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;@1&lt;/span&gt; &lt;span class=&quot;l&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;bp&quot;&gt;NSMutableArray&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;voteArray&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;NSMutableArray&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;names&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;enumerateObjectsUsingBlock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;^&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;obj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSUInteger&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;idx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;BOOL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;VoteInfo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;voteInfo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;VoteInfo&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;alloc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;voteInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;names&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;objectAtIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;idx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;voteInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;time&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;times&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;objectAtIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;idx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;voteInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;results&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;objectAtIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;idx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;voteArray&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;addObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;voteInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}];&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// 以名字升序排列&lt;/span&gt;
-&lt;span class=&quot;bp&quot;&gt;NSSortDescriptor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nameSortDescriptor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;NSSortDescriptor&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;sortDescriptorWithKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&amp;quot;name&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;nl&quot;&gt;ascending&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;YES&lt;/span&gt;
-&lt;span class=&quot;nl&quot;&gt;selector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;@selector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;localizedStandardCompare&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:)];&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&amp;quot;以名字升序排列: %@&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;voteArray&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;sortedArrayUsingDescriptors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;l&quot;&gt;@[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nameSortDescriptor&lt;/span&gt;&lt;span class=&quot;l&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// &amp;quot;Alice&amp;quot;, &amp;quot;Bob&amp;quot;, &amp;quot;Charlie&amp;quot;, &amp;quot;Quentin&amp;quot;&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// 以时间降序排列&lt;/span&gt;
-&lt;span class=&quot;bp&quot;&gt;NSSortDescriptor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;timeSortDescriptor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;NSSortDescriptor&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;sortDescriptorWithKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&amp;quot;time&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;nl&quot;&gt;ascending&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;NO&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&amp;quot;以时间降序排列: %@&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;voteArray&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;sortedArrayUsingDescriptors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;l&quot;&gt;@[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;timeSortDescriptor&lt;/span&gt;&lt;span class=&quot;l&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// 1420300800, 1420214400, 1420128000, 1420041600&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;NSSortDescriptor仅对&lt;code&gt;NSSet&lt;/code&gt;、&lt;code&gt;NSArray&lt;/code&gt;、&lt;code&gt;NSMutableArray&lt;/code&gt;可以排序，需要注意的是&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;NSSet&lt;/strong&gt;&lt;br /&gt;
-&lt;code&gt;- (NSArray *)sortedArrayUsingDescriptors:(NSArray *)sortDescriptors;&lt;/code&gt; 这是对NSSet排序，返回一个NSArray。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;NSArray&lt;/strong&gt;&lt;br /&gt;
-&lt;code&gt;- (NSArray *)sortedArrayUsingDescriptors:(NSArray *)sortDescriptors;&lt;/code&gt; 这是对NSArray排序，返回一个新的NSArray，注意内存泄漏。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;NSMutableArray&lt;/strong&gt;&lt;br /&gt;
-&lt;code&gt;- (void)sortUsingDescriptors:(NSArray *)sortDescriptors;&lt;/code&gt; 这是NSMutableArray排序，没有返回值。&lt;/p&gt;
-
-&lt;p&gt;参考文章：&lt;br /&gt;
-&lt;a href=&quot;http://nshipster.cn/nssortdescriptor/&quot; title=&quot;参考文章&quot;&gt;http://nshipster.cn/nssortdescriptor/&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&quot;http://www.cnblogs.com/wuwangchuxin/p/3759141.html&quot; title=&quot;参考文章&quot;&gt;http://www.cnblogs.com/wuwangchuxin/p/3759141.html&lt;/a&gt;&lt;/p&gt;
-</description>
-        <pubDate>Wed, 06 May 2015 18:11:51 +0800</pubDate>
-        <link>http://jerry9926.github.io/ios/2015/05/06/%E5%88%A9%E7%94%A8NSSortDescriptor%E7%BB%99NSArray%E6%8E%92%E5%BA%8F.html</link>
-        <guid isPermaLink="true">http://jerry9926.github.io/ios/2015/05/06/%E5%88%A9%E7%94%A8NSSortDescriptor%E7%BB%99NSArray%E6%8E%92%E5%BA%8F.html</guid>
-        
-        <category>NSArray</category>
         
         
         <category>ios</category>
