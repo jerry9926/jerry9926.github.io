@@ -2,7 +2,8 @@
 layout: post
 title:  "Jekyll常用命令备忘"
 date:   2015-04-17 16:52:51
-categories: jekyll 
+categories: 工具
+tags: jekyll
 ---
 
 **基本用法**  <a href="http://jekyllcn.com/docs/usage/" target="_blank" title="命令参考">[参考]</a>

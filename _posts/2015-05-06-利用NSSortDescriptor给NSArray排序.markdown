@@ -3,7 +3,7 @@ layout: post
 title: 	"利用NSSortDescriptor给NSArray排序"
 date: 	2015-05-06 10:11:51
 categories: iOS
-tag: NSArray
+tags: NSArray
 ---
 
 利用`NSSortDescriptor`排序，可以对数组里面的对象的某一个属性来进行排序。
