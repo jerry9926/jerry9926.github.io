@@ -36,8 +36,8 @@
           posts">ios 6</a>
           </li>
           
-          <li><a href="/工具/" title="view all
-          posts">工具 3</a>
+          <li><a href="/jekyll/" title="view all
+          posts">jekyll 1</a>
           </li>
           
           <li><a href="/css/" title="view all
@@ -46,6 +46,14 @@
           
           <li><a href="/javascript/" title="view all
           posts">javascript 3</a>
+          </li>
+          
+          <li><a href="/webpack/" title="view all
+          posts">webpack 1</a>
+          </li>
+          
+          <li><a href="/工具/" title="view all
+          posts">工具 1</a>
           </li>
           
         </ul>
@@ -61,47 +69,42 @@
   </header>
 
   <article class="post-content">
-    <h1>盒模型</h1>
-
+    <h1 id="section">盒模型</h1>
 <p>页面上的每一个元素被看做一个矩形框，这个框由<code>内容</code>、<code>内边距</code>、<code>边框</code>、<code>外边距</code>组成。</p>
 
-<h3>内边距</h3>
-
+<h3 id="section-1">内边距</h3>
 <p>如果元素添加背景，背景显示在内容和内边距上面。</p>
 
-<h3>外边距</h3>
-
+<h3 id="section-2">外边距</h3>
 <p>外边距是透明的，用来控制元素之间的间隔。外边距可以是负值。</p>
 
-<h3>外边距重叠( Collapsing margins )</h3>
-
+<h3 id="collapsing-margins-">外边距重叠( Collapsing margins )</h3>
 <p>解释：指的是<code>毗邻</code>的两个或多个外边距 (margin) 会合并成一个外边距。
 其中所说的 margin 毗邻，可以归结为以下两点：
 -这两个或多个外边距没有被<code>非空内容</code>、<code>padding</code>、<code>border</code> 或 <code>clear</code> 分隔开。
 -这些 margin 都处于普通流中。<code>行内框(inline-block)</code>、<code>浮动框(float)</code>、<code>绝对定位框(absolute/fixed)</code>之间的外边距不会重叠。</p>
 
-<h4>垂直方向</h4>
-
+<h4 id="section-3">垂直方向</h4>
 <p>是指具体的方位，只有<code>垂直方向</code>的 margin 才会重叠，也就是说，水平方向的 margin 不会发生重叠象。</p>
 
 <p><strong>1、当两个或者更多的垂直外边距相遇时，它们发生重叠，这时外边距的高度等于两个叠加的外边距之中高度较大者的高度。</strong></p>
 
 <p>如图：</p>
 
-<p><img src="/assets/images/css_core_concept_box_model_1.png" alt="示例图片" width="60%"></p>
+<p><img src="/assets/images/css_core_concept_box_model_1.png" alt="示例图片" width="60%" /></p>
 
 <p><strong>2、当一个元素包含在另一个元素中时，如果没有内边距和边框将两者的外边距隔开，它们的上外边距/下外边距会发生叠加。</strong></p>
 
-<p>如图：<br/>
-<img src="/assets/images/css_core_concept_box_model_2.png" alt="示例图片" width="60%"></p>
+<p>如图：<br />
+<img src="/assets/images/css_core_concept_box_model_2.png" alt="示例图片" width="60%" /></p>
 
 <p><strong>3、如果有一个元素，没有内容、内边距、边框，有上下边距，这是上外边距和下外边距碰到一起，也会发生重叠。</strong></p>
 
 <p>如图：</p>
 
-<p><img src="/assets/images/css_core_concept_box_model_3.png" alt="示例图片" width="60%"></p>
+<p><img src="/assets/images/css_core_concept_box_model_3.png" alt="示例图片" width="60%" /></p>
 
-<h4>折叠后 margin 的计算</h4>
+<h4 id="margin-">折叠后 margin 的计算</h4>
 
 <p><strong>1、 参与折叠的 margin 都是正值：<code>取其中 margin 较大的值为最终 margin 值</code>。</strong></p>
 
@@ -110,7 +113,6 @@
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">style=</span><span class="s">&quot;height:50px; margin-bottom:50px; width:50px; background-color: red;&quot;</span><span class="nt">&gt;</span>A<span class="nt">&lt;/div&gt;</span>
 <span class="nt">&lt;div</span> <span class="na">style=</span><span class="s">&quot;height:50px; margin-top:100px; width:50px; background-color: green;&quot;</span><span class="nt">&gt;</span>B<span class="nt">&lt;/div&gt;</span></code></pre></div>
 
-
 <p><strong>2、参与折叠的 margin 都是负值：<code>取的是其中绝对值较大的，然后，从 0 位置，负向位移</code>。</strong></p>
 
 <p>例子：</p>
@@ -118,10 +120,9 @@
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">style=</span><span class="s">&quot;height:100px; margin-bottom:-75px; width:100px; background-color: red;&quot;</span><span class="nt">&gt;</span>A<span class="nt">&lt;/div&gt;</span>
 <span class="nt">&lt;div</span> <span class="na">style=</span><span class="s">&quot;height:100px; margin-top:-50px; margin-left:50px; width:100px; background-color: green;&quot;</span><span class="nt">&gt;</span>B<span class="nt">&lt;/div&gt;</span></code></pre></div>
 
-
 <p>如图：</p>
 
-<p><img src="/assets/images/css_core_concept_box_model_4.png" alt="示例图片" width="60%"></p>
+<p><img src="/assets/images/css_core_concept_box_model_4.png" alt="示例图片" width="60%" /></p>
 
 <p><strong>3、参与折叠的 margin 中有正值，有负值：<code>先取出负 margin 中绝对值中最大的，然后，和正 margin 值中最大的 margin 相加</code>。</strong></p>
 
@@ -130,10 +131,9 @@
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">style=</span><span class="s">&quot;height:50px; margin-bottom:-50px; width:50px; background-color: red;&quot;</span><span class="nt">&gt;</span>A<span class="nt">&lt;/div&gt;</span>
 <span class="nt">&lt;div</span> <span class="na">style=</span><span class="s">&quot;height:50px; margin-top:100px; width:50px; background-color: green;&quot;</span><span class="nt">&gt;</span>B<span class="nt">&lt;/div&gt;</span></code></pre></div>
 
-
 <p>如图：</p>
 
-<p><img src="/assets/images/css_core_concept_box_model_5.png" alt="示例图片" width="60%"></p>
+<p><img src="/assets/images/css_core_concept_box_model_5.png" alt="示例图片" width="60%" /></p>
 
 <p>上面的例子最终的 margin 应该是 <code>100 + (-50) = 50px</code>。</p>
 
@@ -155,7 +155,6 @@
     <span class="nt">&lt;/div&gt;</span>
 <span class="nt">&lt;/div&gt;</span></code></pre></div>
 
-
 <p>错误的计算方式：算 A 和 B 之间的 margin，分别算 A 和其父元素的折叠，然后与其父元素的父元素的折叠，这个值算出来之后，应该是 90px。依此法算出 B 的为 80px；然后，A和B折叠，margin 为 90px。</p>
 
 <p><strong>请注意，多个 margin 相邻折叠成一个 margin，所以计算的时候，应该取所有相关的值一起计算，而不能分开分步来算。</strong></p>
@@ -168,7 +167,7 @@
 
 <p>根据有正有负时的计算规则，正值的最大值为 200px，负值中绝对值最大的是 -120px，所以，最终折叠后的 margin 应该是 <code>200 + (-120) = 80px</code>。</p>
 
-<h4>创建了块级格式化上下文(block format context)的元素，不和它的子元素发生 margin 折叠</h4>
+<h4 id="block-format-context-margin-">创建了块级格式化上下文(block format context)的元素，不和它的子元素发生 margin 折叠</h4>
 
 <p>以 “overflow : hidden” 的元素为例：</p>
 
@@ -176,24 +175,22 @@
     <span class="nt">&lt;div</span> <span class="na">style=</span><span class="s">&quot;margin-top:50px; background-color:gold;&quot;</span><span class="nt">&gt;</span>B<span class="nt">&lt;/div&gt;</span>
 <span class="nt">&lt;/div&gt;</span></code></pre></div>
 
-
-<h3>边框</h3>
-
+<h3 id="section-4">边框</h3>
 <p><strong>CSS2.1有outline属性性，与border不同，轮廓绘制在元素框之上，不影响定位。</strong></p>
 
 <p><strong>CSS3的box-sizing属性可以定义要使用哪一种盒模型。</strong></p>
 
-<h3>来源：</h3>
-
+<h3 id="section-5">来源：</h3>
 <p>《精通CSS》</p>
 
 <p><a href="http://www.w3help.org/zh-cn/kb/006/" target="_blank">KB006: CSS 框模型( Box module )</a></p>
 
-<h3>延伸阅读：</h3>
+<h3 id="section-6">延伸阅读：</h3>
 
 <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context" target="_blank">块级格式化上下文</a></p>
 
 <p><a href="http://kayosite.com/block-formatting-contexts-in-detail.html" target="_blank">详说 Block Formatting Contexts (块级格式化上下文)</a></p>
+
 
   </article>
 
