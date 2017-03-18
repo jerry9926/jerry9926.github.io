@@ -9,6 +9,8 @@ tags: AutoLayout
 今天在一个autolayout 的问题上面，发现了约束里面的firstItem和secondItem的区别。
 先看看定义是怎么说的
 
+<!-- more -->
+
 {% highlight Objective-C %}
 FirstItem.Attribute1 = (SecondItem.Attribute2 * Multiplier) + Constant
 {% endhighlight %}

@@ -13,6 +13,8 @@ layout: twoside
 			<h2>
 				<a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
 			</h2>
+			<p>{{ post.excerpt | strip_html }}</p>
+			<p><a href="{{ post.url | prepend: site.baseurl }}">阅读更多>></a></p>
 		</li>
 	{% endfor %}
 	</ul>

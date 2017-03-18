@@ -127,19 +127,20 @@
     list-style: none;
 
     > li {
-        margin-bottom: $spacing-unit;
-        border-bottom: 1px #ccc dashed;
+        padding-top: $spacing-unit / 2;
+        border-top: 1px #ccc dashed;
     }
 }
 
 .post-meta {
+    float: right;
     font-size: $small-font-size;
     color: $grey-color;
 }
 
 .post-link {
-    display: block;
     font-size: 0.8em;
+    cursor: pointer;
 }
 
 

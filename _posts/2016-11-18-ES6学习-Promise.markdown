@@ -5,6 +5,10 @@ date:     2016-11-18 20:59:51
 categories: Javascript 
 ---
 
+近期学习的ES6，关于Promise的部分。
+
+<!-- more -->
+
 ### Promise 的基本格式
 
 {% highlight javascript %}

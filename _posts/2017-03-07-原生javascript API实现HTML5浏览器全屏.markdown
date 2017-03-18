@@ -7,6 +7,10 @@
 ---
 
 <br>
+
+在网上摘录的原生javascript API实现HTML5浏览器全屏方案，记录一下。
+<!-- more -->
+
 ###Javascript
 
 {% highlight javascript %}

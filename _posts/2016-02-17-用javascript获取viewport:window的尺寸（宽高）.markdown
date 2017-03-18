@@ -8,6 +8,8 @@ categories: Javascript
 
 CSS媒体查询和javascript的window宽度不相等
 
+<!-- more -->
+
 **CSS使用的是设备宽度，JS使用的是document的宽度。**
 
 要点：

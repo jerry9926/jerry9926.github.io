@@ -10,6 +10,8 @@ tags: webpack
 
  WebPack是**模块打包机**，它的做的事情就是：分析你的项目结构，找到Javascript模块以及其他一些浏览器不能直接运行的拓展语言（Scss、TypeScript等），并将其打包为浏览器可以运行的格式。
 
+<!-- more -->
+
 <br>
 
 ### WebPack和Grunt和Gulp相对比

@@ -16,3 +16,4 @@ paginate_per_category: true
 default_category: "en"
 safe: false
 exclude: ['node_modules/']
+excerpt_separator:  '<!-- more -->'

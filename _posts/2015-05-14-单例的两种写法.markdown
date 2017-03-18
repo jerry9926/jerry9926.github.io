@@ -6,7 +6,10 @@ categories: iOS
 ---
 
 **第一种，使用GCD，利用dispatch_once方法。**  
-dispatch_once函数如下：  
+dispatch_once函数如下：
+
+<!-- more -->
+
 {% highlight Objective-C %}
 void dispatch_once(dispatch_once_t *predicate, dispatch_block_t block);
 {% endhighlight %}

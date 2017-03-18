@@ -6,13 +6,16 @@
 </description>
     <link>http://jerry9926.github.io/</link>
     <atom:link href="http://jerry9926.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 18 Mar 2017 11:05:57 +0800</pubDate>
-    <lastBuildDate>Sat, 18 Mar 2017 11:05:57 +0800</lastBuildDate>
+    <pubDate>Sat, 18 Mar 2017 12:04:15 +0800</pubDate>
+    <lastBuildDate>Sat, 18 Mar 2017 12:04:15 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
         <title>jekyll + github page标签页404</title>
         <description>&lt;p&gt;关于jekyll+githubpage的标签页的问题，终于解决掉了，记录一下。&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
@@ -73,6 +76,11 @@ GitHub Pages 支持 Jekyll 或者原始文件。最初 GitHub Pages 只支持 Je
       <item>
         <title>原生javascript API实现HTML5浏览器全屏</title>
         <description>&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;p&gt;在网上摘录的原生javascript API实现HTML5浏览器全屏方案，记录一下。&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
 
 &lt;h3&gt;Javascript&lt;/h3&gt;
 
@@ -288,6 +296,9 @@ GitHub Pages 支持 Jekyll 或者原始文件。最初 GitHub Pages 只支持 Je
         <description>&lt;h3&gt;什么是WebPack&lt;/h3&gt;
 
 &lt;p&gt; WebPack是&lt;strong&gt;模块打包机&lt;/strong&gt;，它的做的事情就是：分析你的项目结构，找到Javascript模块以及其他一些浏览器不能直接运行的拓展语言（Scss、TypeScript等），并将其打包为浏览器可以运行的格式。&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
@@ -771,6 +782,9 @@ var content = require(&#39;./content.json&#39;);
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
+&lt;!-- more --&gt;
+
+
 &lt;h3&gt;2. 继承&lt;/h3&gt;
 
 &lt;ul&gt;
@@ -1096,7 +1110,12 @@ var content = require(&#39;./content.json&#39;);
     
       <item>
         <title>ES6学习-Promise</title>
-        <description>&lt;h3&gt;Promise 的基本格式&lt;/h3&gt;
+        <description>&lt;p&gt;近期学习的ES6，关于Promise的部分。&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+
+&lt;h3&gt;Promise 的基本格式&lt;/h3&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;promise&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;getAsyncPromise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;fileA.txt&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -1371,7 +1390,12 @@ var content = require(&#39;./content.json&#39;);
     
       <item>
         <title>ES6学习-解构赋值</title>
-        <description>&lt;h3&gt;基本用法&lt;/h3&gt;
+        <description>&lt;p&gt;近期学习的ES6，关于解构赋值的部分。&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+
+&lt;h3&gt;基本用法&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;从数组和对象中提取值，对变量进行赋值，这称为解构
@@ -1585,6 +1609,9 @@ var [foo = true] = []; // foo = true
         <title>用javascript获取viewport/window的尺寸（宽高）</title>
         <description>&lt;p&gt;CSS媒体查询和javascript的window宽度不相等&lt;/p&gt;
 
+&lt;!-- more --&gt;
+
+
 &lt;p&gt;&lt;strong&gt;CSS使用的是设备宽度，JS使用的是document的宽度。&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;要点：&lt;/p&gt;
@@ -1669,6 +1696,9 @@ var [foo = true] = []; // foo = true
         <description>&lt;h1&gt;盒模型&lt;/h1&gt;
 
 &lt;p&gt;页面上的每一个元素被看做一个矩形框，这个框由&lt;code&gt;内容&lt;/code&gt;、&lt;code&gt;内边距&lt;/code&gt;、&lt;code&gt;边框&lt;/code&gt;、&lt;code&gt;外边距&lt;/code&gt;组成。&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
 
 &lt;h3&gt;内边距&lt;/h3&gt;
 
@@ -1813,6 +1843,11 @@ var [foo = true] = []; // foo = true
         <title>关于约束firstItem和secondItem</title>
         <description>&lt;p&gt;今天在一个autolayout 的问题上面，发现了约束里面的firstItem和secondItem的区别。
 先看看定义是怎么说的&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+
+
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-objective-c&quot; data-lang=&quot;objective-c&quot;&gt;&lt;span class=&quot;n&quot;&gt;FirstItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Attribute1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SecondItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Attribute2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Multiplier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Constant&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 

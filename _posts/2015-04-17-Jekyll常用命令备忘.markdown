@@ -6,6 +6,10 @@ categories: 工具
 tags: jekyll
 ---
 
+Jekyll常用命令备忘
+
+<!-- more -->
+
 **基本用法**  <a href="http://jekyllcn.com/docs/usage/" target="_blank" title="命令参考">[参考]</a>
 {% highlight ruby%}
 $ jekyll build

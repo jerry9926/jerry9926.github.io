@@ -13,6 +13,8 @@ NSSortDescriptor的组成，`key`建，`ascending`升序。另外还有一个属
 
 假设有一组数据，反应投票的情况，voteInfo，有投票人(NSString *)name、投票时间(NSInteger)time、投票结果(BOOL)result
 
+<!-- more -->
+
 {% highlight Objective-C %}
 NSArray *names = @[ @"Alice", @"Bob", @"Charlie", @"Quentin" ];
 NSArray *times = @[ @1420041600, @1420128000, @1420214400, @1420300800 ];

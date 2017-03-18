@@ -1,10 +1,13 @@
 ---
 layout: post
-title:    "关于时间"
+title:    "2015-02-26-OC获取今天日期的时间戳"
 date:     2015-02-26 11:11:51
 categories: iOS 
 ---
 
+这个方法是用来计算今天的日期（零时零分）的时间戳。
+
+<!-- more -->
 
 {% highlight Objective-C %}
 + (NSInteger)helperTodayTimeInterval {
@@ -16,7 +19,6 @@ categories: iOS
 }
 {% endhighlight %}
 
-这个方法是用来计算今天的日期（零时零分）的时间戳。  
 代码的思路是：`通过当前时间找到对应的年月日 —> 通过年月日获取NSDate —> 通过NSDate获取时间戳`  
 这个思路是可以获取正确的时间戳的，但是明显绕了一圈。现在优化这个方法，思路如下：
 `通过当前时间获取时间戳 —> 将时间戳调整为当天的零时零分`  
