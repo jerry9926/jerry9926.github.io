@@ -5,10 +5,10 @@ var readline = require('linebyline');
 var DIR = '_posts';
 // 2016-02-19-webpack入门笔记;
 // 2017-03-10-jekyll + github page标签页404
-var FILE_PATH = '2017-03-10-jekyll+githubpage标签页404';
+// 2017-03-07-原生javascript API实现HTML5浏览器全屏
+var FILE_PATH = '2017-03-07-原生javascript API实现HTML5浏览器全屏';
 
 var SUFFIX = '.markdown';
-
 
 fs.readdir(DIR, function(err, files) {
 	for (var i = 0; i < files.length; i++) {
