@@ -60,6 +60,11 @@
   <article class="post-content">
     <p>在iOS6中，tableViewCell中有UIButton。cell被选中的时候，button会显示高亮状态，如果不希望这样，需要重写cell的<code>setHightlighted</code>和<code>setSelected</code>方法</p>
 
+<!-- more -->
+
+
+
+
 <div class="highlight"><pre><code class="language-objective-c" data-lang="objective-c"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setHighlighted:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">highlighted</span> <span class="nf">animated:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span> <span class="p">{</span>
     <span class="p">[</span><span class="nb">super</span> <span class="nl">setHighlighted</span><span class="p">:</span><span class="n">highlighted</span> <span class="nl">animated</span><span class="p">:</span><span class="n">animated</span><span class="p">];</span>
     <span class="nb">self</span><span class="p">.</span><span class="n">yourButton</span><span class="p">.</span><span class="n">highlighted</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>

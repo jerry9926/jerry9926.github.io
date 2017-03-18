@@ -58,10 +58,11 @@
   </header>
 
   <article class="post-content">
-    <p>原文：<a href="http://iosdevelopertips.com/user-interface/creating-circular-and-infinite-uiscrollviews.html" title="原文链接">http://iosdevelopertips.com/user-interface/creating-circular-and-infinite-uiscrollviews.html</a></p>
-
-<p>在给iPhone应用做翻页功能的时候，很多时候需要页面无限循环。例如，你有一个小的画册要显示，你想要滑过所有内容，然后从最后一个可以滑到开始那个。用户可以继续滑动只要他们想滑，在一个视图的内容同一个方向可以一直滑动。
+    <p>在给iPhone应用做翻页功能的时候，很多时候需要页面无限循环。例如，你有一个小的画册要显示，你想要滑过所有内容，然后从最后一个可以滑到开始那个。用户可以继续滑动只要他们想滑，在一个视图的内容同一个方向可以一直滑动。
 这里有两个思路可以做到这个效果：</p>
+
+<!-- more -->
+
 
 <h4>重复最后的视图</h4>
 
@@ -175,6 +176,8 @@
     <span class="p">[</span><span class="n">scrollView</span> <span class="nl">scrollRectToVisible</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">320</span><span class="p">,</span><span class="mi">416</span><span class="p">)</span> <span class="nl">animated</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
 <span class="p">}</span></code></pre></div>
 
+
+<p>原文：<a href="http://iosdevelopertips.com/user-interface/creating-circular-and-infinite-uiscrollviews.html" title="原文链接">http://iosdevelopertips.com/user-interface/creating-circular-and-infinite-uiscrollviews.html</a></p>
 
 <p>下载源码
 <a href="http://iosdevelopertips.com/wp-content/uploads/2010/11/CircularScrollView.zip">Xcode Project – Circular UI Scrollview</a></p>

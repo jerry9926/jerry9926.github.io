@@ -8,8 +8,8 @@
     <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">
 
-    <title>关于时间</title>
-    <link rel="canonical" href="http://jerry9926.github.io/ios/2015/02/26/%E5%85%B3%E4%BA%8E%E6%97%B6%E9%97%B4.html">
+    <title>2015-02-26-OC获取今天日期的时间戳</title>
+    <link rel="canonical" href="http://jerry9926.github.io/ios/2015/02/26/OC%E8%8E%B7%E5%8F%96%E4%BB%8A%E5%A4%A9%E6%97%A5%E6%9C%9F%E7%9A%84%E6%97%B6%E9%97%B4%E6%88%B3.html">
 
     <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link rel="stylesheet" href="/css/main.css">
@@ -53,12 +53,17 @@
           <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">关于时间</h1>
+    <h1 class="post-title">2015-02-26-OC获取今天日期的时间戳</h1>
     <p class="post-meta">2015-02-26</p>
   </header>
 
   <article class="post-content">
-    
+    <p>这个方法是用来计算今天的日期（零时零分）的时间戳。</p>
+
+<!-- more -->
+
+
+
 
 <div class="highlight"><pre><code class="language-objective-c" data-lang="objective-c"><span class="p">+</span> <span class="p">(</span><span class="bp">NSInteger</span><span class="p">)</span><span class="nf">helperTodayTimeInterval</span> <span class="p">{</span>
      <span class="kt">int</span> <span class="n">today</span> <span class="o">=</span> <span class="p">[[[</span><span class="bp">NSDate</span> <span class="n">date</span><span class="p">]</span> <span class="n">helperGetDayNumber</span><span class="p">]</span> <span class="n">intValue</span><span class="p">];</span>
@@ -69,8 +74,7 @@
 <span class="p">}</span></code></pre></div>
 
 
-<p>这个方法是用来计算今天的日期（零时零分）的时间戳。<br/>
-代码的思路是：<code>通过当前时间找到对应的年月日 —&gt; 通过年月日获取NSDate —&gt; 通过NSDate获取时间戳</code><br/>
+<p>代码的思路是：<code>通过当前时间找到对应的年月日 —&gt; 通过年月日获取NSDate —&gt; 通过NSDate获取时间戳</code><br/>
 这个思路是可以获取正确的时间戳的，但是明显绕了一圈。现在优化这个方法，思路如下：
 <code>通过当前时间获取时间戳 —&gt; 将时间戳调整为当天的零时零分</code><br/>
 获取当前时间的时间戳非常简单，<code>NSInteger time_new = [[NSDate date] timeIntervalSince1970];</code>。现在获取了当前的时间戳，需要把超过零时零分的时间删掉。可以想到把时间戳取余，然后减掉就行了。<code>time_new = time_new - (time_new % (60*60*24))</code>。删掉之后，得到的时间戳发现得到的时间2015/2/26 8:0:0，多了八个小时。这是因为<code>timeIntervalSince1970这个方法是把时间跟1970年1月1日零时零分GMT（格林尼治时间）时间相减得到的秒数</code>。GMT时间比北京时间多了8小时时差。所以还要把这个时差减掉。计算时差的代码：</p>

@@ -226,16 +226,17 @@ pre {
   margin-left: 0;
   list-style: none; }
   .post-list > li {
-    margin-bottom: 30px;
-    border-bottom: 1px #ccc dashed; }
+    padding-top: 15px;
+    border-top: 1px #ccc dashed; }
 
 .post-meta {
+  float: right;
   font-size: 14px;
   color: #808080; }
 
 .post-link {
-  display: block;
-  font-size: 0.8em; }
+  font-size: 0.8em;
+  cursor: pointer; }
 
 /**
  * Posts
