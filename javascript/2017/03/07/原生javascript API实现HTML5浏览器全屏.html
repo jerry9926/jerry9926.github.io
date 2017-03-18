@@ -3,7 +3,7 @@
 
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">
@@ -21,43 +21,40 @@
 
   <body>
 
-    <div class="container">
-      <div class="side-bar">
-      <!--Sidebar content-->
-        <div class="head-wrapper">
-          <img src="/assets/images/ui/icon.jpg" alt="kuler">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="side-bar col-xs-12 col-sm-3 col-md-3 col-lg-3">
+          <!--Sidebar content-->
+          <div class="head-wrapper">
+            <img src="/assets/images/ui/icon.jpg" alt="head-icon">
+          </div>
+          <h1 class="title">库乐君的笔记本</h1>
+          <h2 class="decs">所谓文艺，不过是多走一些路，多看一些风景罢了</h2>
+          <ul class="nav">
+            <li><a href="/">首页</a></li>
+            
+            <li><a href="/ios/" title="查看更多文章">ios 6</a>
+            </li>
+            
+            <li><a href="/工具/" title="查看更多文章">工具 3</a>
+            </li>
+            
+            <li><a href="/css/" title="查看更多文章">css 2</a>
+            </li>
+            
+            <li><a href="/javascript/" title="查看更多文章">javascript 4</a>
+            </li>
+            
+          </ul>
+
         </div>
-        <h1 class="title">库乐君的笔记本</h1>
-        <h2 class="decs">所谓文艺，不过是多走一些路，多看一些风景罢了</h2>
-        <ul class="nav">
-          <li><a href="/">首页</a></li>
-          
-          <li><a href="/ios/" title="view all
-          posts">ios 6</a>
-          </li>
-          
-          <li><a href="/工具/" title="view all
-          posts">工具 3</a>
-          </li>
-          
-          <li><a href="/css/" title="view all
-          posts">css 2</a>
-          </li>
-          
-          <li><a href="/javascript/" title="view all
-          posts">javascript 4</a>
-          </li>
-          
-        </ul>
-        
-      </div>
-      <div class="content-contain">
-      <!--Body content-->
-        <div class="post">
+        <div class="content-contain col-xs-12 col-sm-9 col-md-9 col-lg-9">
+          <!--Body content-->
+          <div class="post">
 
   <header class="post-header">
     <h1 class="post-title">原生javascript API实现HTML5浏览器全屏</h1>
-    <p class="post-meta">Mar 7, 2017</p>
+    <p class="post-meta">2017-03-07</p>
   </header>
 
   <article class="post-content">
@@ -266,7 +263,7 @@
 </div>
 
 
-        <footer class="site-footer">
+          <footer class="site-footer">
 
   <div class="wrapper">
     <p class="footer-heading">Copyright © 2017 - <a href="/">库乐君的笔记本</a> - Base on <a href="http://github.com">Github</a> & <a href="http://jekyllrb.com">Jekyll</a></p>
@@ -282,6 +279,7 @@
 </script>
 </footer>
 
+        </div>
       </div>
     </div>
 

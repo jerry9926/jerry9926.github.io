@@ -1,50 +1,47 @@
 .side-bar {
-    left: 0;
     position: fixed;
     height: 100%;
-    width: 22%;
     background-color: #1a2a6d;
     background-repeat: no-repeat;
     background-size: cover;
     background-image: url(/assets/images/ui/side-bar-bg.jpg);
 }
 
-.head-wrapper {
+.side-bar .head-wrapper {
     margin: 5rem auto 1rem;
     width: 50%;
 }
 
-.head-wrapper img {
+.side-bar .head-wrapper img {
     border-radius: 50%;
 }
 
-.title {
+.side-bar .title {
     color: #fff;
-    font-size: 1.5rem;
-    padding-left: 1rem;
+    font-size: 1.5em;
     text-shadow: 0 1px 1px #333;
 }
 
-.decs {
+.side-bar .decs {
     color: #fff;
     font-weight: normal;
-    padding-left: 1rem;
-    font-size: 1rem;
-    line-height: 1.2rem;
-    padding-right: 1rem;
+    font-size: 1em;
+    line-height: 1.2em;
     text-shadow: 0 1px 1px #333;
 }
 
-.nav {
+.side-bar .nav {
+    margin: 0;
     padding: 1rem 0 0;
 }
 
-.nav li {
+.side-bar .nav li {
     text-align: center;
     line-height: 25px;
 }
 
-.nav a {
+.side-bar .nav a {
+    padding: 0;
 	color: #fff;
     text-shadow: 0 1px 1px #919191;
     -webkit-transition: all .3s;
@@ -60,11 +57,31 @@
 }
 
 .content-contain {
-    background: #fff;
-    left: 0;
-    margin-left: 24%;
-    min-height: 100%;
     position: absolute;
-    right: 0;
+    margin-left: 25%;
     padding-right: 2%;
+    min-height: 100%;
+    background: #fff;
 }
+
+@media (max-width: 768px) {
+    .side-bar {
+        position: static;
+    }
+    .side-bar .head-wrapper {
+        margin: 5rem auto 1rem;
+        width: 20%;
+    }
+    .side-bar .nav li {
+        display: inline-block;
+    }
+    .side-bar .nav li a {
+        padding:10px;
+    }
+
+    .content-contain {
+        position: static;
+        margin-left: 0;
+    }
+}
+
