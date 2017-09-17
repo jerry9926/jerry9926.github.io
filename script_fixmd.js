@@ -6,7 +6,9 @@ var DIR = '_posts';
 // 2016-02-19-webpack入门笔记;
 // 2017-03-10-jekyll + github page标签页404
 // 2017-03-07-原生javascript API实现HTML5浏览器全屏
-var FILE_PATH = '2017-03-07-原生javascript API实现HTML5浏览器全屏';
+// 2017-09-5-在express中使用markdown
+// 2017-09-14-Babel小记
+var FILE_PATH = '2017-09-14-Babel小记';
 
 var SUFFIX = '.markdown';
 

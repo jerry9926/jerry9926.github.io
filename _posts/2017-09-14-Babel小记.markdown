@@ -9,6 +9,7 @@
 简单使用Babel转换ES6语法。
 <!-- more -->
 <br>
+<br>
 ##前言
 
 Babel 是一个 JavaScript 编译器。这句话是Babel官网的自我介绍，就是说Babel可以编译javascript，包括ECMA2015或以上新特性的js和一些javascript扩展语言，如JSX。
@@ -21,25 +22,27 @@ Babel可以配合多种工具使用，本文使用的是结合gulp的方式。�
 
 使用gulp工具
 
+<br>
 ###1、安装gulp、babel
 
 npm方式
 
-```
+{% highlight javascript %}
 npm install gulp babel --save-dev
-```
+{% endhighlight %}
 
 yarn方式
 
-```
+{% highlight javascript %}
 yarn add gulp babel  --dev
-```
+{% endhighlight %}
 
+<br>
 ###2、编写`gulpfile.js`
 
 gulp.src表示原文件的路径，babel()就是调用babel编译的方法，dest表示输出的路径。
 
-```
+{% highlight javascript %}
 const gulp = require('gulp');
 const babel = require('gulp-babel');
 
@@ -48,40 +51,43 @@ gulp.task('default', () => {
         .pipe(babel())
         .pipe(gulp.dest('dist'));
 });
-```
+{% endhighlight %}
 
+<br>
 ###3、配置babel
 
 方式一：创建`.babelrc`文件，添加以下内容
 
-```
+{% highlight javascript %}
  {
    "presets": ['es2015']
  }
-```
+{% endhighlight %}
 
 方式二：在`pacjage.json`配置，在其中添加以下内容
 
-```
+{% highlight javascript %}
   "babel": {
      "presets": ["es2015"]
   }
-```
+{% endhighlight %}
 
+<br>
 ###4、安装babel插件
 
 npm方式
 
-```
+{% highlight javascript %}
 npm install --save babel-preset-es2015
-```
+{% endhighlight %}
 
 yarn方式
 
-```
+{% highlight javascript %}
 yarn add babel-preset-es2015  --dev
-```
+{% endhighlight %}
 
+<br>
 ###5、执行 gulp
 
 
