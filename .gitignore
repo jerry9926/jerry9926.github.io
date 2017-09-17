@@ -2,3 +2,4 @@
 .idea/
 node_modules/
 script_fixmd.js
+_site/
