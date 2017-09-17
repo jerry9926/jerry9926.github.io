@@ -6,9 +6,103 @@
 </description>
     <link>http://jerry9926.github.io/</link>
     <atom:link href="http://jerry9926.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 17 Sep 2017 21:15:49 +0800</pubDate>
-    <lastBuildDate>Sun, 17 Sep 2017 21:15:49 +0800</lastBuildDate>
+    <pubDate>Sun, 17 Sep 2017 21:33:35 +0800</pubDate>
+    <lastBuildDate>Sun, 17 Sep 2017 21:33:35 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Babel小记</title>
+        <description>&lt;p&gt;简单使用Babel转换ES6语法。&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h2&gt;前言&lt;/h2&gt;
+
+&lt;p&gt;Babel 是一个 JavaScript 编译器。这句话是Babel官网的自我介绍，就是说Babel可以编译javascript，包括ECMA2015或以上新特性的js和一些javascript扩展语言，如JSX。&lt;/p&gt;
+
+&lt;p&gt;所以说在使用Babel的时候，我们要告诉Babel我们希望编译的是哪种js（js的版本），所以需要进行配置。然后Babel知道了是哪种js之后，还需要为Babel装上编译相应js的模块，Babel中称为插件。而在本例中，我们要编译的是ES6。那编译ES6需要如何配置Babel和使用哪个插件呢，在&lt;a href=&quot;https://babeljs.io/docs/plugins/preset-es2015/&quot;&gt;官网中&lt;/a&gt;有说明。&lt;/p&gt;
+
+&lt;p&gt;Babel可以配合多种工具使用，本文使用的是结合gulp的方式。查看&lt;a href=&quot;https://babeljs.io/docs/setup&quot;&gt;更多方式&lt;/a&gt;。&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;注：ES6是泛指5.1版以后的js的下一代标准，正式的说法是ES2015。查看&lt;a href=&quot;http://es6.ruanyifeng.com/#docs/intro&quot;&gt;相关背景&lt;/a&gt;。&lt;/p&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;使用gulp工具&lt;/p&gt;
+
+&lt;h3&gt;1、安装gulp、babel&lt;/h3&gt;
+
+&lt;p&gt;npm方式&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;npm install gulp babel --save-dev
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;yarn方式&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;yarn add gulp babel  --dev
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;2、编写&lt;code&gt;gulpfile.js&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;gulp.src表示原文件的路径，babel()就是调用babel编译的方法，dest表示输出的路径。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;const gulp = require(&#39;gulp&#39;);
+const babel = require(&#39;gulp-babel&#39;);
+
+gulp.task(&#39;default&#39;, () =&amp;gt; {
+    return gulp.src(&#39;src/*.js&#39;)
+        .pipe(babel())
+        .pipe(gulp.dest(&#39;dist&#39;));
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;3、配置babel&lt;/h3&gt;
+
+&lt;p&gt;方式一：创建&lt;code&gt;.babelrc&lt;/code&gt;文件，添加以下内容&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; {
+   &quot;presets&quot;: [&#39;es2015&#39;]
+ }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;方式二：在&lt;code&gt;pacjage.json&lt;/code&gt;配置，在其中添加以下内容&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  &quot;babel&quot;: {
+     &quot;presets&quot;: [&quot;es2015&quot;]
+  }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;4、安装babel插件&lt;/h3&gt;
+
+&lt;p&gt;npm方式&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;npm install --save babel-preset-es2015
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;yarn方式&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;yarn add babel-preset-es2015  --dev
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;5、执行 gulp&lt;/h3&gt;
+
+&lt;p&gt;参考资料：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://babeljs.cn&quot;&gt;http://babeljs.cn&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://es6.ruanyifeng.com/#docs/intro&quot;&gt;http://es6.ruanyifeng.com/#docs/intro&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Thu, 14 Sep 2017 23:23:22 +0800</pubDate>
+        <link>http://jerry9926.github.io/javascript/2017/09/14/Babel%E5%B0%8F%E8%AE%B0.html</link>
+        <guid isPermaLink="true">http://jerry9926.github.io/javascript/2017/09/14/Babel%E5%B0%8F%E8%AE%B0.html</guid>
+        
+        <category>Babel</category>
+        
+        
+        <category>javascript</category>
+        
+      </item>
     
       <item>
         <title>jekyll + github page标签页404</title>
@@ -1894,17 +1988,6 @@ var [foo = true] = []; // foo = true
         
         
         <category>ios</category>
-        
-      </item>
-    
-      <item>
-        <title>Markdown常用语法备忘</title>
-        <description>&lt;p&gt;2015-05-19-markdown常用语法备忘.markdown&lt;/p&gt;
-</description>
-        <pubDate>Tue, 19 May 2015 00:00:00 +0800</pubDate>
-        <link>http://jerry9926.github.io/2015/05/19/markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95%E5%A4%87%E5%BF%98.html</link>
-        <guid isPermaLink="true">http://jerry9926.github.io/2015/05/19/markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95%E5%A4%87%E5%BF%98.html</guid>
-        
         
       </item>
     
