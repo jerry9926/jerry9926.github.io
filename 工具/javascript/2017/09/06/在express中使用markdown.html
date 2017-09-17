@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <title>在express中使用markdown</title>
+    <link rel="canonical" href="http://jerry9926.github.io/javascript/2017/09/06/%E5%9C%A8express%E4%B8%AD%E4%BD%BF%E7%94%A8markdown.html">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="/css/main.css">
+    <link href="/css/index.css" rel="stylesheet">
+	<script src="/js/jquery-1.11.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+</head>
+
+
+  <body>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="side-bar col-xs-12 col-sm-3 col-md-3 col-lg-3">
+          <!--Sidebar content-->
+          <div class="head-wrapper">
+            <img src="/assets/images/ui/icon.jpg" alt="head-icon">
+          </div>
+          <h1 class="title">库乐君的笔记本</h1>
+          <h2 class="decs">所谓文艺，不过是多走一些路，多看一些风景罢了</h2>
+          <ul class="nav">
+            <li><a href="/">首页</a></li>
+            
+            <li><a href="/ios/" title="查看更多文章">ios 6</a>
+            </li>
+            
+            <li><a href="/工具/" title="查看更多文章">工具 3</a>
+            </li>
+            
+            <li><a href="/css/" title="查看更多文章">css 2</a>
+            </li>
+            
+            <li><a href="/javascript/" title="查看更多文章">javascript 6</a>
+            </li>
+            
+          </ul>
+
+        </div>
+        <div class="content-contain col-xs-12 col-sm-9 col-md-9 col-lg-9">
+          <!--Body content-->
+          <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">在express中使用markdown</h1>
+    <p class="post-meta">2017-09-06</p>
+  </header>
+
+  <article class="post-content">
+    <p>之前在github的博客中已经使用过<code>markdown</code>语法。<code>markdown</code>语法简单，适合技术文章和说明文档。这次项目中的文档希望使用<code>markdown</code>来写，把文档放在express之中。记录一下使用过程。</p>
+
+<!-- more -->
+
+
+<p><br></p>
+
+<h3>安装依赖</h3>
+
+<p><code>markdown</code>语法需要解析，需要使用<code>markdown</code>模块，安装模块。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">npm</span> <span class="nx">install</span> <span class="nx">markdown</span> <span class="o">--</span><span class="nx">save</span></code></pre></div>
+
+
+<p>在<code>app.js</code>中引用</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">markdown</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;markdown&#39;</span><span class="p">).</span><span class="nx">markdown</span><span class="p">;</span></code></pre></div>
+
+
+<p><br></p>
+
+<h3>简单粗暴的使用方式</h3>
+
+<p>一开始的时候，我使用了一种简单粗暴的方式。不是提倡的方式，但是思考的过程值得记录。
+我把express默认的<code>jade</code>模版引擎更换为<code>markdown</code>模版引擎。
+在<code>app.js</code>中修改。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
+
+<span class="c1">// 设置markdown模版引擎</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">engine</span><span class="p">(</span><span class="s1">&#39;md&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span> <span class="nx">options</span><span class="p">,</span> <span class="nx">fn</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span> <span class="s1">&#39;utf8&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">str</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">fn</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+        <span class="nx">str</span> <span class="o">=</span> <span class="nx">markdown</span><span class="p">.</span><span class="nx">toHTML</span><span class="p">(</span><span class="nx">str</span><span class="p">);</span>
+        <span class="nx">fn</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">str</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+<span class="c1">// 使用</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;view engine&#39;</span><span class="p">,</span> <span class="s1">&#39;md&#39;</span><span class="p">);</span>
+<span class="c1">// 更换了模版的路径，这个路径就是放markdown文件的地方</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;views&#39;</span><span class="p">,</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="s1">&#39;doc/&#39;</span><span class="p">));</span>
+<span class="c1">// 增加一个路由</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/doc&#39;</span><span class="p">,</span>  <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">);</span>
+<span class="p">});</span></code></pre></div>
+
+
+<p>这里的路由使用了<code>index</code>模版，就是在<code>doc</code>文件夹中，新增的<code>index.md</code>文件。<code>index.md</code>文件里面就直接用<code>markdown</code>语法写文档的内容。</p>
+
+<pre><code># 平台文档
+
+## 功能
+xxxxxxx
+</code></pre>
+
+<p>现在，访问<code>/doc</code>已经可以显示出来<code>markdown</code>的文档的，但是现在的效果并不如人意。样式很简陋，几乎就像个纯文本一样。因为确实没有设置css啊，但是现在的做法是直接读取<code>markdown</code>文件，并不能增加对css的支持。显然这并不合理。</p>
+
+<p><br></p>
+
+<h3>更合理的方式</h3>
+
+<p>更合理的方式不应该直接用<code>markdown</code>文件作为视图的模版文件。应该还是用<code>jade</code>作为模版文件，只是在其中增加对<code>markdown</code>的支持。
+再次修改<code>app.js</code></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// 还原为jade作为模版引擎</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;view engine&#39;</span><span class="p">,</span> <span class="s1">&#39;jade&#39;</span><span class="p">);</span>
+<span class="c1">// 在渲染的操作前，读取markdown文件，把内容转为html</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/doc&#39;</span><span class="p">,</span>  <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="s1">&#39;doc/index.md&#39;</span><span class="p">,</span> <span class="s1">&#39;utf8&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">html</span> <span class="o">=</span> <span class="nx">markdown</span><span class="p">.</span><span class="nx">toHTML</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+        <span class="nx">res</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="s1">&#39;doc&#39;</span><span class="p">,</span> <span class="p">{</span><span class="nx">mdContent</span><span class="o">:</span> <span class="nx">html</span><span class="p">});</span>
+    <span class="p">});</span>
+<span class="p">});</span></code></pre></div>
+
+
+<p>增加<code>jade</code>文件</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// layout.jade</span>
+<span class="nx">doctype</span> <span class="nx">html</span>
+<span class="nx">html</span>
+    <span class="nx">head</span>
+        <span class="nx">title</span><span class="o">=</span> <span class="nx">title</span>
+        <span class="nx">link</span><span class="p">(</span><span class="nx">rel</span><span class="o">=</span><span class="s1">&#39;stylesheet&#39;</span><span class="p">,</span> <span class="nx">href</span><span class="o">=</span><span class="s1">&#39;/public/doc/github-markdown.css&#39;</span><span class="p">)</span>
+    <span class="nx">body</span>
+        <span class="nx">block</span> <span class="nx">content</span>
+<span class="c1">// doc.jade</span>
+<span class="kr">extends</span> <span class="nx">layout</span>
+
+<span class="nx">block</span> <span class="nx">content</span>
+    <span class="p">.</span><span class="nx">markdown</span><span class="o">-</span><span class="nx">body</span>
+        <span class="o">!=</span> <span class="nx">mdContent</span></code></pre></div>
+
+
+<p>为了增加样式，添加了<code>github-markdown.css</code>文件，网上有很多配合<code>markdown</code>的样式，根据喜好选择即可。</p>
+
+<p>终于显示出来的文档有模有样了！</p>
+
+<p><br></p>
+
+<h3>参考资料</h3>
+
+<p>http://blog.csdn.net/elliott_yoho/article/details/53440296</p>
+
+  </article>
+
+</div>
+
+
+          <footer class="site-footer">
+
+  <div class="wrapper">
+    <p class="footer-heading">Copyright © 2017 - <a href="/">库乐君的笔记本</a> - Base on <a href="http://github.com">Github</a> & <a href="http://jekyllrb.com">Jekyll</a></p>
+  </div>
+  <script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "https://hm.baidu.com/hm.js?075085658c25fed7cc4d8789f23c6519";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+</footer>
+
+        </div>
+      </div>
+    </div>
+
+  </body>
+
+</html>
