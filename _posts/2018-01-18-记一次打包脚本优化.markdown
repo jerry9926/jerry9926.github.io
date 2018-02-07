@@ -1,0 +1,219 @@
+---
+ layout: post
+ title:  "记一次打包脚本优化"
+ date:   2018-01-18 19:23:22
+ categories: javascript
+ tags: Gulp
+---
+
+之前在执行打包脚本的时候，发现在运行的过程中，程序有长时间的等待。并且等待的时机是在一个`gulp`任务完成后，而不是等待任务执行。于是开始了一次优化之旅。
+
+<!-- more -->
+
+先看看当时的打包脚本。
+打包命令`npm prod`
+pageage.json
+
+{% highlight javascript %}
+"scripts": {
+    "prod": "npm run build && npm run lanBuild && npm run plugin",
+    "build": "cross-env NODE_ENV=production gulp",
+    "lanBuild": "gulp lanBuild",
+    "plugin": "gulp jqueryPlugin"
+}
+{% endhighlight %}
+
+
+解读一下`npm prod`命令的意思，其实是执行`npm build`，`npm lanBuild`， `npm plugin`三个命令。其中以`&&`连接，这里是表示，执行完前面的脚本再执行后面的脚本的意思。然后在看看`gulp`里面的任务定义。
+
+gulpfile.js
+{% highlight javascript %}
+
+/**
+ *  清理生产目录文件
+ */
+gulp.task('clean', function(cb) {
+    del(['dist/*.js','dist/*.css','dist/*.map','dist/**/*']).then(paths => {
+        console.log('Deleted files and folders:\n', paths.join('\n'));
+        cb();
+    });
+});
+
+/**
+ *  执行webpack打包
+ */
+gulp.task('webpack',['clean'], function(cb) {
+    webpack(config, cb)
+});
+
+/**
+ *  压缩css文件
+ */
+gulp.task('style',function() {
+    gulp.src('dist/style.css')
+    .pipe(rename({suffix:'.min'}))
+    .pipe(minifycss())
+    .pipe(gulp.dest('dist'));
+});
+
+/**
+ *  压缩js文件
+ */
+gulp.task('script',['lanBuild'],function() {
+    gulp.src('dist/*.js')
+    // .pipe(rename({suffix:'.min'}))
+        .pipe(uglify())
+        .pipe(gulp.dest('dist'));
+});
+/**
+ *  压缩jquery相关的插件及jquery本体文件
+ */
+gulp.task('jqueryPlugin',function() {
+    return gulp.src([path.jqueryPluginPath, path.config, path.configUrl])
+        .pipe(concat(path.jqueryPluginOutputName))
+        .pipe(gulp.dest(path.jqueryPluginOutputPath));
+});
+/**
+ * 构建多语言
+ * */
+gulp.task('lanBuild',function() {
+    var opt = {
+        lanPath:'i18n/',
+        bulidPath:'dist/',
+        lanOutputPath:'dist/i18n'
+    };
+    var optc = {
+        lanPath:'src/libs/i18n/',
+        bulidPath:'src/libs/i18n/',
+        lanOutputPath:'dist/i18n/components/'
+    };
+    ukwatch.lan(opt,gulp);
+    ukwatch.lan(optc,gulp);
+});
+/**
+ * 默认脚本
+ */
+gulp.task('default', ['webpack'], function() {
+    console.log(process.env.NODE_ENV);
+    gulp.start('style','script');
+});
+{% endhighlight %}
+
+`gulp`定义了六个任务。每个任务的作用已经在注释里说的很清楚了，我们直接来看一下各个任务之间的关系。`webpack`脚本，依赖`clean`脚本，这里没有没有什么问题。然后`script`任务依赖`lanBuild`任务，这里单独看`script`任务是没有问题的，但是在上面的`npm`命令中，就有执行`lanBuild`的命令， 这么看来，`lanbuild`命令会被执行两次，一个是`npm`命令的调用，另一个是由于调用了`script`任务的时候，依赖`lanBuild`而被调用。然后再看`default`任务，在回调里面写了`gulp.start`，为了在运行`webpack`任务后执行`style`和`script`。虽然在运行的时候，确实可以运行，但是在`gulp`的官方文档中并没有这中写法。官方写法还是使用指定依赖的方式来达到串行执行的目的。所以这里也需要修改。
+现在来针对以上的问题来进行修改。
+
+pageage.json
+{% highlight javascript %}
+"scripts": {
+    "prod": "npm run build",
+    "build": "cross-env NODE_ENV=production gulp"
+}
+{% endhighlight %}
+
+`npm`命令精简为一个，就是执行`gulp`默认任务
+
+gulpfile.js
+{% highlight javascript %}
+/**
+ *  压缩css文件
+ */
+gulp.task('style', ['webpack'], function() {
+    gulp.src('dist/style.css')
+    .pipe(rename({suffix:'.min'}))
+    .pipe(minifycss())
+    .pipe(gulp.dest('dist'));
+});
+
+/**
+ *  压缩js文件
+ */
+gulp.task('script', ['webpack'], function() {
+    gulp.src('dist/*.js')
+    // .pipe(rename({suffix:'.min'}))
+        .pipe(uglify())
+        .pipe(gulp.dest('dist'));
+});
+/**
+ *  压缩jquery相关的插件及jquery本体文件
+ */
+gulp.task('jqueryPlugin', ['webpack'], function() {
+    return gulp.src([path.jqueryPluginPath, path.config, path.configUrl])
+        .pipe(concat(path.jqueryPluginOutputName))
+        .pipe(gulp.dest(path.jqueryPluginOutputPath));
+});
+/**
+ * 构建多语言
+ * */
+gulp.task('lanBuild', ['webpack'], function() {
+    var opt = {
+        lanPath:'i18n/',
+        bulidPath:'dist/',
+        lanOutputPath:'dist/i18n'
+    };
+    var optc = {
+        lanPath:'src/libs/i18n/',
+        bulidPath:'src/libs/i18n/',
+        lanOutputPath:'dist/i18n/components/'
+    };
+    ukwatch.lan(opt,gulp);
+    ukwatch.lan(optc,gulp);
+});
+gulp.task('default', ['style','script', 'lanBuild', 'jqueryPlugin'], function() {
+    console.log(process.env.NODE_ENV);
+});
+{% endhighlight %}
+
+`gulp`默认任务就把依赖关系简单明了的写出来。逻辑就清晰很多了。
+
+这时已经优化了，然后执行一下试试效果。结果是可以运行的，但是在任务执行之后，并没有直接退出，而是等待了几分钟之后，才退出了。
+这时翻看`gulp`的官网api，发现有一段解释。
+异步任务支持
+任务可以异步执行，如果 `fn` 能做到以下其中一点：
+
+1. 接受一个 `callback`
+2. 返回一个 `stream`
+3. 返回一个 `promise`
+
+并且有例子
+对于这个例子，让我们先假定你有两个`task`，"one" 和 "two"，并且你希望它们按照这个顺序执行：
+在 "one" 中，你加入一个提示，来告知什么时候它会完成：可以再完成时候返回一个`callback`，或者返回一个`promise`或`stream`，这样系统会去等待它完成。
+在 "two" 中，你需要添加一个提示来告诉系统它需要依赖第一个`task`完成。
+因此，这个例子的实际代码将会是这样：
+{% highlight javascript %}
+var gulp = require('gulp');
+// 返回一个 callback，因此系统可以知道它什么时候完成
+gulp.task('one', function(cb) {
+    // 做一些事 -- 异步的或者其他的
+    cb(err); // 如果 err 不是 null 或 undefined，则会停止执行，且注意，这样代表执行失败了
+});
+// 定义一个所依赖的 task 必须在这个 task 执行之前完成
+gulp.task('two', ['one'], function() {
+    // 'one' 完成后
+});
+gulp.task('default', ['one', 'two']);
+{% endhighlight %}
+
+so，现在问题就出现在`style`和`script`任务上了，并没有实现以上三个条件的任意一种。那我们现在要修改要使用哪一种方式呢。对于
+`gulp.src`方法，就是返回一个`stram`，所以我们只需要在`gulp.src`前加个`return`就可以了。
+{% highlight javascript %}
+/**
+ *  压缩css文件
+ */
+gulp.task('style', ['webpack'], function() {
+    return gulp.src('dist/style.css')
+    .pipe(rename({suffix:'.min'}))
+    .pipe(minifycss())
+    .pipe(gulp.dest('dist'));
+});
+/**
+ *  压缩js文件
+ */
+gulp.task('script', ['webpack'], function() {
+    return gulp.src('dist/*.js')
+    // .pipe(rename({suffix:'.min'}))
+        .pipe(uglify())
+        .pipe(gulp.dest('dist'));
+});
+{% endhighlight %}
+
+修改后，执行脚本，运行完所有任务之后，程序不再等待，直接退出。大功告成！

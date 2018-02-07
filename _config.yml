@@ -17,3 +17,6 @@ default_category: "en"
 safe: false
 exclude: ['node_modules/']
 excerpt_separator:  '<!-- more -->'
+# deployment
+host: 127.0.0.1
+port: 4000
