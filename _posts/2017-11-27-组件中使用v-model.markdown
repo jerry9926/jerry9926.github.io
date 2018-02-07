@@ -1,0 +1,50 @@
+---
+ layout: post
+ title:  "组件中使用v-model"
+ date:   2017-11-27 14:51:21
+ categories: javascript
+ tags: vue
+---
+
+vue中表单可以使用`v-model`实现双向绑定。
+
+<!-- more -->
+`v-model`本质上是语法糖。
+{% highlight javascript %}
+<input v-model="something">
+{% endhighlight %}
+
+与下面的相等
+
+{% highlight javascript %}
+<input v-bind:value="something" v-on:input="something = $event.target.value">
+{% endhighlight %}
+
+如果在自定义组件中，希望使用`v-model`，可以这样写
+
+<br>
+###1、增加`props.value`
+{% highlight javascript %}
+props: {
+    value: {
+        require: true
+    },
+{% endhighlight %}
+
+<br>
+###2、在数据变化的时候触发事件`input`
+{% highlight javascript %}
+this.$emit('input', value);
+{% endhighlight %}
+
+<br>
+###3、使用，与表单元素使用方式一样
+{% highlight javascript %}
+<g-component v-model="comValue"></g-component >
+{% endhighlight %}
+
+<br>
+###使用场景
+
+设置了组件的值，组件操作后值需要更新，并且外部需要得到更新后的值。
+

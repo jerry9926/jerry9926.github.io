@@ -1,0 +1,42 @@
+---
+ layout: post
+ title:  "生成目录结构的小工具"
+ date:   2017-09-29 10:00:22
+ categories: javascript 工具
+ tags: node
+---
+
+npm工具 tree-directory
+<!-- more -->
+
+###安装
+```
+npm install tree-directory
+```
+
+###使用
+```
+const tree = require('tree-directory');
+
+tree(__dirname, ['**/*', '!node_modules/**/*']).then(function (res) {
+    console.log(res)
+});
+```
+
+###输出结果
+```
+├─ dist
+├─ gulpfile.js
+├─ node_modules
+├─ package.json
+├─ README.md
+├─ src
+├─ src/demo-01.html
+├─ src/js
+├─ src/js/components
+├─ src/js/components/aComponent
+├─ src/js/components/aComponent/a.js
+├─ src/js/pages
+├─ src/js/pages/demo-01.js
+└─ webpack.config.js
+```
