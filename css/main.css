@@ -256,20 +256,20 @@ pre {
 .post-content {
   margin-bottom: 30px; }
   .post-content h2 {
-    font-size: 2.4em; }
+    font-size: 1.8em; }
     @media screen and (max-width: 800px) {
       .post-content h2 {
-        font-size: 2.2em; } }
+        font-size: 1.6em; } }
   .post-content h3 {
-    font-size: 2em; }
-    @media screen and (max-width: 800px) {
-      .post-content h3 {
-        font-size: 1.8em; } }
-  .post-content h4 {
     font-size: 1.6em; }
     @media screen and (max-width: 800px) {
-      .post-content h4 {
+      .post-content h3 {
         font-size: 1.4em; } }
+  .post-content h4 {
+    font-size: 1.4em; }
+    @media screen and (max-width: 800px) {
+      .post-content h4 {
+        font-size: 1.2em; } }
 
 /**
  * Pygments highlighting styles
