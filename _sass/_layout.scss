@@ -98,6 +98,28 @@
 }
 
 /**
+ * 文章底部上一篇下一篇
+ * 18-2-8
+ */
+.article-guide {
+    line-height: 30px;
+    color: $brand-color;
+    border-top: 1px solid #e6e6e6;
+    
+    .article-pre, .article-next {
+        margin: 20px 0;
+    }
+    
+    .article-pre {
+        float: left;
+    }
+    
+    .article-next {
+        float: right;
+    }
+}
+
+/**
  * 滚动条样式
  * 18-2-7
  */
@@ -272,7 +294,9 @@
 }
 
 .post-meta {
-    float: right;
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 0;
     font-size: $small-font-size;
     color: $grey-color;
 }

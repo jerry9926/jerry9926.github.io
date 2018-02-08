@@ -4,13 +4,23 @@ layout: twoside
 <!-- 文章模版 -->
 <div class="post">
 
-  <header class="post-header">
+  <header class="post-header clearfix">
     <h1 class="post-title">{{ page.title }}</h1>
-    <p class="post-meta">{{ page.date | date: "%Y-%m-%d" }}{% if page.author %} • {{ page.author }}{% endif %}{% if page.meta %} • {{ page.meta }}{% endif %}</p>
+    <span class="post-meta">{% if page.categories %} 分类：{{ page.categories }} {% endif %}</span>
+    <span class="post-meta">{% if page.tags %} 标签：{{ page.tags }}{% endif %}</span>
+    <span class="post-meta">发布时间：{{ page.date | date: "%Y-%m-%d" }}</span>
   </header>
 
   <article class="post-content">
     {{ content }}
   </article>
 
+  <div class="article-guide clearfix">
+    {% if page.previous %}
+      <span class="article-pre">« <a href="{{ page.previous.url | prepend: site.baseurl }}" rel="prev">{{ page.previous.title }}</a></span>
+    {% endif %}
+    {% if page.next %}
+      <span class="article-next"><a href="{{ page.next.url | prepend: site.baseurl }}" rel="next">{{ page.next.title }}</a> »</span>
+    {% endif %}
+  </div>
 </div>
