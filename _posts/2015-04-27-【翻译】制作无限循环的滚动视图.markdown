@@ -14,7 +14,7 @@ tags: UIScrollView
 #### 重复最后的视图
 第一个观点对小型的循环是最好的方法。假设你有十张图片要显示。当用户在第一张图片的时候要向左滑动，会让用户看到第十张图片。当用户在第十张图片的时候向右滑动，让用户看到第一张。这里的逻辑需要我们把图片按顺序的添加进来，同时在第一张图片的左边加一张第十张的图片，在第十张的图片右边加一张第一张的图片。
 
-![示例图片]({{ site.url }}/assets/images/scrollingInfiniteLoop_1.jpg)
+![示例图片]({{ site.url }}/assets/images/150427/scrollingInfiniteLoop_1.jpg)
 
 现在，当用户滚动到尽头，我们把UIScrollView的偏移量重新定位一下。通过放置一个同样的图片在最后并且不使用动画把偏移量重新定位，让用户有无缝连接的体验。
 {% highlight Objective-C %}

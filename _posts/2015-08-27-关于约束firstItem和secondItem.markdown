@@ -20,13 +20,13 @@ firstItem的属性等于secondItem的属性乘以比例加上约束的值。
 
 这个结论对实际问题有什么影响呢。就在今天遇到的一个问题就有关系。说一下这个场景。
 有一个UITableviewCell，里面有许多信息，主要关注就是一段文字和一个图片。文字是不知道有多少行的，需要动态的换行。图片呢，就是有一个固定的比列的，比例为1280：720。整个UI就如图所示：
-![示例图片]({{ site.url }}/assets/images/fisrtItemAndSecondItem_1.jpg)
+![示例图片]({{ site.url }}/assets/images/150827/fisrtItemAndSecondItem_1.jpg)
 
 文字的约束设置：有上下左右的约束，如图：
-![示例图片]({{ site.url }}/assets/images/fisrtItemAndSecondItem_2.jpg)
+![示例图片]({{ site.url }}/assets/images/150827/fisrtItemAndSecondItem_2.jpg)
 
 图片的约束设置：也是有上下左右的约束，并且有一个比例的约束，如图：
-![示例图片]({{ site.url }}/assets/images/fisrtItemAndSecondItem_3.jpg)
+![示例图片]({{ site.url }}/assets/images/150827/fisrtItemAndSecondItem_3.jpg)
 
 就是这样的设置，看起来是没有问题的。  
 这个UITableviewCell的显示的过程，就是先要确定高度，然后再渲染内容。
