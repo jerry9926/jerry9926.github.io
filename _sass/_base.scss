@@ -133,16 +133,20 @@ code {
     font-size: 15px;
     border: 1px solid $grey-color-light;
     border-radius: 3px;
-    background-color: #eef;
 }
 
 code {
     padding: 1px 5px;
+    color: #c7254e;
+    background: #f9f2f4;
+    border: 1px solid #d6d6d6;
 }
 
 pre {
     padding: 8px 12px;
     overflow-x: auto;
+    color: $code-text-color;
+    background-color: $code-background-color;
 
     > code {
         border: 0;

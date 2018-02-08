@@ -1,4 +1,147 @@
 /**
+ * 整个容器
+ * 18-2-7
+ */
+ .my-container {
+    position: relative;
+    z-index: 2;
+}
+/**
+ * 左侧栏
+ * 18-2-7
+ */
+.side-bar {
+    box-sizing: border-box;
+    position: fixed;
+    padding: 20px;
+    width: 250px;
+    height: 100%;
+    background-color: #1a2a6d;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url(/assets/images/ui/side-bar-bg.jpg);
+
+    .head-wrapper {
+        margin: 5rem auto 1rem;
+        width: 50%;
+    }
+    
+    .head-wrapper img {
+        border-radius: 50%;
+    }
+    
+    .title {
+        color: #fff;
+        font-size: 1.5em;
+        text-shadow: 0 1px 1px #333;
+    }
+    
+    .decs {
+        color: #fff;
+        font-weight: normal;
+        font-size: 1em;
+        line-height: 1.2em;
+        text-shadow: 0 1px 1px #333;
+    }
+    
+    .nav {
+        margin: 0;
+        padding: 1rem 0 0;
+    }
+    
+    .nav li {
+        text-align: center;
+        line-height: 25px;
+    }
+    
+    .nav a {
+        padding: 0;
+        color: #fff;
+        text-shadow: 0 1px 1px #919191;
+        transition: all .3s;
+    }
+}
+
+.nav>li>a:hover, .nav>li>a:focus {
+	color: #2b2b2b;
+    background: transparent;
+}
+
+/**
+ * 文章内容
+ * 18-2-7
+ */
+.content-contain {
+    margin-left: 250px;
+    padding-left: 20px;
+    padding-right: 20px;
+    min-height: 100%;
+    background: #fff;
+}
+
+/**
+ * particles-js
+ * 粒子效果
+ * 18-2-7
+ */
+ #particles-js{
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background-color: $background-color;
+    background-image: url('');
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+}
+
+/**
+ * 滚动条样式
+ * 18-2-7
+ */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    overflow: auto;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+    min-height: 25px;
+    min-width: 25px;
+    border: 1px solid #eee;
+}
+::-webkit-scrollbar-track {
+    background-color: #f7f7f7;
+    border: 1px solid #eee;
+}
+
+@media (max-width: 768px) {
+    .side-bar {
+        position: static;
+        width: 100%;
+        margin-bottom: 20px;
+        .head-wrapper {
+            margin: 5rem auto 1rem;
+            width: 20%;
+        }
+        .nav li {
+            display: inline-block;
+        }
+        .nav li a {
+            padding:10px;
+        }
+    }
+    
+
+    .content-contain {
+        position: static;
+        margin-left: 0;
+    }
+}
+
+/**
  * Site header
  */
 .site-header {
@@ -86,8 +229,6 @@
     }
 }
 
-
-
 /**
  * Site footer
  */
@@ -107,8 +248,6 @@
 @include media-query($on-palm) {
 
 }
-
-
 
 /**
  * Page content
@@ -143,8 +282,6 @@
     cursor: pointer;
 }
 
-
-
 /**
  * Posts
  */
@@ -167,26 +304,26 @@
     margin-bottom: $spacing-unit;
 
     h2 {
-        font-size: 1.8em;
+        font-size: 2.4em;
 
         @include media-query($on-laptop) {
-            font-size: 1.6em;
+            font-size: 2.2em;
         }
     }
 
     h3 {
-        font-size: 1.6em;
+        font-size: 2em;
 
         @include media-query($on-laptop) {
-            font-size: 1.4em;
+            font-size: 1.8em;
         }
     }
 
     h4 {
-        font-size: 1.4em;
+        font-size: 1.6em;
 
         @include media-query($on-laptop) {
-            font-size: 1.2em;
+            font-size: 1.4em;
         }
     }
 
