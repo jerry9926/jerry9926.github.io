@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "用javascript获取viewport/window的尺寸（宽高）"
+title:  "用javacript获取viewport(window)宽高"
 date:   2016-02-17 09:54:34
 categories: Javascript
 
