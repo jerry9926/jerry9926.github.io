@@ -309,7 +309,9 @@
 
 <p>所谓冒泡效果，看起来就是显示的数字是一个一个从上至下开始显示出来，好像在起点位置的下方数字被盖住了那样，数字移动的位置超过起点才显示出来。比如1234，先显示1随着数字往上移动，渐渐露出2，之后是3、4。
 明白了这个效果的本质后，我们要做的就是通过计算文字的位置，而改变需要显示的内容。以1234为例。用移动的位置减去起点的位置，这段距离是文字可以显示的高度。而文字显示完整需要的高度是，<strong>行高乘以行数</strong>。把可显示的高度除以行高，就得到了可以显示的行数。如果只能显示一行，这里就等于显示的文字就是1，能显示两行，就显示文字12，如此类推。
-<img src="http://jerry9926.github.io/assets/images/171010/1507623160703.png" alt="示例图片" />
+<img src="http://jerry9926.github.io/assets/images/171010/1507623160703.png" alt="示例图片" /></p>
+
+<p><br>
 在<code>EffectLine.js</code>里增加代码</p>
 
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="cm">/**</span>
