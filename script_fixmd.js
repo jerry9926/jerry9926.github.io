@@ -9,7 +9,8 @@ var DIR = '_posts';
 // 2017-09-5-在express中使用markdown
 // 2017-09-14-Babel小记
 // 2017-10-10-扩展echarts图表类型
-var FILE_PATH = '2017-10-10-扩展echarts图表类型';
+// 2017-07-05-Swagger+Node搭建API文档系统
+var FILE_PATH = '2017-07-05-Swagger+Node搭建API文档系统';
 
 var SUFFIX = '.markdown';
 
@@ -19,12 +20,13 @@ fs.readdir(DIR, function(err, files) {
 
 		// console.log(file);
 		// console.log(FILE_PATH);
-
 		// console.log(file.indexOf(FILE_PATH));
 
-		if (file.indexOf(FILE_PATH) === 0) {
+		if (file.indexOf(FILE_PATH + SUFFIX) === 0) {
 			var filePath =  path.join(DIR, file);
-			var isOpen = true;
+			// var isOpen = true;
+			var isJsEnd = false;
+			var isCodeEnd = true;
 
 			var fileBaseName = path.basename(file, SUFFIX);
 			var filePathNew = path.join(DIR, fileBaseName + ' - 2') + SUFFIX;
@@ -39,22 +41,36 @@ fs.readdir(DIR, function(err, files) {
 
 // console.log('line - ' + lineCount + ', ' + line);
 
+				// ## ### 前面增加 换行
 				if (line.match(/(^#{2,3})(?!#)/)) {
 					console.log('line - ' + lineCount + ', ' + line);
-
-// console.log('get ###');
 					line = '<br>' + '\n' + line;
 				}
 
-				if (line.match(/^```$/)) {
-					if (isOpen) {
-						line = '{% highlight javascript %}';
-						isOpen = false;
-					} else {
-						line = '{% endhighlight %}';
-						isOpen = true;
-					}
+				// 单行是引用链接时增加 换行
+				if (line.match(/^\[.+\]\(.+\)$/)) {
+					console.log('line - ' + lineCount + ', ' + line);
+					line = '<br>' + '\n' + line;					
 				}
+
+				// js的代码高亮
+				if (line.match(/^```js$/)) {
+					line = '{% highlight javascript %}';
+					isJsEnd = true;
+				} else if (line.match(/^```$/) && isJsEnd) {
+					line = '{% endhighlight %}';
+					isJsEnd = false;					
+				}
+
+				// if (line.match(/^```$/)) {
+				// 	if (isOpen) {
+				// 		line = '{% highlight javascript %}';
+				// 		isOpen = false;
+				// 	} else {
+				// 		line = '{% endhighlight %}';
+				// 		isOpen = true;
+				// 	}
+				// }
 
 				ws.write(line + '\n');
 
