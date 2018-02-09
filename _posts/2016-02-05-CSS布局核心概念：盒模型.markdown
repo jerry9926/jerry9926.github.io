@@ -1,9 +1,9 @@
 ---
 layout: post
 title:  "CSS布局核心概念：盒模型"
-date:   2016-02-05 11:23:34
-categories: CSS
-
+date:   2016-02-05
+categories: web前端
+tags: CSS
 ---
 
 #盒模型

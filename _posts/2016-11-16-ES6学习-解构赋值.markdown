@@ -1,8 +1,9 @@
 ---
 layout: post
 title:    "ES6学习-解构赋值"
-date:     2016-11-16 20:11:51
-categories: Javascript 
+date:     2016-11-16
+categories: web前端
+tags: ES6
 ---
 
 近期学习的ES6，关于解构赋值的部分。

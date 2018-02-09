@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "UITableViewCell里UIButton的选中态"
-date:   2015-04-17 17:11:51
+date:   2015-04-17
 categories: iOS
 tags: UITableView
 ---

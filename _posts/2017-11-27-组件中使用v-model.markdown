@@ -2,8 +2,8 @@
  layout: post
  title:  "组件中使用v-model"
  date:   2017-11-27 14:51:21
- categories: javascript
- tags: vue
+ categories: web前端
+ tags: [vue, Javascript]
 ---
 
 vue中表单可以使用`v-model`实现双向绑定。

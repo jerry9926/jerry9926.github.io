@@ -1,9 +1,9 @@
 ---
  layout: post
  title:  "在express中使用markdown"
- date:   2017-09-05 16:01:01
- categories: javascript
- tags: express markdown
+ date:   2017-09-05
+ categories: 编程相关
+ tags: [express, markdown]
 ---
 
 之前在github的博客中已经使用过`markdown`语法。`markdown`语法简单，适合技术文章和说明文档。这次项目中的文档希望使用`markdown`来写，把文档放在express之中。记录一下使用过程。

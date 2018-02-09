@@ -1,8 +1,8 @@
 ---
  layout: post
  title:  "jekyll + github page标签页404"
- date:   2017-03-10 10:52:51
- categories: 工具
+ date:   2017-03-10
+ categories: 编程相关
  tags: jekyll
 ---
 

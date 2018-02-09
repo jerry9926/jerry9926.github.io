@@ -1,9 +1,9 @@
 ---
  layout: post
  title:  "生成目录结构的小工具"
- date:   2017-09-29 10:00:22
- categories: javascript 工具
- tags: node
+ date:   2017-09-29
+ categories: web前端
+ tags: node 工具
 ---
 
 npm工具 tree-directory

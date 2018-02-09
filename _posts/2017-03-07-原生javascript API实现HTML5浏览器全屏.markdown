@@ -1,9 +1,9 @@
 ---
- layout: post
- title:  "原生javascript API实现HTML5浏览器全屏"
- date:   2017-03-07 13:34:51
- categories: javascript
- tags: javascript
+layout: post
+title:  "原生javascript API实现HTML5浏览器全屏"
+date:   2017-03-07
+categories: web前端
+tags: Javascript
 ---
 
 <br>

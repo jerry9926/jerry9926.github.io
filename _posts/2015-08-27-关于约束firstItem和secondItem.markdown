@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 	"关于约束firstItem和secondItem"
-date: 	2015-08-27 17:57:51
+date: 	2015-08-27
 categories: iOS
 tags: AutoLayout
 ---

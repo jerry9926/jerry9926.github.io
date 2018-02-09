@@ -1,9 +1,9 @@
 ---
 layout: post
 title:  "用javacript获取viewport(window)宽高"
-date:   2016-02-17 09:54:34
-categories: Javascript
-
+date:   2016-02-17
+categories: web前端
+tags: Javacript CSS
 ---
 
 CSS媒体查询和javascript的window宽度不相等

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 	"利用NSSortDescriptor给NSArray排序"
-date: 	2015-05-06 10:11:51
+date: 	2015-05-06
 categories: iOS
 tags: NSArray
 ---

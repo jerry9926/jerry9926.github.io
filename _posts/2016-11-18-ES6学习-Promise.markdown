@@ -1,8 +1,9 @@
 ---
 layout: post
 title:    "ES6学习-Promise"
-date:     2016-11-18 20:59:51
-categories: Javascript 
+date:     2016-11-18
+categories: web前端
+tags: ES6
 ---
 
 近期学习的ES6，关于Promise的部分。

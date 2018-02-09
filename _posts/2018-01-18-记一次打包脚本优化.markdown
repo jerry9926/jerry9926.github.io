@@ -2,8 +2,8 @@
  layout: post
  title:  "记一次打包脚本优化"
  date:   2018-01-18 19:23:22
- categories: javascript
- tags: Gulp
+ categories: web前端
+ tags: [Gulp, 工具]
 ---
 
 之前在执行打包脚本的时候，发现在运行的过程中，程序有长时间的等待。并且等待的时机是在一个`gulp`任务完成后，而不是等待任务执行。于是开始了一次优化之旅。

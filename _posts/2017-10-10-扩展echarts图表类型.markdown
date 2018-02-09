@@ -1,9 +1,9 @@
 ---
  layout: post
  title:  "扩展echarts图表类型"
- date:   2017-10-10 18:23:00
- categories: javascript
- tags: echarts
+ date:   2017-10-10
+ categories: web前端
+ tags: [echarts, Javascript]
 ---
 
 <br>

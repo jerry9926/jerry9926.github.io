@@ -1,9 +1,9 @@
 ---
 layout: post
 title:    "webpack入门笔记"
-date:     2016-12-29 15:44:51
-categories: 工具
-tags: webpack
+date:     2016-12-29
+categories: web前端
+tags: [webpack, 工具]
 ---
 
 ### 什么是WebPack

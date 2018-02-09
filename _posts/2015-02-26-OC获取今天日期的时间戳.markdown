@@ -1,7 +1,7 @@
 ---
 layout: post
 title:    "2015-02-26-OC获取今天日期的时间戳"
-date:     2015-02-26 11:11:51
+date:     2015-02-26
 categories: iOS 
 ---
 
