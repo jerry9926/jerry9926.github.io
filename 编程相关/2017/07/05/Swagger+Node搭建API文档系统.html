@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<!-- 两栏模版 -->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <title>Swagger+Node搭建API文档系统</title>
+    <link rel="canonical" href="http://jerry9926.github.io/%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3/2017/07/05/Swagger+Node%E6%90%AD%E5%BB%BAAPI%E6%96%87%E6%A1%A3%E7%B3%BB%E7%BB%9F.html">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="/css/main.css">
+	<script src="/js/jquery-1.11.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+	<script src="/js/particles.min.js"></script>    
+</head>
+
+
+  <body>
+    <div class="container my-container">
+      <div class="side-bar">
+        <!--Sidebar content-->
+        <div class="head-wrapper">
+        <img src="/assets/images/ui/icon.jpg" alt="head-icon">
+        </div>
+        <h1 class="title">库乐君的笔记本</h1>
+        <h2 class="decs">所谓文艺，不过是多走一些路，多看一些风景罢了</h2>
+        <ul class="nav">
+        <li><a href="/">首页</a></li>
+            
+        <li><a href="/ios/" title="查看更多文章">ios 6</a>
+        </li>
+        
+        <li><a href="/编程相关/" title="查看更多文章">编程相关 4</a>
+        </li>
+        
+        <li><a href="/web前端/" title="查看更多文章">web前端 12</a>
+        </li>
+        
+        </ul>
+      </div>
+      <div class="content-contain">
+        <!--Body content-->
+        <!-- 文章模版 -->
+<div class="post">
+
+  <header class="post-header clearfix">
+    <h1 class="post-title">Swagger+Node搭建API文档系统</h1>
+    <span class="post-meta"> 分类：编程相关 </span>
+    <span class="post-meta"> 标签：node工具</span>
+    <span class="post-meta">发布时间：2017-07-05</span>
+  </header>
+
+  <article class="post-content">
+    <p>在公司做了个小型的web项目，使用node做后端。提供API渐渐增加，希望有一个API的文档方便查阅，于是找到了swagger。用swaager为原来的node项目搭建API文档系统。</p>
+
+<!-- more -->
+
+
+<p><br></p>
+
+<h3>环境搭建</h3>
+
+<p>1、下载Swagger UI</p>
+
+<pre><code>git clone https://github.com/swagger-api/swagger-ui.git
+</code></pre>
+
+<p>2、安装express</p>
+
+<pre><code>npm install experss --save
+</code></pre>
+
+<p>因为我的项目本身就使用express就不用额外安装了。</p>
+
+<p>3、创建一个文件夹swagger</p>
+
+<p>把之前下载<code>swagger ui</code>项目里面的<code>dist</code>文件复制到文件夹<code>swagger</code>中。</p>
+
+<p>4、修改<code>app.js</code></p>
+
+<p>在express的入口文件<code>app.js</code>增加如下代码。这是配置exprees的静态资源文件的访问路径，设置后通过<code>/swagger</code>可以访问swagger文件夹的资源。</p>
+
+<pre><code>app.use('/swagger', express.static('swagger'));
+</code></pre>
+
+<p>5、重启node服务器</p>
+
+<p>重启后，访问<code>http://localhost:3000/swagger/index.html</code>，这时已经可以看到swagger的api文档了。只是这里的api是demo里面的文档。之后我们要生成我们代码的API文档。</p>
+
+<p><br></p>
+
+<h3>生成API文档</h3>
+
+<p>在此之前，我们已经使用swagger搭建了一个API文档。 在页面上可以看到，swagger是通过对<code>swagger.json</code>文件的解释来读取API的内容的，那么我们现在就需要生成描述我们API的<code>swagger.json</code>文件。如何生成这个json文件，理所当然是可以自己手动来编写的。但是明显费时费力，前辈早有解决方法。这里要使用工具<code>swagger-jsdoc</code>。</p>
+
+<p>1、安装<code>swagger-jsdoc</code></p>
+
+<pre><code>npm install swagger-jsdoc@1.3.0 --save
+</code></pre>
+
+<p>2、在<code>app.js</code>引入<code>swagger-jsdoc</code>，并且配置</p>
+
+<pre><code>var swaggerJSDoc = require('swagger-jsdoc');
+</code></pre>
+
+<p>这里把demo里面的配置做个说明</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// swagger 配置</span>
+<span class="kd">var</span> <span class="nx">swaggerDefinition</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1">// 页面上的信息</span>
+    <span class="nx">info</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Node Swagger API&#39;</span><span class="p">,</span>
+        <span class="nx">version</span><span class="o">:</span> <span class="s1">&#39;1.0.0&#39;</span><span class="p">,</span>
+        <span class="nx">description</span><span class="o">:</span> <span class="s1">&#39;Demonstrating how to describe a RESTful API with Swagger&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="c1">// host</span>
+    <span class="nx">host</span><span class="o">:</span> <span class="s1">&#39;localhost:3000&#39;</span><span class="p">,</span>
+    <span class="c1">// swagger项目的跟路径</span>
+    <span class="nx">basePath</span><span class="o">:</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="c1">// swagger 文档配置</span>
+<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="c1">// 引用 swaggerDefinitions</span>
+  <span class="nx">swaggerDefinition</span><span class="o">:</span> <span class="nx">swaggerDefinition</span><span class="p">,</span>
+  <span class="c1">// 需要解释的 API 路径（路由路径）</span>
+  <span class="nx">apis</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;./routes/*.js&#39;</span><span class="p">],</span>
+<span class="p">};</span>
+
+<span class="c1">// 初始化 swagger-jsdoc</span>
+<span class="kd">var</span> <span class="nx">swaggerSpec</span> <span class="o">=</span> <span class="nx">swaggerJSDoc</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span></code></pre></div>
+
+
+<p>3、增加<code>swagger.json</code>的路由</p>
+
+<p><code>swagger-jsdoc</code>生成的json，需要一个访问的路径，因此配置一个路由</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// serve swagger</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/swagger.json&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">setHeader</span><span class="p">(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span> <span class="s1">&#39;application/json&#39;</span><span class="p">);</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">swaggerSpec</span><span class="p">);</span>
+<span class="p">});</span></code></pre></div>
+
+
+<p>这时访问<code>http://localhost:3000/swagger.json</code>，已经可以看到json文件有内容了，但是api的解释还是空的，之后我们需要在路由上做修改了。</p>
+
+<pre><code>{
+  info: {
+    title: "Node Swagger API",
+    version: "1.0.0",
+    description: "Demonstrating how to describe a RESTful API with Swagger"
+  },
+  host: "localhost:3000",
+  basePath: "/",
+  swagger: "2.0",
+  paths: { },
+  definitions: { },
+  responses: { },
+  parameters: { },
+  securityDefinitions: { }
+}
+</code></pre>
+
+<p>4、修改路由</p>
+
+<p>在每个路由前增加注释，按照语法写注释，里面写上这个API的描述，包括请求方式、分组、描述、数据格式、返回信息等等。详细的语法和字段意思这里不多说了，把官方的例子放出来做个参考。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="cm">/**</span>
+<span class="cm"> * @swagger</span>
+<span class="cm"> * /api/puppies:</span>
+<span class="cm"> *   get:</span>
+<span class="cm"> *     tags:</span>
+<span class="cm"> *       - Puppies</span>
+<span class="cm"> *     description: Returns all puppies</span>
+<span class="cm"> *     produces:</span>
+<span class="cm"> *       - application/json</span>
+<span class="cm"> *     responses:</span>
+<span class="cm"> *       200:</span>
+<span class="cm"> *         description: An array of puppies</span>
+<span class="cm"> *         schema:</span>
+<span class="cm"> *           $ref: &#39;#/definitions/Puppy&#39;</span>
+<span class="cm"> */</span>
+<span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/api/puppies&#39;</span><span class="p">,</span> <span class="nx">db</span><span class="p">.</span><span class="nx">getAllPuppies</span><span class="p">);</span>
+
+
+<span class="nx">GET</span> <span class="nx">Single</span>
+<span class="cm">/**</span>
+<span class="cm"> * @swagger</span>
+<span class="cm"> * /api/puppies/{id}:</span>
+<span class="cm"> *   get:</span>
+<span class="cm"> *     tags:</span>
+<span class="cm"> *       - Puppies</span>
+<span class="cm"> *     description: Returns a single puppy</span>
+<span class="cm"> *     produces:</span>
+<span class="cm"> *       - application/json</span>
+<span class="cm"> *     parameters:</span>
+<span class="cm"> *       - name: id</span>
+<span class="cm"> *         description: Puppy&#39;s id</span>
+<span class="cm"> *         in: path</span>
+<span class="cm"> *         required: true</span>
+<span class="cm"> *         type: integer</span>
+<span class="cm"> *     responses:</span>
+<span class="cm"> *       200:</span>
+<span class="cm"> *         description: A single puppy</span>
+<span class="cm"> *         schema:</span>
+<span class="cm"> *           $ref: &#39;#/definitions/Puppy&#39;</span>
+<span class="cm"> */</span>
+
+<span class="nx">POST</span>
+<span class="cm">/**</span>
+<span class="cm"> * @swagger</span>
+<span class="cm"> * /api/puppies:</span>
+<span class="cm"> *   post:</span>
+<span class="cm"> *     tags:</span>
+<span class="cm"> *       - Puppies</span>
+<span class="cm"> *     description: Creates a new puppy</span>
+<span class="cm"> *     produces:</span>
+<span class="cm"> *       - application/json</span>
+<span class="cm"> *     parameters:</span>
+<span class="cm"> *       - name: puppy</span>
+<span class="cm"> *         description: Puppy object</span>
+<span class="cm"> *         in: body</span>
+<span class="cm"> *         required: true</span>
+<span class="cm"> *         schema:</span>
+<span class="cm"> *           $ref: &#39;#/definitions/Puppy&#39;</span>
+<span class="cm"> *     responses:</span>
+<span class="cm"> *       200:</span>
+<span class="cm"> *         description: Successfully created</span>
+<span class="cm"> */</span>
+
+<span class="nx">PUT</span>
+<span class="cm">/**</span>
+<span class="cm"> * @swagger</span>
+<span class="cm"> * /api/puppies/{id}:</span>
+<span class="cm"> *   put:</span>
+<span class="cm"> *     tags: Puppies</span>
+<span class="cm"> *     description: Updates a single puppy</span>
+<span class="cm"> *     produces: application/json</span>
+<span class="cm"> *     parameters:</span>
+<span class="cm"> *       name: puppy</span>
+<span class="cm"> *       in: body</span>
+<span class="cm"> *       description: Fields for the Puppy resource</span>
+<span class="cm"> *       schema:</span>
+<span class="cm"> *         type: array</span>
+<span class="cm"> *         $ref: &#39;#/definitions/Puppy&#39;</span>
+<span class="cm"> *     responses:</span>
+<span class="cm"> *       200:</span>
+<span class="cm"> *         description: Successfully updated</span>
+<span class="cm"> */</span>
+
+<span class="nx">DELETE</span>
+<span class="cm">/**</span>
+<span class="cm"> * @swagger</span>
+<span class="cm"> * /api/puppies/{id}:</span>
+<span class="cm"> *   delete:</span>
+<span class="cm"> *     tags:</span>
+<span class="cm"> *       - Puppies</span>
+<span class="cm"> *     description: Deletes a single puppy</span>
+<span class="cm"> *     produces:</span>
+<span class="cm"> *       - application/json</span>
+<span class="cm"> *     parameters:</span>
+<span class="cm"> *       - name: id</span>
+<span class="cm"> *         description: Puppy&#39;s id</span>
+<span class="cm"> *         in: path</span>
+<span class="cm"> *         required: true</span>
+<span class="cm"> *         type: integer</span>
+<span class="cm"> *     responses:</span>
+<span class="cm"> *       200:</span>
+<span class="cm"> *         description: Successfully deleted</span>
+<span class="cm"> */</span></code></pre></div>
+
+
+<p>5、重启服务器</p>
+
+<p>再次访问，高大上的API文档已经可以使用了！</p>
+
+<p><br></p>
+
+<h3>信息来源：</h3>
+
+<p><a href="https://github.com/mjhea0/node-swagger-api" title="信息来源">https://github.com/mjhea0/node-swagger-api</a>
+<br>
+<a href="http://mherman.org/blog/2016/05/26/swagger-and-nodejs/#.WVDgOut96M9" title="信息来源">http://mherman.org/blog/2016/05/26/swagger-and-nodejs/#.WVDgOut96M9</a>
+<br>
+<a href="http://www.jianshu.com/p/d6626e6bd72c" title="信息来源">http://www.jianshu.com/p/d6626e6bd72c</a></p>
+
+  </article>
+
+  <div class="article-guide clearfix">
+    
+      <span class="article-pre">« <a href="/%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3/2017/03/10/jekyll+githubpage%E6%A0%87%E7%AD%BE%E9%A1%B5404.html" rel="prev">jekyll + github page标签页404</a></span>
+    
+    
+      <span class="article-next"><a href="/%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3/2017/09/05/%E5%9C%A8express%E4%B8%AD%E4%BD%BF%E7%94%A8markdown.html" rel="next">在express中使用markdown</a> »</span>
+    
+  </div>
+</div>
+
+
+        <!--Footer content-->
+        <footer class="site-footer">
+
+  <div class="wrapper">
+    <p class="footer-heading">Copyright © 2017 - <a href="/">库乐君的笔记本</a> - Base on <a href="http://github.com">Github</a> & <a href="http://jekyllrb.com">Jekyll</a></p>
+  </div>
+  <script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "https://hm.baidu.com/hm.js?075085658c25fed7cc4d8789f23c6519";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+</footer>
+
+      </div>
+    </div>
+
+    <div id="particles-js"></div>
+
+  </body>
+  <script>
+  particlesJS('particles-js',
+  
+  {
+      "particles": {
+      "number": {
+          "value": 50,
+          "density": {
+          "enable": true,
+          "value_area": 550
+          }
+      },
+      "color": {
+          "value": "#3385ff"
+      },
+      "shape": {
+          "type": "circle",
+          "stroke": {
+          "width": 0,
+          "color": "#000000"
+          },
+          "polygon": {
+          "nb_sides": 5
+          },
+          "image": {
+          "src": "img/github.svg",
+          "width": 100,
+          "height": 100
+          }
+      },
+      "opacity": {
+          "value": 0.25,
+          "random": false,
+          "anim": {
+          "enable": false,
+          "speed": 1,
+          "opacity_min": 0.1,
+          "sync": false
+          }
+      },
+      "size": {
+          "value": 5,
+          "random": true,
+          "anim": {
+          "enable": false,
+          "speed": 40,
+          "size_min": 0.1,
+          "sync": false
+          }
+      },
+      "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#3385ff",
+          "opacity": 0.4,
+          "width": 1
+      },
+      "move": {
+          "enable": true,
+          "speed": 3,
+          "direction": "none",
+          "random": false,
+          "straight": false,
+          "out_mode": "out",
+          "attract": {
+          "enable": false,
+          "rotateX": 600,
+          "rotateY": 1200
+          }
+      }
+      },
+      "interactivity": {
+      "detect_on": "canvas",
+      "events": {
+          "onhover": {
+          "enable": true,
+          "mode": "grab"
+          },
+          "onclick": {
+          "enable": true,
+          "mode": "push"
+          },
+          "resize": true
+      },
+      "modes": {
+          "grab": {
+          "distance": 100,
+          "line_linked": {
+              "opacity": 1
+          }
+          },
+          "bubble": {
+          "distance": 100,
+          "size": 40,
+          "duration": 2,
+          "opacity": 8,
+          "speed": 3
+          },
+          "repulse": {
+          "distance": 200
+          },
+          "push": {
+          "particles_nb": 4
+          },
+          "remove": {
+          "particles_nb": 2
+          }
+      }
+      },
+      "retina_detect": true,
+      "config_demo": {
+      "hide_card": false,
+      "background_color": "#b61924",
+      "background_image": "",
+      "background_position": "50% 50%",
+      "background_repeat": "no-repeat",
+      "background_size": "cover"
+      }
+  }
+
+  ); 
+  </script>
+</html>

@@ -9,8 +9,8 @@
     <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">
 
-    <title>单例的两种写法</title>
-    <link rel="canonical" href="http://jerry9926.github.io/ios/2015/05/14/%E5%8D%95%E4%BE%8B%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%86%99%E6%B3%95.html">
+    <title>jekyll + github page标签页404</title>
+    <link rel="canonical" href="http://jerry9926.github.io/%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3/2017/03/10/jekyll+githubpage%E6%A0%87%E7%AD%BE%E9%A1%B5404.html">
 
     <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link rel="stylesheet" href="/css/main.css">
@@ -49,72 +49,71 @@
 <div class="post">
 
   <header class="post-header clearfix">
-    <h1 class="post-title">单例的两种写法</h1>
-    <span class="post-meta"> 分类：ios </span>
-    <span class="post-meta"> 标签：</span>
-    <span class="post-meta">发布时间：2015-05-14</span>
+    <h1 class="post-title">jekyll + github page标签页404</h1>
+    <span class="post-meta"> 分类：编程相关 </span>
+    <span class="post-meta"> 标签：jekyll</span>
+    <span class="post-meta">发布时间：2017-03-10</span>
   </header>
 
   <article class="post-content">
-    <p><strong>第一种，使用GCD，利用dispatch_once方法。</strong><br/>
-dispatch_once函数如下：</p>
+    <p>关于jekyll+githubpage的标签页的问题，终于解决掉了，记录一下。</p>
 
 <!-- more -->
 
 
+<p><br></p>
 
+<h2>说说背景</h2>
 
-<div class="highlight"><pre><code class="language-objective-c" data-lang="objective-c"><span class="kt">void</span> <span class="nf">dispatch_once</span><span class="p">(</span><span class="kt">dispatch_once_t</span> <span class="o">*</span><span class="n">predicate</span><span class="p">,</span> <span class="kt">dispatch_block_t</span> <span class="n">block</span><span class="p">);</span></code></pre></div>
+<p>一开始希望能够给博客加上分类页的功能，google一下后根据<a href="http://pizn.github.io/2012/02/23/use-category-plugin-for-jekyll-blog.html">这篇文章</a>，一步一步跟来做，在本地<code>jekyll server</code>测试的时候可以实现了（以为结束了）。但是看到文章的最后有一段，隐隐感到不靠谱。内容如下：</p>
 
+<blockquote><p>六、需要注意的，还有我疑惑的（需要大家帮忙看看的）
+因为添加了插件，所以要确保你的 config.yml 文件里面的 safe 属性值为 false，因为这 个属性值为 true 的时候是使自定义插件失效。
+我疑惑的是，我在本地完成上面的步骤之后，分类列表的每个分类链接可以成功到达分类的详细列表页面（即 category_index.html)，然而我上传到 github，没有报错，却无法到达那个页面，显示 404 错误。求大牛帮忙解决。</p></blockquote>
 
-<p><code>dispatch_once</code>接收两个参数，一个是<code>dispatch_once_t</code>，一个是<code>块参数</code>。对于给定的<code>predicate</code>，该函数保证相关代码块必定会执行，并且只执行一次，最重要的是这个方法是线程安全的。注意，对于只执行一次的块，传入的<code>predicate</code>必须是完全相同的，所以<code>predicate</code>常常会用<code>static</code>或者<code>global</code>来修饰。</p>
+<p>后来我提交了代码到github之后，打开网页点击分类页，果然跟那位网友一样，分类页显示404……</p>
 
-<p>MyClass.h</p>
+<p>于是继续找找别人有没有什么解决方案。很多文章都是说怎么做这个分类页的，而几乎都没有提到上面放在github上之后页面访问不了的问题。
+后来我了解到github所提供的<code>jekyll</code>解析功能因为安全原因，不完全支持<code>jekyll</code>的一些插件或者扩展功能。</p>
 
-<div class="highlight"><pre><code class="language-objective-c" data-lang="objective-c"><span class="p">+</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">shareManager</span><span class="p">;</span></code></pre></div>
+<p>在<a href="https://crispgm.com/page/48-tips-for-jekyll-you-should-know.html">这篇文章</a>有所提及。</p>
 
+<blockquote><p>在 GitHub Pages 只可以使用部分插件
+由于安全性等原因的考虑，在 GitHub Pages 平台上只能使用白名单中的 7 个 Jekyll 插件。它们分别是：Jekyll Sitemap, Jekyll SEO Tag, github-metadata, Jekyll Feed, Jekyll Redirect From, Jemoji 和 Jekyll Mentions。
+详见 https://help.github.com/articles/adding-jekyll-plugins-to-a-github-pages-site/。</p></blockquote>
 
-<p>MyClass.m</p>
+<p>然后我又看到这篇文章里面说到，可以让github不解析<code>jekyll</code>。</p>
 
-<div class="highlight"><pre><code class="language-objective-c" data-lang="objective-c"><span class="p">+</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">shareManager</span> <span class="p">{</span>
-     <span class="k">static</span> <span class="n">MyClass</span> <span class="o">*</span><span class="n">shareMyClass</span><span class="p">;</span>
-     <span class="k">@synchronized</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
-          <span class="k">if</span> <span class="p">(</span><span class="n">shareMyClass</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
-               <span class="n">shareMyClass</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">self</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-          <span class="p">}</span>
-     <span class="p">}</span>
-     <span class="k">return</span> <span class="n">shareMyClass</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div>
+<blockquote><p>在根目录下创建 .nojekyll 文件可以跳过 Jekyll 解析
+GitHub Pages 支持 Jekyll 或者原始文件。最初 GitHub Pages 只支持 Jekyll，后来 GitHub 允许在 Repo 根目录下添加 .nojekyll 跳过解析。详见 https://github.com/blog/572-bypassing-jekyll-on-github-pages。</p></blockquote>
 
+<p>在使用<code>jekyll server</code>或者<code>jekyll build</code>的时候，都是会生成<code>_site</code>文件夹的。其实里面就是这个静态网站的全部内容，包括分类页面！那么现在就可以解决404的问题了。</p>
 
-<p><strong>第二种，不使用GCD</strong><br/>
-MyClass.m</p>
+<p><br></p>
 
-<div class="highlight"><pre><code class="language-objective-c" data-lang="objective-c"><span class="p">+</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">shareManager</span> <span class="p">{</span>
-     <span class="k">static</span> <span class="n">MyClass</span> <span class="o">*</span><span class="n">shareMyClass</span><span class="p">;</span>
-     <span class="k">@synchronized</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
-          <span class="k">if</span> <span class="p">(</span><span class="n">shareMyClass</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
-               <span class="n">shareMyClass</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">self</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-          <span class="p">}</span>
-     <span class="p">}</span>
-     <span class="k">return</span> <span class="n">shareMyClass</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div>
+<h2>解决方法</h2>
 
+<p>1、就是在跟目录放一个名为<code>.nojekyll</code>的文件，目的是让github不解析<code>jeykll</code>。</p>
 
-<p>使用GCD的好处就是<code>dispatch_once</code>就确保了代码只会运行一次，并且不需要考虑线程安全的问题，因为GCD自己已经确保了线程的安全。</p>
+<p>2、就是把这个github仓库的内容调整一下，整个内容就只要<code>_site</code>文件夹里面的内容就可以了（加上上面那个文件），其他统统都不需要。因为这个就是静态网站的全部内容了。那么其他的文件怎么处理呢。很简单，我们新建一个分支（比如名为：source），现在这个分支就是所有源码的内容，而github page对应的分支（项目博客对应<code>gh-pages</code>分支，个人或机构博客对应<code>master</code>分支）就是网站的内容。</p>
 
-<p>参考文章：<br/>
-<a href="http://www.galloway.me.uk/tutorials/singleton-classes/" title="参考文章">http://www.galloway.me.uk/tutorials/singleton-classes/</a><br/>
-<a href="http://blog.csdn.net/sakulafly/article/details/34948689" title="参考文章">http://blog.csdn.net/sakulafly/article/details/34948689</a></p>
+<p>然后把代码提交上去，刷新博客，终于不是404，出现了分类页面的了！</p>
+
+<p>参考资料：
+<a href="http://pizn.github.io/2012/02/23/use-category-plugin-for-jekyll-blog.html">http://pizn.github.io/2012/02/23/use-category-plugin-for-jekyll-blog.html</a></p>
+
+<p><a href="https://crispgm.com/page/48-tips-for-jekyll-you-should-know.html">https://crispgm.com/page/48-tips-for-jekyll-you-should-know.html</a></p>
+
+<p><a href="http://stackoverflow.com/questions/13189188/how-do-i-stop-github-from-regenerating-jekyll-site">http://stackoverflow.com/questions/13189188/how-do-i-stop-github-from-regenerating-jekyll-site</a></p>
 
   </article>
 
   <div class="article-guide clearfix">
     
-      <span class="article-pre">« <a href="/ios/2015/05/06/%E5%88%A9%E7%94%A8NSSortDescriptor%E7%BB%99NSArray%E6%8E%92%E5%BA%8F.html" rel="prev">利用NSSortDescriptor给NSArray排序</a></span>
+      <span class="article-pre">« <a href="/web%E5%89%8D%E7%AB%AF/2017/03/07/%E5%8E%9F%E7%94%9Fjavascript%20API%E5%AE%9E%E7%8E%B0HTML5%E6%B5%8F%E8%A7%88%E5%99%A8%E5%85%A8%E5%B1%8F.html" rel="prev">原生javascript API实现HTML5浏览器全屏</a></span>
     
     
-      <span class="article-next"><a href="/2015/05/19/markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95%E5%A4%87%E5%BF%98.html" rel="next">Markdown常用语法备忘</a> »</span>
+      <span class="article-next"><a href="/%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3/2017/07/05/Swagger+Node%E6%90%AD%E5%BB%BAAPI%E6%96%87%E6%A1%A3%E7%B3%BB%E7%BB%9F.html" rel="next">Swagger+Node搭建API文档系统</a> »</span>
     
   </div>
 </div>

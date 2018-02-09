@@ -9,8 +9,8 @@
     <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">
 
-    <title>单例的两种写法</title>
-    <link rel="canonical" href="http://jerry9926.github.io/ios/2015/05/14/%E5%8D%95%E4%BE%8B%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%86%99%E6%B3%95.html">
+    <title>生成目录结构的小工具</title>
+    <link rel="canonical" href="http://jerry9926.github.io/web%E5%89%8D%E7%AB%AF/2017/09/29/%E7%94%9F%E6%88%90%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E7%9A%84%E5%B0%8F%E5%B7%A5%E5%85%B7.html">
 
     <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link rel="stylesheet" href="/css/main.css">
@@ -49,72 +49,58 @@
 <div class="post">
 
   <header class="post-header clearfix">
-    <h1 class="post-title">单例的两种写法</h1>
-    <span class="post-meta"> 分类：ios </span>
-    <span class="post-meta"> 标签：</span>
-    <span class="post-meta">发布时间：2015-05-14</span>
+    <h1 class="post-title">生成目录结构的小工具</h1>
+    <span class="post-meta"> 分类：web前端 </span>
+    <span class="post-meta"> 标签：node工具</span>
+    <span class="post-meta">发布时间：2017-09-29</span>
   </header>
 
   <article class="post-content">
-    <p><strong>第一种，使用GCD，利用dispatch_once方法。</strong><br/>
-dispatch_once函数如下：</p>
+    <p>npm工具 tree-directory</p>
 
 <!-- more -->
 
 
+<h3>安装</h3>
 
+<pre><code>npm install tree-directory
+</code></pre>
 
-<div class="highlight"><pre><code class="language-objective-c" data-lang="objective-c"><span class="kt">void</span> <span class="nf">dispatch_once</span><span class="p">(</span><span class="kt">dispatch_once_t</span> <span class="o">*</span><span class="n">predicate</span><span class="p">,</span> <span class="kt">dispatch_block_t</span> <span class="n">block</span><span class="p">);</span></code></pre></div>
+<h3>使用</h3>
 
+<pre><code>const tree = require('tree-directory');
 
-<p><code>dispatch_once</code>接收两个参数，一个是<code>dispatch_once_t</code>，一个是<code>块参数</code>。对于给定的<code>predicate</code>，该函数保证相关代码块必定会执行，并且只执行一次，最重要的是这个方法是线程安全的。注意，对于只执行一次的块，传入的<code>predicate</code>必须是完全相同的，所以<code>predicate</code>常常会用<code>static</code>或者<code>global</code>来修饰。</p>
+tree(__dirname, ['**/*', '!node_modules/**/*']).then(function (res) {
+    console.log(res)
+});
+</code></pre>
 
-<p>MyClass.h</p>
+<h3>输出结果</h3>
 
-<div class="highlight"><pre><code class="language-objective-c" data-lang="objective-c"><span class="p">+</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">shareManager</span><span class="p">;</span></code></pre></div>
-
-
-<p>MyClass.m</p>
-
-<div class="highlight"><pre><code class="language-objective-c" data-lang="objective-c"><span class="p">+</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">shareManager</span> <span class="p">{</span>
-     <span class="k">static</span> <span class="n">MyClass</span> <span class="o">*</span><span class="n">shareMyClass</span><span class="p">;</span>
-     <span class="k">@synchronized</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
-          <span class="k">if</span> <span class="p">(</span><span class="n">shareMyClass</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
-               <span class="n">shareMyClass</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">self</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-          <span class="p">}</span>
-     <span class="p">}</span>
-     <span class="k">return</span> <span class="n">shareMyClass</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div>
-
-
-<p><strong>第二种，不使用GCD</strong><br/>
-MyClass.m</p>
-
-<div class="highlight"><pre><code class="language-objective-c" data-lang="objective-c"><span class="p">+</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nf">shareManager</span> <span class="p">{</span>
-     <span class="k">static</span> <span class="n">MyClass</span> <span class="o">*</span><span class="n">shareMyClass</span><span class="p">;</span>
-     <span class="k">@synchronized</span><span class="p">(</span><span class="nb">self</span><span class="p">)</span> <span class="p">{</span>
-          <span class="k">if</span> <span class="p">(</span><span class="n">shareMyClass</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
-               <span class="n">shareMyClass</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">self</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-          <span class="p">}</span>
-     <span class="p">}</span>
-     <span class="k">return</span> <span class="n">shareMyClass</span><span class="p">;</span>
-<span class="p">}</span></code></pre></div>
-
-
-<p>使用GCD的好处就是<code>dispatch_once</code>就确保了代码只会运行一次，并且不需要考虑线程安全的问题，因为GCD自己已经确保了线程的安全。</p>
-
-<p>参考文章：<br/>
-<a href="http://www.galloway.me.uk/tutorials/singleton-classes/" title="参考文章">http://www.galloway.me.uk/tutorials/singleton-classes/</a><br/>
-<a href="http://blog.csdn.net/sakulafly/article/details/34948689" title="参考文章">http://blog.csdn.net/sakulafly/article/details/34948689</a></p>
+<pre><code>├─ dist
+├─ gulpfile.js
+├─ node_modules
+├─ package.json
+├─ README.md
+├─ src
+├─ src/demo-01.html
+├─ src/js
+├─ src/js/components
+├─ src/js/components/aComponent
+├─ src/js/components/aComponent/a.js
+├─ src/js/pages
+├─ src/js/pages/demo-01.js
+└─ webpack.config.js
+</code></pre>
 
   </article>
 
   <div class="article-guide clearfix">
     
-      <span class="article-pre">« <a href="/ios/2015/05/06/%E5%88%A9%E7%94%A8NSSortDescriptor%E7%BB%99NSArray%E6%8E%92%E5%BA%8F.html" rel="prev">利用NSSortDescriptor给NSArray排序</a></span>
+      <span class="article-pre">« <a href="/web%E5%89%8D%E7%AB%AF/2017/09/14/Babel%E5%B0%8F%E8%AE%B0.html" rel="prev">Babel小记</a></span>
     
     
-      <span class="article-next"><a href="/2015/05/19/markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95%E5%A4%87%E5%BF%98.html" rel="next">Markdown常用语法备忘</a> »</span>
+      <span class="article-next"><a href="/web%E5%89%8D%E7%AB%AF/2017/10/10/%E6%89%A9%E5%B1%95echarts%E5%9B%BE%E8%A1%A8%E7%B1%BB%E5%9E%8B.html" rel="next">扩展echarts图表类型</a> »</span>
     
   </div>
 </div>

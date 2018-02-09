@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<!-- 两栏模版 -->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <title>扩展echarts图表类型</title>
+    <link rel="canonical" href="http://jerry9926.github.io/web%E5%89%8D%E7%AB%AF/2017/10/10/%E6%89%A9%E5%B1%95echarts%E5%9B%BE%E8%A1%A8%E7%B1%BB%E5%9E%8B.html">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="/css/main.css">
+	<script src="/js/jquery-1.11.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+	<script src="/js/particles.min.js"></script>    
+</head>
+
+
+  <body>
+    <div class="container my-container">
+      <div class="side-bar">
+        <!--Sidebar content-->
+        <div class="head-wrapper">
+        <img src="/assets/images/ui/icon.jpg" alt="head-icon">
+        </div>
+        <h1 class="title">库乐君的笔记本</h1>
+        <h2 class="decs">所谓文艺，不过是多走一些路，多看一些风景罢了</h2>
+        <ul class="nav">
+        <li><a href="/">首页</a></li>
+            
+        <li><a href="/ios/" title="查看更多文章">ios 6</a>
+        </li>
+        
+        <li><a href="/编程相关/" title="查看更多文章">编程相关 4</a>
+        </li>
+        
+        <li><a href="/web前端/" title="查看更多文章">web前端 12</a>
+        </li>
+        
+        </ul>
+      </div>
+      <div class="content-contain">
+        <!--Body content-->
+        <!-- 文章模版 -->
+<div class="post">
+
+  <header class="post-header clearfix">
+    <h1 class="post-title">扩展echarts图表类型</h1>
+    <span class="post-meta"> 分类：web前端 </span>
+    <span class="post-meta"> 标签：echartsJavascript</span>
+    <span class="post-meta">发布时间：2017-10-10</span>
+  </header>
+
+  <article class="post-content">
+    <p><br></p>
+
+<h2>背景</h2>
+
+<p>之前有这样一个需求，显示一个世界地图，在地图上面的某些城市的位置上面显示出来当地的某项数据值。数值的显示的形式是，从下往上飘。（有点像冒烟一样）。静态图效果如图。</p>
+
+<!-- more -->
+
+
+<p><img src="http://jerry9926.github.io/assets/images/171010/1506741294376.png" alt="示例图片" /></p>
+
+<p><br></p>
+
+<h2>分析</h2>
+
+<p>基于之前的技术积累，我使用过echarts（一个<a href="http://echarts.baidu.com">图表开源库</a>）。这里考虑使用echarts实现。首先看看官方的文档，里面没有这样的demo。但是有类似表现形式的图。在地图上，显示飞机飞行的航线的图。<a href="http://www.echartsjs.com/gallery/editor.html?c=geo-lines">查看demo</a>
+<img src="http://jerry9926.github.io/assets/images/171010/1506741621414.png" alt="示例图片" /></p>
+
+<p>首先分析一下这个图。可以分为两部分来看，一是地图，二是地图上面飞机的航线图。
+关于地图的绘制，问题不大，使用<code>geo</code>属性进行设置即可，文档中已经有详细的介绍，这里就不多说了。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">geo</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">map</span><span class="o">:</span> <span class="s1">&#39;china&#39;</span><span class="p">,</span>
+    <span class="nx">label</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">emphasis</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">show</span><span class="o">:</span> <span class="kc">false</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nx">roam</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">itemStyle</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">normal</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">areaColor</span><span class="o">:</span> <span class="s1">&#39;#323c48&#39;</span><span class="p">,</span>
+            <span class="nx">borderColor</span><span class="o">:</span> <span class="s1">&#39;#404a59&#39;</span>
+        <span class="p">},</span>
+        <span class="nx">emphasis</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">areaColor</span><span class="o">:</span> <span class="s1">&#39;#2a333d&#39;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">},</span></code></pre></div>
+
+
+<p>然后看看航线的这部分。这部分是设置<code>series</code>属性，增加<code>type</code>为<code>lines</code>的图表类型。简单说说<code>series</code>属性。在echarts里面，这个属性是十分重要的核心属性。<code>series</code>属性值为数组，数组中的元素，每个就是表示一个图表类型和具体的显示特性。其中主要的属性有<code>type</code>和<code>data</code>。<code>type</code>就是表示使用哪种图表类型，<code>data</code>是表示这个图表的数据。其他还有很多属性值，就不一一介绍了。
+对照这个demo和需求的不同点，如果可以把飞机换成需要显示的数字，然后航线隐藏掉，这个基本符合我的需求了。</p>
+
+<p>至此，基本上确定思路就是<strong>对<code>type</code>为<code>lines</code>的这类图表进行扩展</strong>，来实现需求的效果。</p>
+
+<p><br></p>
+
+<h2>开始动手</h2>
+
+<p><br></p>
+
+<h3>新增一个图表类型</h3>
+
+<p>首先把<code>lines</code>类型的相关文件从echarts包里面拷贝一份到项目中。
+进入echarts包目录，打开<code>index.js</code>，看到里面很整齐的列出了所有的模块。我们的目标是<code>lines</code>模块。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./lib/chart/lines&#39;</span><span class="p">);</span></code></pre></div>
+
+
+<p>继续深入，打开<code>./lib/chart/lines</code>。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./lines/LinesSeries&#39;</span><span class="p">);</span>
+    <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./lines/LinesView&#39;</span><span class="p">);</span>
+
+    <span class="kd">var</span> <span class="nx">echarts</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../echarts&#39;</span><span class="p">);</span>
+    <span class="nx">echarts</span><span class="p">.</span><span class="nx">registerLayout</span><span class="p">(</span>
+        <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./lines/linesLayout&#39;</span><span class="p">)</span>
+    <span class="p">);</span>
+    <span class="nx">echarts</span><span class="p">.</span><span class="nx">registerVisual</span><span class="p">(</span>
+        <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./lines/linesVisual&#39;</span><span class="p">)</span>
+    <span class="p">);</span></code></pre></div>
+
+
+<p>可以看到一个图表类型里面包含了四块内容，<code>Series</code>、<code>View</code>、<code>Layout</code>、<code>Visual</code>。粗略来看，
+- <code>Series</code>是定义整个图表类型。
+- <code>View</code>是这个图表视图方面的定义。
+- <code>Layout</code>是具体视图布局的定义。
+- <code>Visual</code>是视图视觉效果的定义。</p>
+
+<p>继续顺藤摸瓜，把定义一个图表类型的文件都拷贝了一份，然后我把这份<code>lines</code>类型重新命名为<code>flowLines</code>。涉及到的文件如下：</p>
+
+<pre><code>├─ flowLines
+├─ flowLines.js
+├─ flowLines/linesLayout.js
+├─ flowLines/LinesSeries.js
+├─ flowLines/LinesView.js
+├─ flowLines/linesVisual.js
+├─ flowLinesHelper
+├─ flowLinesHelper/EffectLine.js
+├─ flowLinesHelper/EffectPolyline.js
+├─ flowLinesHelper/EffectSymbol.js
+├─ flowLinesHelper/LargeLineDraw.js
+├─ flowLinesHelper/Line.js
+├─ flowLinesHelper/LineDraw.js
+└─ flowLinesHelper/Polyline.js
+</code></pre>
+
+<p>其中，既然重新命名为<code>flowLines</code>，等于多了一个新的<code>type</code>类型。在相关的位置要把原来写着<code>lines</code>的地方替换为<code>flowLines</code>。
+在文件<code>linesSeries.js</code>中</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">LinesSeries</span> <span class="o">=</span> <span class="nx">SeriesModel</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;series.flowLines&#39;</span><span class="p">,</span>
+    <span class="nx">dependencies</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">,</span> <span class="s1">&#39;polar&#39;</span><span class="p">],</span>
+    <span class="p">...</span>
+<span class="p">})</span></code></pre></div>
+
+
+<p>在文件<code>linesLayout.js</code>中</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ecModel</span><span class="p">.</span><span class="nx">eachSeriesByType</span><span class="p">(</span><span class="s1">&#39;flowLines&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">seriesModel</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">...</span>
+<span class="p">}</span></code></pre></div>
+
+
+<p>在文件<code>linesView.js</code>中</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;echarts&#39;</span><span class="p">).</span><span class="nx">extendChartView</span><span class="p">({</span>
+        <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;flowLines&#39;</span><span class="p">,</span>
+        <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{},</span>
+        <span class="p">...</span>
+<span class="p">})</span></code></pre></div>
+
+
+<p>在文件<code>linesVisual.js</code>中</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">ecModel</span><span class="p">.</span><span class="nx">eachSeriesByType</span><span class="p">(</span><span class="s1">&#39;flowLines&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">seriesModel</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">...</span>
+<span class="p">}</span></code></pre></div>
+
+
+<p>现在已经新增了一个图表类型，名字为<code>flowLines</code>。当然现在已经可以使用这个类型了，只是现在<code>flowLines</code>的定义和显示效果是和<code>lines</code>一模一样的。
+接下来要要对<code>flowLines</code>进行功能的扩展。</p>
+
+<blockquote><p>在顺藤摸瓜拷贝文件的时候，哪些文件要拷贝，哪些文件不要拷贝呢？或者说这个拷贝的“深度”怎么确定呢？
+其实<em>echarts</em>的代码层次写得很清晰，<code>chart</code>相关的代码就是一个层，里面引用到的工具类的或者底层画图类的代码并不是我们关心的，这些就不需要拷贝出来。如果不确定是否的要拷贝的话，先不拷贝，在后续的扩展过程发现需要修改的文件再拷贝出来就可以了。</p></blockquote>
+
+<p><br></p>
+
+<h3>扩展flowLines</h3>
+
+<p>现在可以正式扩展<code>flewLines</code>的功能了。上面分析的时候提到，现在要做的就是，一是把demo的小飞机换成数字，二是把飞行的航线去掉。
+先看飞行航线去掉。这点是很容易的，在<code>lines</code>里面的配置项，有一个<code>width</code>属性，只要设置为0。这线条就没有宽度，也就不会显示了。
+那么怎么把小飞机换成数字呢？在原来的配置项里面，小飞机的显示是<code>symbol</code>属性控制的。</p>
+
+<p><br></p>
+
+<h4>增加文字symbol</h4>
+
+<p>那么我找到生成这个<code>symbol</code>的代码，在<code>EffectLines.js</code>里面的方法<code>_updateEffectSymbol</code>。要增加一种<code>symbol</code>的类型，需要一个标识判断一下，我定义这种<code>symbolType</code>为<code>flowLines.text</code>。我先把这个判断写上，然后继续看里面的实现。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// 增加 文字symbol</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">symbolType</span> <span class="o">===</span> <span class="s1">&#39;flowLines.text&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 实现</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">symbol</span> <span class="o">=</span> <span class="nx">symbolUtil</span><span class="p">.</span><span class="nx">createSymbol</span><span class="p">(</span>
+        <span class="nx">symbolType</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">color</span>
+    <span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+
+<p>生成<code>symbol</code>的方法是<code>symbolUtil.createSymbol</code>里面，涉及到<code>symbol.js</code>文件，之前没有复制出来，现在复制一份。在里面增加生成文字的逻辑代码。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// 增加一个参数 style</span>
+<span class="nx">createSymbol</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">symbolType</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">h</span><span class="p">,</span> <span class="nx">color</span><span class="p">,</span> <span class="nx">style</span><span class="p">)</span> <span class="p">{</span>
+<span class="c1">// ...</span>
+<span class="c1">// 增加text处理</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">symbolType</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">symbolPath</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">graphic</span><span class="p">.</span><span class="nx">Text</span><span class="p">({</span>
+        <span class="nx">style</span><span class="o">:</span> <span class="nx">style</span> <span class="o">||</span> <span class="p">{}</span>
+    <span class="p">});</span>
+<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">symbolType</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;image://&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+<span class="p">...</span></code></pre></div>
+
+
+<p>继续把上面<code>_updateEffectSymbol</code>方法里没有实现的代码补上。这里主要是要把<code>style</code>属性给创建出来。主要有
+- <code>text</code> 显示的文字
+- <code>textFill</code> 文字的颜色
+- <code>textFont</code> 字体
+- <code>textAlign</code> 对齐方式</p>
+
+<p>相关的属性在echarts文档中<a href="http://echarts.baidu.com/option.html#graphic.elements-text">graphic.elements-text</a>部分有介绍。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// 增加 文字symbol</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">symbolType</span> <span class="o">===</span> <span class="s1">&#39;flowLines.text&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 实现</span>
+    <span class="nx">size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">];</span>
+
+    <span class="kd">var</span> <span class="nx">labelModel</span> <span class="o">=</span> <span class="nx">effectModel</span><span class="p">.</span><span class="nx">getModel</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">textStyleModel</span> <span class="o">=</span> <span class="nx">labelModel</span><span class="p">.</span><span class="nx">getModel</span><span class="p">(</span><span class="s1">&#39;textStyle&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">textFont</span> <span class="o">=</span> <span class="nx">textStyleModel</span><span class="p">.</span><span class="nx">getFont</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">formatter</span> <span class="o">=</span> <span class="nx">labelModel</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;formatter&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">seriesModel</span> <span class="o">=</span> <span class="nx">lineData</span><span class="p">.</span><span class="nx">hostModel</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">text</span> <span class="o">=</span> <span class="nx">formatter</span><span class="p">(</span><span class="nx">seriesModel</span><span class="p">.</span><span class="nx">getDataParams</span><span class="p">(</span><span class="nx">idx</span><span class="p">));</span>
+
+    <span class="kd">var</span> <span class="nx">style</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">text</span><span class="o">:</span> <span class="nx">text</span><span class="p">,</span>
+        <span class="nx">x</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nx">y</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nx">textFill</span><span class="o">:</span> <span class="nx">textStyleModel</span><span class="p">.</span><span class="nx">getTextColor</span><span class="p">(),</span>
+        <span class="nx">textFont</span> <span class="o">:</span> <span class="nx">textFont</span><span class="p">,</span>
+        <span class="nx">textAlign</span><span class="o">:</span> <span class="s1">&#39;middle&#39;</span>
+    <span class="p">};</span>
+    <span class="nx">symbol</span> <span class="o">=</span> <span class="nx">symbolUtil</span><span class="p">.</span><span class="nx">createSymbol</span><span class="p">(</span><span class="nx">symbolType</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">,</span> <span class="nx">style</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+
+<p>这时按照我们扩展的类型类来设置<code>series</code>已经有效果了。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">const</span> <span class="nx">series</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;FlowLines Demo&quot;</span><span class="p">,</span>
+        <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;flowLines&quot;</span><span class="p">,</span>
+        <span class="nx">zlevel</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nx">effect</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">show</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">period</span><span class="o">:</span> <span class="mi">6</span><span class="p">,</span>
+            <span class="nx">trailLength</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nx">color</span><span class="o">:</span> <span class="s2">&quot;#fff&quot;</span><span class="p">,</span>
+            <span class="nx">symbol</span><span class="o">:</span> <span class="s1">&#39;flowLines.text&#39;</span><span class="p">,</span>
+            <span class="nx">label</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">show</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">textStyle</span><span class="o">:</span> <span class="p">{</span>
+                    <span class="nx">color</span><span class="o">:</span> <span class="s1">&#39;#fff&#39;</span><span class="p">,</span>
+                    <span class="nx">fontSize</span><span class="o">:</span> <span class="mi">16</span><span class="p">,</span>
+                    <span class="nx">textPosition</span><span class="o">:</span> <span class="s1">&#39;indexTop&#39;</span>
+                <span class="p">},</span>
+                <span class="nx">formatter</span><span class="o">:</span> <span class="nx">formatLabel</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="nx">lineStyle</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">normal</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">color</span><span class="o">:</span> <span class="s2">&quot;#fff&quot;</span><span class="p">,</span>
+                <span class="nx">width</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1">// 设置0隐藏线条</span>
+                <span class="nx">curveness</span><span class="o">:</span> <span class="mi">0</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="nx">data</span><span class="o">:</span> <span class="nx">getData</span><span class="p">(</span><span class="nx">points</span><span class="p">)</span> 
+        <span class="c1">// data格式 [{coords: [p1, p2], value: val}]</span>
+    <span class="p">}</span>
+<span class="p">];</span></code></pre></div>
+
+
+<p>这时的效果。可以说这个时候已经完成的大部分工作了，接下来要实现两个效果，一个是冒泡的出现，一个是淡淡的消失（淡出）。
+<img src="http://jerry9926.github.io/assets/images/171010/1507616495260.png" alt="示例图片" /></p>
+
+<h4>冒泡效果</h4>
+
+<p>所谓冒泡效果，看起来就是显示的数字是一个一个从上至下开始显示出来，好像在起点位置的下方数字被盖住了那样，数字移动的位置超过起点才显示出来。比如1234，先显示1随着数字往上移动，渐渐露出2，之后是3、4。
+明白了这个效果的本质后，我们要做的就是通过计算文字的位置，而改变需要显示的内容。以1234为例。用移动的位置减去起点的位置，这段距离是文字可以显示的高度。而文字显示完整需要的高度是，<strong>行高乘以行数</strong>。把可显示的高度除以行高，就得到了可以显示的行数。如果只能显示一行，这里就等于显示的文字就是1，能显示两行，就显示文字12，如此类推。
+<img src="http://jerry9926.github.io/assets/images/171010/1507623160703.png" alt="示例图片" /></p>
+
+<p><br>
+在<code>EffectLine.js</code>里增加代码</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="cm">/**</span>
+<span class="cm"> * 截断文字</span>
+<span class="cm"> * @param symbol</span>
+<span class="cm"> * @param text</span>
+<span class="cm"> * @param style</span>
+<span class="cm"> * @returns {string}</span>
+<span class="cm"> * @private</span>
+<span class="cm"> */</span>
+<span class="nx">effectLineProto</span><span class="p">.</span><span class="nx">_subStringText</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">symbol</span><span class="p">,</span> <span class="nx">text</span><span class="p">,</span> <span class="nx">style</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 这个rect是文字的绘制的矩形范围</span>
+    <span class="c1">// 方法参考zrender/lib/graphic/Text.js里getBoundingTect方法</span>
+    <span class="kd">var</span> <span class="nx">rect</span> <span class="o">=</span> <span class="nx">textContain</span><span class="p">.</span><span class="nx">getBoundingRect</span><span class="p">(</span>
+        <span class="nx">text</span><span class="p">,</span>
+        <span class="nx">style</span><span class="p">.</span><span class="nx">font</span><span class="p">,</span>
+        <span class="nx">style</span><span class="p">.</span><span class="nx">textAlign</span><span class="p">,</span>
+        <span class="nx">style</span><span class="p">.</span><span class="nx">textVerticalAlign</span><span class="p">,</span>
+        <span class="nx">style</span><span class="p">.</span><span class="nx">textPadding</span><span class="p">,</span>
+        <span class="nx">style</span><span class="p">.</span><span class="nx">rich</span>
+    <span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">textNew</span> <span class="o">=</span> <span class="nx">text</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">lines</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">symbol</span><span class="p">.</span><span class="nx">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="nx">symbol</span><span class="p">.</span><span class="nx">__p1</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="nx">rect</span><span class="p">.</span><span class="nx">lineHeight</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">lines</span> <span class="o">&lt;</span> <span class="nx">textNew</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">textNew</span><span class="p">.</span><span class="nx">length</span> <span class="o">=</span> <span class="nx">lines</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nx">textNew</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">);</span>
+<span class="p">};</span></code></pre></div>
+
+
+<p>这里得到了需要显示的文字<code>text</code>，要把修改的内容更新到<code>symbol</code>中。这个变化的过程就是动画的过程，动画的过程在<code>_updateEffectAnimation</code>方法中，需要把代码写在动画回调里面。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">effectLineProto</span><span class="p">.</span><span class="nx">_updateEffectAnimation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">lineData</span><span class="p">,</span> <span class="nx">effectModel</span><span class="p">,</span> <span class="nx">idx</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+    <span class="kd">var</span> <span class="nx">animator</span> <span class="o">=</span> <span class="nx">symbol</span><span class="p">.</span><span class="nx">animate</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">loop</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">when</span><span class="p">(</span><span class="nx">period</span><span class="p">,</span> <span class="p">{</span>
+            <span class="nx">__t</span><span class="o">:</span> <span class="mi">1</span>
+        <span class="p">})</span>
+        <span class="p">.</span><span class="nx">delay</span><span class="p">(</span><span class="nx">delay</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">during</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">shape</span><span class="p">,</span> <span class="nx">t</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">self</span><span class="p">.</span><span class="nx">updateSymbolPosition</span><span class="p">(</span><span class="nx">symbol</span><span class="p">);</span>
+            <span class="c1">// 增加文字的处理</span>
+            <span class="kd">var</span> <span class="nx">text</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_subStringText</span><span class="p">(</span><span class="nx">symbol</span><span class="p">,</span> <span class="nx">text</span><span class="p">,</span> <span class="nx">style</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">style</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="nx">text</span><span class="o">:</span> <span class="nx">text</span>
+            <span class="p">}</span>
+            
+            <span class="c1">// 更新symbol</span>
+            <span class="nx">symbol</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;style&#39;</span><span class="p">,</span> <span class="nx">style</span><span class="p">);</span>
+            <span class="nx">symbol</span><span class="p">.</span><span class="nx">ignore</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="p">});</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span></code></pre></div>
+
+
+<p><br></p>
+
+<h4>淡出效果</h4>
+
+<p>淡出效果就比较简单了，主要是设置透明度<code>opacity</code>。</p>
+
+<p><br></p>
+
+<h4>增加配置项</h4>
+
+<p>为冒泡效果和淡出效果增加两个配置项<code>bubbleIn</code>和<code>fadeOut</code>。</p>
+
+<p>配置</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span>
+   <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;FlowLines Demo&quot;</span><span class="p">,</span>
+    <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;flowLines&quot;</span><span class="p">,</span>
+    <span class="nx">zlevel</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nx">effect</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">show</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">period</span><span class="o">:</span> <span class="mi">6</span><span class="p">,</span>
+        <span class="nx">trailLength</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nx">color</span><span class="o">:</span> <span class="s2">&quot;#fff&quot;</span><span class="p">,</span>
+        <span class="nx">symbol</span><span class="o">:</span> <span class="s1">&#39;flowLines.text&#39;</span><span class="p">,</span>
+        <span class="nx">fadeOut</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">bubbleIn</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">label</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">show</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">textStyle</span><span class="o">:</span> <span class="p">{</span>
+                <span class="nx">color</span><span class="o">:</span> <span class="s1">&#39;#fff&#39;</span><span class="p">,</span>
+                <span class="nx">fontSize</span><span class="o">:</span> <span class="mi">14</span><span class="p">,</span>
+                <span class="nx">textPosition</span><span class="o">:</span> <span class="s1">&#39;indexTop&#39;</span>
+            <span class="p">},</span>
+            <span class="nx">formatter</span><span class="o">:</span> <span class="nx">formatLabel</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nx">lineStyle</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">normal</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">color</span><span class="o">:</span> <span class="s2">&quot;#fff&quot;</span><span class="p">,</span>
+            <span class="nx">width</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nx">curveness</span><span class="o">:</span> <span class="mi">0</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nx">data</span><span class="o">:</span> <span class="nx">getData</span><span class="p">(</span><span class="nx">points</span><span class="p">)</span> 
+    <span class="c1">// data格式 [{coords: [p1, p2], value: val}]</span>
+<span class="p">}</span></code></pre></div>
+
+
+<p><code>EffectLine.js</code>里的完整修改。
+新增方法<code>updateSymbolText</code>和<code>_subStringText</code>。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="cm">/**</span>
+<span class="cm"> * 更新symbol文字</span>
+<span class="cm"> */</span>
+<span class="nx">effectLineProto</span><span class="p">.</span><span class="nx">updateSymbolText</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">symbol</span><span class="p">,</span> <span class="nx">text</span><span class="p">,</span> <span class="nx">t</span><span class="p">,</span> <span class="nx">fadeOut</span><span class="p">,</span> <span class="nx">bubbleIn</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// var style = symbol.style;</span>
+    <span class="kd">var</span> <span class="nx">style</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">bubbleIn</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">style</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="nx">style</span> <span class="o">=</span> <span class="p">{};</span>
+        <span class="kd">var</span> <span class="nx">text</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_subStringText</span><span class="p">(</span><span class="nx">symbol</span><span class="p">,</span> <span class="nx">text</span><span class="p">,</span> <span class="nx">style</span><span class="p">);</span>
+        <span class="nx">style</span><span class="p">.</span><span class="nx">text</span> <span class="o">=</span> <span class="nx">text</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">fadeOut</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">style</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="nx">style</span> <span class="o">=</span> <span class="p">{};</span>
+        <span class="nx">style</span><span class="p">.</span><span class="nx">opacity</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">style</span> <span class="o">!==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">symbol</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;style&#39;</span><span class="p">,</span> <span class="nx">style</span><span class="p">);</span>
+        <span class="nx">symbol</span><span class="p">.</span><span class="nx">ignore</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * 截断文字</span>
+<span class="cm"> * @param symbol</span>
+<span class="cm"> * @param text</span>
+<span class="cm"> * @param style</span>
+<span class="cm"> * @returns {string}</span>
+<span class="cm"> * @private</span>
+<span class="cm"> */</span>
+<span class="nx">effectLineProto</span><span class="p">.</span><span class="nx">_subStringText</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">symbol</span><span class="p">,</span> <span class="nx">text</span><span class="p">,</span> <span class="nx">style</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">rect</span> <span class="o">=</span> <span class="nx">textContain</span><span class="p">.</span><span class="nx">getBoundingRect</span><span class="p">(</span>
+        <span class="nx">text</span><span class="p">,</span>
+        <span class="nx">style</span><span class="p">.</span><span class="nx">font</span><span class="p">,</span>
+        <span class="nx">style</span><span class="p">.</span><span class="nx">textAlign</span><span class="p">,</span>
+        <span class="nx">style</span><span class="p">.</span><span class="nx">textVerticalAlign</span><span class="p">,</span>
+        <span class="nx">style</span><span class="p">.</span><span class="nx">textPadding</span><span class="p">,</span>
+        <span class="nx">style</span><span class="p">.</span><span class="nx">rich</span>
+    <span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">textNew</span> <span class="o">=</span> <span class="nx">text</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">lines</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">symbol</span><span class="p">.</span><span class="nx">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="nx">symbol</span><span class="p">.</span><span class="nx">__p1</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="nx">rect</span><span class="p">.</span><span class="nx">lineHeight</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">lines</span> <span class="o">&lt;</span> <span class="nx">textNew</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">textNew</span><span class="p">.</span><span class="nx">length</span> <span class="o">=</span> <span class="nx">lines</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nx">textNew</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">);</span>
+<span class="p">};</span></code></pre></div>
+
+
+<p>修改方法<code>_updateEffectSymbol</code>。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">effectLineProto</span><span class="p">.</span><span class="nx">_updateEffectSymbol</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">lineData</span><span class="p">,</span> <span class="nx">idx</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_symbolType</span> <span class="o">!==</span> <span class="nx">symbolType</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Remove previous</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">symbol</span><span class="p">);</span>
+
+        <span class="c1">// 增加 文字symbol</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">symbolType</span> <span class="o">===</span> <span class="s1">&#39;flowLines.text&#39;</span><span class="p">)</span> <span class="p">{</span>
+
+            <span class="nx">size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">];</span>
+
+            <span class="kd">var</span> <span class="nx">labelModel</span> <span class="o">=</span> <span class="nx">effectModel</span><span class="p">.</span><span class="nx">getModel</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">textStyleModel</span> <span class="o">=</span> <span class="nx">labelModel</span><span class="p">.</span><span class="nx">getModel</span><span class="p">(</span><span class="s1">&#39;textStyle&#39;</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">textFont</span> <span class="o">=</span> <span class="nx">textStyleModel</span><span class="p">.</span><span class="nx">getFont</span><span class="p">();</span>
+            <span class="kd">var</span> <span class="nx">formatter</span> <span class="o">=</span> <span class="nx">labelModel</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;formatter&#39;</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">seriesModel</span> <span class="o">=</span> <span class="nx">lineData</span><span class="p">.</span><span class="nx">hostModel</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">text</span> <span class="o">=</span> <span class="nx">formatter</span><span class="p">(</span><span class="nx">seriesModel</span><span class="p">.</span><span class="nx">getDataParams</span><span class="p">(</span><span class="nx">idx</span><span class="p">));</span>
+
+            <span class="kd">var</span> <span class="nx">style</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="nx">text</span><span class="o">:</span> <span class="nx">text</span><span class="p">,</span>
+                <span class="nx">x</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="nx">y</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="nx">textFill</span><span class="o">:</span> <span class="nx">textStyleModel</span><span class="p">.</span><span class="nx">getTextColor</span><span class="p">(),</span>
+                <span class="nx">textFont</span> <span class="o">:</span> <span class="nx">textFont</span><span class="p">,</span>
+                <span class="nx">textAlign</span><span class="o">:</span> <span class="s1">&#39;middle&#39;</span>
+            <span class="p">};</span>
+            <span class="nx">symbol</span> <span class="o">=</span> <span class="nx">symbolUtil</span><span class="p">.</span><span class="nx">createSymbol</span><span class="p">(</span><span class="nx">symbolType</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">,</span> <span class="nx">style</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">symbol</span> <span class="o">=</span> <span class="nx">symbolUtil</span><span class="p">.</span><span class="nx">createSymbol</span><span class="p">(</span>
+                <span class="nx">symbolType</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">color</span>
+            <span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ...</span>
+<span class="p">};</span></code></pre></div>
+
+
+<p>修改方法<code>_updateEffectAnimation</code>。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">effectLineProto</span><span class="p">.</span><span class="nx">_updateEffectAnimation</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">lineData</span><span class="p">,</span> <span class="nx">effectModel</span><span class="p">,</span> <span class="nx">idx</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">symbol</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">childAt</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">symbol</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+
+    <span class="c1">// ...</span>
+
+    <span class="kd">var</span> <span class="nx">text</span> <span class="o">=</span> <span class="nx">symbol</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">text</span> <span class="o">||</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">fadeOut</span> <span class="o">=</span> <span class="nx">effectModel</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;fadeOut&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">bubbleIn</span> <span class="o">=</span> <span class="nx">effectModel</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;bubbleIn&#39;</span><span class="p">);</span>
+
+    <span class="c1">// ...</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">period</span> <span class="o">!==</span> <span class="k">this</span><span class="p">.</span><span class="nx">_period</span> <span class="o">||</span> <span class="nx">loop</span> <span class="o">!==</span> <span class="k">this</span><span class="p">.</span><span class="nx">_loop</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="c1">// ...</span>
+        <span class="kd">var</span> <span class="nx">animator</span> <span class="o">=</span> <span class="nx">symbol</span><span class="p">.</span><span class="nx">animate</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">loop</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">when</span><span class="p">(</span><span class="nx">period</span><span class="p">,</span> <span class="p">{</span>
+                <span class="nx">__t</span><span class="o">:</span> <span class="mi">1</span>
+            <span class="p">})</span>
+            <span class="p">.</span><span class="nx">delay</span><span class="p">(</span><span class="nx">delay</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">during</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">shape</span><span class="p">,</span> <span class="nx">t</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">self</span><span class="p">.</span><span class="nx">updateSymbolPosition</span><span class="p">(</span><span class="nx">symbol</span><span class="p">);</span>
+                <span class="c1">// 更新symbol文字</span>
+                <span class="nx">self</span><span class="p">.</span><span class="nx">updateSymbolText</span><span class="p">(</span><span class="nx">symbol</span><span class="p">,</span> <span class="nx">text</span><span class="p">,</span> <span class="nx">t</span><span class="p">,</span> <span class="nx">fadeOut</span><span class="p">,</span> <span class="nx">bubbleIn</span><span class="p">);</span>
+            <span class="p">});</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">loop</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">animator</span><span class="p">.</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+                <span class="nx">self</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">symbol</span><span class="p">);</span>
+            <span class="p">});</span>
+        <span class="p">}</span>
+        <span class="nx">animator</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">_period</span> <span class="o">=</span> <span class="nx">period</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_loop</span> <span class="o">=</span> <span class="nx">loop</span><span class="p">;</span>
+<span class="p">};</span></code></pre></div>
+
+
+<p><br></p>
+
+<h3>优化</h3>
+
+<p>到此为止，需要实现的效果已经出来了。后续为了更好的显示效果可以继续优化一下，比如使用多套的配置方案，有的速度快有的慢（使用<code>period</code>），有的字体大有的小（使用<code>fontSize</code>）。使得每个数字线条的效果更丰富，更立体。</p>
+
+  </article>
+
+  <div class="article-guide clearfix">
+    
+      <span class="article-pre">« <a href="/web%E5%89%8D%E7%AB%AF/2017/09/29/%E7%94%9F%E6%88%90%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E7%9A%84%E5%B0%8F%E5%B7%A5%E5%85%B7.html" rel="prev">生成目录结构的小工具</a></span>
+    
+    
+      <span class="article-next"><a href="/web%E5%89%8D%E7%AB%AF/2017/11/27/%E7%BB%84%E4%BB%B6%E4%B8%AD%E4%BD%BF%E7%94%A8v-model.html" rel="next">组件中使用v-model</a> »</span>
+    
+  </div>
+</div>
+
+
+        <!--Footer content-->
+        <footer class="site-footer">
+
+  <div class="wrapper">
+    <p class="footer-heading">Copyright © 2017 - <a href="/">库乐君的笔记本</a> - Base on <a href="http://github.com">Github</a> & <a href="http://jekyllrb.com">Jekyll</a></p>
+  </div>
+  <script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "https://hm.baidu.com/hm.js?075085658c25fed7cc4d8789f23c6519";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+</footer>
+
+      </div>
+    </div>
+
+    <div id="particles-js"></div>
+
+  </body>
+  <script>
+  particlesJS('particles-js',
+  
+  {
+      "particles": {
+      "number": {
+          "value": 50,
+          "density": {
+          "enable": true,
+          "value_area": 550
+          }
+      },
+      "color": {
+          "value": "#3385ff"
+      },
+      "shape": {
+          "type": "circle",
+          "stroke": {
+          "width": 0,
+          "color": "#000000"
+          },
+          "polygon": {
+          "nb_sides": 5
+          },
+          "image": {
+          "src": "img/github.svg",
+          "width": 100,
+          "height": 100
+          }
+      },
+      "opacity": {
+          "value": 0.25,
+          "random": false,
+          "anim": {
+          "enable": false,
+          "speed": 1,
+          "opacity_min": 0.1,
+          "sync": false
+          }
+      },
+      "size": {
+          "value": 5,
+          "random": true,
+          "anim": {
+          "enable": false,
+          "speed": 40,
+          "size_min": 0.1,
+          "sync": false
+          }
+      },
+      "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#3385ff",
+          "opacity": 0.4,
+          "width": 1
+      },
+      "move": {
+          "enable": true,
+          "speed": 3,
+          "direction": "none",
+          "random": false,
+          "straight": false,
+          "out_mode": "out",
+          "attract": {
+          "enable": false,
+          "rotateX": 600,
+          "rotateY": 1200
+          }
+      }
+      },
+      "interactivity": {
+      "detect_on": "canvas",
+      "events": {
+          "onhover": {
+          "enable": true,
+          "mode": "grab"
+          },
+          "onclick": {
+          "enable": true,
+          "mode": "push"
+          },
+          "resize": true
+      },
+      "modes": {
+          "grab": {
+          "distance": 100,
+          "line_linked": {
+              "opacity": 1
+          }
+          },
+          "bubble": {
+          "distance": 100,
+          "size": 40,
+          "duration": 2,
+          "opacity": 8,
+          "speed": 3
+          },
+          "repulse": {
+          "distance": 200
+          },
+          "push": {
+          "particles_nb": 4
+          },
+          "remove": {
+          "particles_nb": 2
+          }
+      }
+      },
+      "retina_detect": true,
+      "config_demo": {
+      "hide_card": false,
+      "background_color": "#b61924",
+      "background_image": "",
+      "background_position": "50% 50%",
+      "background_repeat": "no-repeat",
+      "background_size": "cover"
+      }
+  }
+
+  ); 
+  </script>
+</html>
