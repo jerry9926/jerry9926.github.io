@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<!-- 两栏模版 -->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <title>《javascript正则表达式迷你书》读书笔记</title>
+    <link rel="canonical" href="http://jerry9926.github.io/web%E5%89%8D%E7%AB%AF/2018/03/01/%E3%80%8Ajavascript%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%BF%B7%E4%BD%A0%E4%B9%A6%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.html">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="/css/main.css">
+	<script src="/js/jquery-1.11.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+	<script src="/js/particles.min.js"></script>    
+</head>
+
+
+  <body>
+    <div class="container my-container">
+      <div class="side-bar">
+        <!--Sidebar content-->
+        <div class="head-wrapper">
+        <img src="/assets/images/ui/icon.jpg" alt="head-icon">
+        </div>
+        <h1 class="title">库乐君的笔记本</h1>
+        <h2 class="decs">所谓文艺，不过是多走一些路，多看一些风景罢了</h2>
+        <ul class="nav">
+        <li><a href="/">首页</a></li>
+            
+        <li><a href="/ios/" title="查看更多文章">ios 6</a>
+        </li>
+        
+        <li><a href="/编程相关/" title="查看更多文章">编程相关 4</a>
+        </li>
+        
+        <li><a href="/web前端/" title="查看更多文章">web前端 13</a>
+        </li>
+        
+        </ul>
+      </div>
+      <div class="content-contain">
+        <!--Body content-->
+        <!-- 文章模版 -->
+<div class="post">
+
+  <header class="post-header clearfix">
+    <h1 class="post-title">《javascript正则表达式迷你书》读书笔记</h1>
+    <span class="post-meta"> 分类：web前端 </span>
+    <span class="post-meta"> 标签：正则表达式</span>
+    <span class="post-meta">发布时间：2018-03-01</span>
+  </header>
+
+  <article class="post-content">
+    <p>最近看了一本电子书《javascript正则表达式迷你书》，里面的讲解比较通俗易懂。把之前零散的知识点整理下来，写这个读书笔记。</p>
+
+<!-- more -->
+
+
+<p><br></p>
+
+<h3>匹配方式</h3>
+
+<ol>
+<li><p>横向模糊匹配</p>
+
+<blockquote><p>指一个正则可匹配的字符串长度不是固定的，可以是多种情况。
+实现方式是使用量词。比如{m,n}，表示连续出现最少m次，最多n次。<code>/ab{2,5}c/</code></p></blockquote></li>
+<li><p>纵向模糊匹配</p>
+
+<blockquote><p>指一个正则匹配的字符串，具体到某一位字符时，可以不是某个确定的字符，可以有多种可能。
+实现方式是使用字符组。比如[abc]，表示字符可以是"a","b","c"中的任何一个。<code>/a[123]b/</code></p></blockquote></li>
+</ol>
+
+
+<p><br></p>
+
+<h3>字符组</h3>
+
+<h4>范围表示法</h4>
+
+<p><code>[123456abcdefGHIJKLM]</code>用范围表示法，<code>[1-6a-fG-M]</code>。用连字符<code>-</code>来省略和简写。如果要匹配"a"、"-"、"z"这三个中的任意字符，怎么写呢？不能写<code>[a-z]</code>，应该这样表示小字符中的任何一个。可以写<code>[-az]</code>、<code>[az-]</code>、<code>[a\-z]</code>。要么放在开头，要么放在结尾，要么转义。</p>
+
+<h4>排除字符组</h4>
+
+<p>比如，可以是任何字符但不能是"a"、"b"、"c"。这里使用^（脱字符）,<code>[^abc]</code></p>
+
+<h4>字符组的简写形式</h4>
+
+<p><code>\d</code> 表示<code>[0-9]</code>，一位数字。记忆方式：英文digit（数字）。
+<code>\D</code> 表示<code>[^0-9]</code>，表示非数字。
+<code>\w</code> 表示<code>[0-9a-zA-Z_]</code>。表示数字、大小写字母和下划线。记忆方式：word，就是单词字符。
+<code>\W</code> 表示<code>[^0-9a-zA-Z_]</code>。表示非单词字符。
+<code>\s</code> 表示<code>[ \t\v\n\r\f]</code>。表示空白符，包括空格、水平制表符、垂直制表符、换行符、回车符、换页符。记忆方式，space，空白（white space）。
+<code>\S</code> 表示<code>[^ \t\v\n\r\f]</code>。表示非空白符。
+<code>.</code> 表示<code>[^\n\r\u2028\u2029]</code>。通配符，表示几乎任意字符。换行符、回车符、行分隔符和段分隔符除外。记忆方式：省略号...，表示任何东西。</p>
+
+<p><br></p>
+
+<h3>量词</h3>
+
+<p>量词也称重复。<code>{m,n}</code></p>
+
+<h4>量词的简写形式</h4>
+
+<p><code>{m,}</code> 表示至少出现m次。
+<code>{m}</code> 等价于<code>{m,m}</code>，表示出现m次。
+<code>?</code> 等价于<code>{0,1}</code>，表示出现或者不出现。记忆方式：问号表示有吗？
+<code>+</code> 等价于<code>{1,}</code>，表示至少出现一次。记忆方式：加号是追加的意思，至少有一个再追加。
+<code>*</code> 等价于<code>{0,}</code>，表示出现任意次数，有可能不出现。记忆方式：看天上星星，可能有一颗，可能有许多颗，可能一颗都没有。</p>
+
+<h4>贪婪匹配与惰性匹配</h4>
+
+<p>例子</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/\d{2,5}/g</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;123 1234 12345 123456&quot;</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">string</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="nx">regex</span><span class="p">));</span>
+<span class="c1">// [&quot;123&quot;, &quot;1234&quot;, &quot;12345&quot;, &quot;12345&quot;]</span></code></pre></div>
+
+
+<p>其中正则<code>/\d{2,5}/</code>，表示数字连续出现2到5次。可以匹配2位，3位，5位连续数字。
+因为是贪婪的，它会尽可能多的匹配。给6个就匹配5个，给3个就匹配3个。</p>
+
+<p>如果是惰性匹配就是尽可能少的匹配。
+<code>
+// ["12", "12", "34", "12", ""34", "12", "34", "56"]
+</code>
+因为是惰性匹配，当有两个数字的时候就足够了，不往下尝试了。
+通过在量词后面加个问号可以实现惰性匹配。
+贪婪量词
+<code>{m,n}</code>、<code>{m,}</code>、<code>?</code>、<code>+</code>、<code>*</code>。
+惰性量词
+<code>{m,n}?</code>、<code>{m,}?</code>、<code>??</code>、<code>+?</code>、<code>*?</code>。
+惰性量词的记忆方式：量词后加一个问号，问问，你是不是贪婪？</p>
+
+<p><br></p>
+
+<h3>多选分支</h3>
+
+<p>一个模式可以实现横向和纵向模糊匹配。而多选分支可以支持多个子模式任选其一。
+具体形式如：<code>(p1|p2|p2)</code>，其中p1、p2、p3是子模式，用<code>|</code>（管道符）分隔。比如要匹配"good"和"nice"。可以使用<code>/good|nice/</code>。
+注意：如有正则<code>/good|goodbye/</code>去匹配<code>goodbye</code>时，结果是<code>good</code>。因为分支结构也是<strong>惰性</strong>的，即前面匹配上了，就不尝试后面了。</p>
+
+<p><br></p>
+
+<h3>位置匹配</h3>
+
+<h4>什么是位置</h4>
+
+<p>位置（锚）是相邻字符之间的位置。比如，下图中箭头所指的地方：</p>
+
+<p><img src="http://jerry9926.github.io/assets/images/180301/1665f4669.png" alt="示例图片" /></p>
+
+<h4>如何匹配位置</h4>
+
+<p>在ES5中，有6个锚：
+<code>^</code>、<code>$</code>、<code>\b</code>、<code>\B</code>、<code>(?=p)</code>、<code>(?!p)</code></p>
+
+<h4>^和$</h4>
+
+<p><code>^</code>（脱字符）匹配开头，在多行匹配中匹配行开头。
+<code>$</code>（美元符号）匹配结尾，在多行匹配中匹配行结尾。
+比如我们把字符串的开头和结尾用"#"替换（位置是可以替换成字符的）</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="s2">&quot;hello&quot;</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^|$/g</span><span class="p">,</span> <span class="s1">&#39;#&#39;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+<span class="c1">// #hello#</span></code></pre></div>
+
+
+<p>多行匹配模式（即有修饰符 m）时，二者是行的概念，这一点需要我们注意：</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="s2">&quot;I\nlove\njavascript&quot;</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^|$/gm</span><span class="p">,</span> <span class="s1">&#39;#&#39;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+<span class="cm">/*</span>
+<span class="cm">#I#</span>
+<span class="cm">#love#</span>
+<span class="cm">#javascript#</span>
+<span class="cm">*/</span></code></pre></div>
+
+
+<h4>\b和\B</h4>
+
+<p><code>\b</code> 是单词边界，具体就是 <code>\w</code> 与 <code>\W</code> 之间的位置，也包括 <code>\w</code> 与 <code>^</code> 之间的位置，和 <code>\w</code> 与 <code>$</code> 之间的位置。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="s2">&quot;[JS] Lesson_01.mp4&quot;</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\b/g</span><span class="p">,</span> <span class="s1">&#39;#&#39;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+<span class="c1">// =&gt; &quot;[#JS#] #Lesson_01#.#mp4#&quot;</span></code></pre></div>
+
+
+<p><code>\B</code> 就是 <code>\b</code> 的反面的意思，非单词边界。例如在字符串中所有位置中，扣掉 <code>\b</code>，剩下的都是 <code>\B</code> 的。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="s2">&quot;[JS] Lesson_01.mp4&quot;</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\B/g</span><span class="p">,</span> <span class="s1">&#39;#&#39;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+<span class="c1">// =&gt; &quot;#[J#S]# L#e#s#s#o#n#_#0#1.m#p#4&quot;</span></code></pre></div>
+
+
+<h4>(?=p)和(?!p)</h4>
+
+<p><code>(?=p)</code>，其中 p 是一个子模式，即 p 前面的位置，或者说，该位置后面的字符要匹配 p。
+比如 <code>(?=l)</code>，表示 "l" 字符前面的位置，例如：
+<code>
+var result = "hello".replace(/(?=l)/g, '#');
+console.log(result);
+// =&gt; "he#l#lo"
+</code></p>
+
+<p><code>(?!p)</code> 就是 <code>(?=p)</code> 的反面意思，比如：
+<code>
+var result = "hello".replace(/(?!l)/g, '#');
+console.log(result);
+// =&gt; "#h#ell#o#"
+</code>
+二者的学名分别是 <strong>positive lookahead</strong>和 <strong>negative lookahead</strong>。中文翻译分别是正向先行断言和负向先行断言。ES5 之后的版本，会支持 <strong>positive lookbehind</strong> 和 <strong>negative lookbehind</strong>。</p>
+
+<p>字符之间的位置，可以写成多个。比如，把 <code>/^hello$/</code> 写成 <code>/^^hello$$$/</code>是等价的。把位置理解空字符就可以了。</p>
+
+<p><br></p>
+
+<h3>括号的作用</h3>
+
+<h4>分组和分支结构</h4>
+
+<p>这时括号最直觉的作用，强调括号内的正则是一个整体，即提供子表达式。</p>
+
+<h4>分组</h4>
+
+<p>如果要匹配连续出现的a时，可以用<code>/a+/</code>，如果要匹配连续出现的ab，要使用<code>/(ab)+/</code>。这个括号表示量词<code>+</code>要作用与"ab"这个整体。</p>
+
+<h4>分支结构</h4>
+
+<p><code>(p1|p2)</code>中，括号为分支的说明提供了可能。作用也是显而易见的。</p>
+
+<h4>分组引用</h4>
+
+<p>这时括号的一个重要作用，有了它我么可以进行数据提取，以及强大的替换操作。
+以日期格式为例，比如yyyy-mm-dd，正则为</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/\d{4}-\d{2}-\d{2}/</span><span class="p">;</span></code></pre></div>
+
+
+<p>可视化的形式（可视化形式有利于理解）：</p>
+
+<p><img src="http://jerry9926.github.io/assets/images/180301/2665f4669.png" alt="示例图片" /></p>
+
+<p>修改为括号版</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/(\d{4})-(\d{2})-(\d{2})/</span><span class="p">;</span></code></pre></div>
+
+
+<p>可视化的形式：</p>
+
+<p><img src="http://jerry9926.github.io/assets/images/180301/35980dcc1ff0.png" alt="示例图片" /></p>
+
+<p>对比这两个可视化图片，我们发现，与前者相比，后者多了分组编号，如 Group #1。其实正则引擎也是这么做的，在匹配过程中，给每一个分组都开辟一个空间，用来存储每一个分组匹配到的数据。
+既然分组可以捕获数据，那么我们就可以使用它们。</p>
+
+<h4>提取数据</h4>
+
+<p>如果要提取出年、月、日，可以这样做</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/(\d{4})-(\d{2})-(\d{2})/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;2017-06-12&quot;</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">string</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="nx">regex</span><span class="p">)</span> <span class="p">);</span>
+<span class="c1">// =&gt; [&quot;2017-06-12&quot;, &quot;2017&quot;, &quot;06&quot;, &quot;12&quot;, index: 0, input: &quot;2017-06-12&quot;]</span></code></pre></div>
+
+
+<blockquote><p><code>match</code> 返回的一个数组，第一个元素是整体匹配结果，然后是各个分组（括号里）匹配的内容，然后是匹配下标，最后是输入的文本。另外，正则表达式是否有修饰符<code>g</code>，<code>match</code>返回的数组格式是不一样的。</p></blockquote>
+
+<p>另外也可以使用正则实例对象的 <code>exec</code> 方法：</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/(\d{4})-(\d{2})-(\d{2})/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;2017-06-12&quot;</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">regex</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="p">);</span>
+<span class="c1">// =&gt; [&quot;2017-06-12&quot;, &quot;2017&quot;, &quot;06&quot;, &quot;12&quot;, index: 0, input: &quot;2017-06-12&quot;]</span></code></pre></div>
+
+
+<p>同时，也可以使用构造函数的全局属性 $1 至 $9 来获取：</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/(\d{4})-(\d{2})-(\d{2})/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;2017-06-12&quot;</span><span class="p">;</span>
+<span class="nx">regex</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">string</span><span class="p">);</span> <span class="c1">// 正则操作即可，例如</span>
+<span class="c1">//regex.exec(string);</span>
+<span class="c1">//string.match(regex);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">RegExp</span><span class="p">.</span><span class="nx">$1</span><span class="p">);</span> <span class="c1">// &quot;2017&quot;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">RegExp</span><span class="p">.</span><span class="nx">$2</span><span class="p">);</span> <span class="c1">// &quot;06&quot;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">RegExp</span><span class="p">.</span><span class="nx">$3</span><span class="p">);</span> <span class="c1">// &quot;12&quot;</span></code></pre></div>
+
+
+<h4>替换</h4>
+
+<p>比如，想把 yyyy-mm-dd 格式，替换成 mm/dd/yyyy</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/(\d{4})-(\d{2})-(\d{2})/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;2017-06-12&quot;</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">string</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">regex</span><span class="p">,</span> <span class="s2">&quot;$2/$3/$1&quot;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+<span class="c1">// =&gt; &quot;06/12/2017&quot;</span></code></pre></div>
+
+
+<p>其中 replace 中的，第二个参数里用 $1、$2、$3 指代相应的分组。等价于如下的形式</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/(\d{4})-(\d{2})-(\d{2})/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;2017-06-12&quot;</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">string</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">regex</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+ <span class="k">return</span> <span class="nb">RegExp</span><span class="p">.</span><span class="nx">$2</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="nb">RegExp</span><span class="p">.</span><span class="nx">$3</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="nb">RegExp</span><span class="p">.</span><span class="nx">$1</span><span class="p">;</span>
+<span class="p">});</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+<span class="c1">// =&gt; &quot;06/12/2017&quot;</span></code></pre></div>
+
+
+<p>也等价于</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/(\d{4})-(\d{2})-(\d{2})/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;2017-06-12&quot;</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">string</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">regex</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">match</span><span class="p">,</span> <span class="nx">year</span><span class="p">,</span> <span class="nx">month</span><span class="p">,</span> <span class="nx">day</span><span class="p">)</span> <span class="p">{</span>
+ <span class="k">return</span> <span class="nx">month</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="nx">day</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="nx">year</span><span class="p">;</span>
+<span class="p">});</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+<span class="c1">// =&gt; &quot;06/12/2017&quot;</span></code></pre></div>
+
+
+<h4>反向引用</h4>
+
+<p>除了使用相应 API 来引用分组，也可以在正则本身里引用分组。但只能<strong>引用之前出现的分组</strong>，即反向引用。
+比如要写一个正则支持匹配如下三种格式
+<code>
+2016-06-12
+2016/06/12
+2016.06.12
+</code></p>
+
+<p>最先可能想到的正则是</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/\d{4}(-|\/|\.)\d{2}(-|\/|\.)\d{2}/</span><span class="p">;</span></code></pre></div>
+
+
+<p>但是这个正则会匹配"2017-06/12"这样的字符。显然不符合我们的要求，我们希望前后的分隔符要一致的，这时候可以使用反向引用。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/\d{4}(-|\/|\.)\d{2}\1\d{2}/</span><span class="p">;</span></code></pre></div>
+
+
+<p>里面的 <code>\1</code>，表示的引用之前的那个分组 <code>(-|\/|\.)</code>。不管它匹配到什么（比如 -），<code>\1</code> 都匹配那个同样的具体某个字符。</p>
+
+<p>后续会遇到一些疑问。</p>
+
+<h4>括号嵌套怎么办</h4>
+
+<p>以左括号（开括号）为准。比如：</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/^((\d)(\d(\d)))\1\2\3\4$/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;1231231233&quot;</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">regex</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="p">);</span> <span class="c1">// true</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nb">RegExp</span><span class="p">.</span><span class="nx">$1</span> <span class="p">);</span> <span class="c1">// 123</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nb">RegExp</span><span class="p">.</span><span class="nx">$2</span> <span class="p">);</span> <span class="c1">// 1</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nb">RegExp</span><span class="p">.</span><span class="nx">$3</span> <span class="p">);</span> <span class="c1">// 23</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nb">RegExp</span><span class="p">.</span><span class="nx">$4</span> <span class="p">);</span> <span class="c1">// 3</span></code></pre></div>
+
+
+<p>第一个<code>\1</code>，是第一个分组，就是<code>((\d)(\d(\d)))</code>，匹配"123"。
+第二个<code>\2</code>，是第二个分组，就是<code>(\d)</code>，匹配"1"。
+第三个<code>\3</code>，是第三个分组，就是<code>(\d(\d))</code>，匹配"23"。
+第四个<code>\4</code>，是第四个分组，就是<code>(\d)</code>，匹配"3"。</p>
+
+<h4>\10 表示什么</h4>
+
+<p><code>\10</code>是表示第 10 个分组，还是<code>\1</code>和 <code>0</code>呢？
+答案是前者<code>\10</code>。如果真要匹配 <code>\1</code> 和 0 的话，请使用 <code>(?:\1)0</code> 或者 <code>\1(?:0)</code>。</p>
+
+<h4>引用不存在的分组会怎样</h4>
+
+<p>如果引用了不存在的分组时，此时正则不会报错，只是匹配反向引用的字符本身。例如 <code>\2</code>，就匹配 "\2"。注意 "\2" 表示对 "2" 进行了转义。</p>
+
+<h4>分组后面有量词会怎样</h4>
+
+<p>分组后面有量词的话，分组最终捕获到的数据是最后一次的匹配。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/(\d)+/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;12345&quot;</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">string</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="nx">regex</span><span class="p">)</span> <span class="p">);</span>
+<span class="c1">// =&gt; [&quot;12345&quot;, &quot;5&quot;, index: 0, input: &quot;12345&quot;]</span></code></pre></div>
+
+
+<p>从上面看出，分组 <code>(\d)</code> 捕获的数据是 "5"。</p>
+
+<p><br></p>
+
+<h3>非捕获括号</h3>
+
+<p>之前文中出现的括号，都会捕获它们匹配到的数据，以便后续引用，因此也称它们是<strong>捕获型分组</strong>和<strong>捕获型分支</strong>。
+如果只想要括号最原始的功能，但不会引用它，即，既不在 API 里引用，也不在正则里反向引用。此时可以使用非捕获括号 <code>(?:p)</code> 和 <code>(?:p1|p2|p3)</code>。</p>
+
+<p><br></p>
+
+<h3>回溯法原理</h3>
+
+<p>就是在匹配的过程中，从左往右匹配字符，如果当前的位置不能匹配，回退一个位置，用下一个匹配规则匹配。回溯就是指回退的动作。
+比如量词，量词是贪婪的。在<code>/ab{1,3}c/</code>，匹配字符"abbc"的过程中，会出现回溯。
+过程是，匹配"a"，然后匹配"bbb"（因为是贪婪的所以先匹配最多的），但是在第四个位置的时候遇到"c"，所以不成功， 就回溯，退回到第三位，然后使用"bb匹配，后面是"c"，成功匹配。
+本质是深度优先搜索。</p>
+
+<h4>贪婪量词</h4>
+
+<p>如果贪婪量词有多个并且挨着存在，结果是左边的优先满足。
+比如</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;12345&quot;</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/(\d{1,3})(\d{1,3})/</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">string</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="nx">regex</span><span class="p">)</span> <span class="p">);</span>
+<span class="c1">// =&gt; [&quot;12345&quot;, &quot;123&quot;, &quot;45&quot;, index: 0, input: &quot;12345&quot;]</span></code></pre></div>
+
+
+<h4>惰性量词</h4>
+
+<p>如果使用了惰性量词的情况</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;12345&quot;</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/(\d{1,3}?)(\d{1,3})/</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">string</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="nx">regex</span><span class="p">)</span> <span class="p">);</span>
+<span class="c1">// =&gt; [&quot;1234&quot;, &quot;1&quot;, &quot;234&quot;, index: 0, input: &quot;12345&quot;]</span></code></pre></div>
+
+
+<p>其中 <code>\d{1,3}?</code> 只匹配到一个字符 "1"，而后面的 <code>\d{1,3}</code> 匹配了 "234"。</p>
+
+<h4>分支结构</h4>
+
+<p>分支也是惰性的，比如 <code>/can|candy/</code>，去匹配字符串 "candy"，得到的结果是 "can"，因为分支会
+一个一个尝试，如果前面的满足了，后面就不会再试验了。</p>
+
+<blockquote><p>JavaScript 的正则引擎是 NFA，NFA 是“非确定型有限自动机”的简写。NFA 虽然匹配慢，但是编译快。</p></blockquote>
+
+<p><br></p>
+
+<h3>正则表达式的拆分</h3>
+
+<h4>结构和操作符</h4>
+
+<p>JavaScript 正则表达式中，都有哪些结构呢？
+字符字面量、字符组、量词、锚、分组、选择分支、反向引用。
+字面量</p>
+
+<blockquote><p>匹配一个具体字符，包括不用转义的和需要转义的。比如 a 匹配字符 "a"，又比如 \n 匹配换行符，又比如 . 匹配小数点。</p></blockquote>
+
+<p>字符组</p>
+
+<blockquote><p>匹配一个字符，可以是多种可能之一，比如 [0-9]，表示匹配一个数字。也有 \d 的简写形式。另外还有反义字符组，表示可以是除了特定字符之外任何一个字符，比如 <code>[^0-9]</code>，表示一个非数字字符，也有 <code>\D</code> 的简写形式。</p></blockquote>
+
+<p>量词</p>
+
+<blockquote><p>表示一个字符连续出现，比如 <code>a{1,3}</code> 表示 "a" 字符连续出现 3 次。另外还有常见的简写形式，比如 a+ 表示 "a" 字符连续出现至少一次。</p></blockquote>
+
+<p>锚</p>
+
+<blockquote><p>匹配一个位置，而不是字符。比如 ^ 匹配字符串的开头，又比如 <code>\b</code> 匹配单词边界，又比如 <code>(?=\d)</code> 表示数字前面的位置。</p></blockquote>
+
+<p>分组</p>
+
+<blockquote><p>用括号表示一个整体，比如 <code>(ab)+</code>，表示 "ab" 两个字符连续出现多次，也可以使用非捕获分组 <code>(?:ab)+</code>。</p></blockquote>
+
+<p>分支</p>
+
+<blockquote><p>多个子表达式多选一，比如 <code>abc|bcd</code>，表达式匹配 "abc" 或者 "bcd" 字符子串。反向引用，比如 <code>\2</code>，表示引用第 2 个分组。</p></blockquote>
+
+<p>操作符有：
+- 转义符，优先级：1， <code>\</code></p>
+
+<ul>
+<li><p>括号和方括号，优先级：2，<code>(…)</code>、<code>(?:…)</code>、<code>(?=…)</code>、<code>(?!…)</code>、<code>[…]</code></p></li>
+<li><p>量词限定符，优先级：3，<code>{m}</code>、<code>{m,n}</code>、<code>{m,}</code>、<code>?</code>、<code>*</code>、<code>+</code></p></li>
+<li><p>位置和序列，优先级：4，<code>^</code>、<code>$</code>、<code>\元字符</code>、<code>一般字符</code></p></li>
+<li><p>管道符（竖杠） ，优先级：5，<code>|</code></p></li>
+</ul>
+
+
+<p>这里，我们来分析一个正则：<code>/ab?(c|de*)+|fg/</code></p>
+
+<ol>
+<li>由于括号的存在，所以，(c|de*) 是一个整体结构。</li>
+<li>在 (c|de*) 中，注意其中的量词 ，因此 e 是一个整体结构。</li>
+<li>又因为分支结构 | 优先级最低，因此 c 是一个整体、而 de* 是另一个整体。</li>
+<li>同理，整个正则分成了 a、b?、(…)+、f、g。而由于分支的原因，</li>
+<li>又可以分成 ab?(c|de*)+ 和 fg 这两部分。</li>
+</ol>
+
+
+<h4>注意要点</h4>
+
+<ol>
+<li>匹配字符串整体问题。比如要匹配目标字符串 "abc" 或者 "bcd" 时。容易错写成<code>/^abc|bcd$/</code>。正确应该是<code>/^(abc|bcd)$/</code>。</li>
+<li>量词连缀问题。假设，要匹配这样的字符串：每个字符为 "a、"b"、"c" 任选其一，并且字符串的长度是 3 的倍数。容易错写成<code>/^[abc]{3}+$/</code>，正确为<code>/([abc]{3})+/</code>。</li>
+<li>元字符转义问题。所有的元字符<code>^、$、.、*、+、?、|、\、/、(、)、[、]、{、}、=、!、:、-</code>。
+3.1. 例如开头的 <code>^</code> 必须转义。
+3.2. 匹配 "[abc]" 和 "{3,5}"，可以写成 <code>/\[abc\]/</code>，也可以写成 <code>/\[abc]/</code>。</li>
+<li>比如 <code>=、!、:、-、,</code> 等符号，只要不在特殊结构中，并不需要转义。号需要前后都转义的，如 <code>/\(123\)/</code>。至于剩下的 <code>^、$、.、*、+、?、|、\、/</code>等字符，只要不在字符组内，都需要转义的。</li>
+</ol>
+
+
+<p><br></p>
+
+<h3>正则表达式编程</h3>
+
+<h4>正则表达式的四种操作</h4>
+
+<p>验证、切分、提取、替换。</p>
+
+<h4>验证</h4>
+
+<p>比如，判断一个字符串中是否有数字。
+使用<code>search</code></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/\d/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;abc123&quot;</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="o">!!</span><span class="nx">string</span><span class="p">.</span><span class="nx">search</span><span class="p">(</span><span class="nx">regex</span><span class="p">)</span> <span class="p">);</span>
+<span class="c1">// =&gt; true</span></code></pre></div>
+
+
+<p>使用<code>match</code></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/\d/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;abc123&quot;</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="o">!!</span><span class="nx">string</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="nx">regex</span><span class="p">)</span> <span class="p">);</span>
+<span class="c1">// =&gt; true</span></code></pre></div>
+
+
+<p>使用<code>test</code></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/\d/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;abc123&quot;</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">regex</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="p">);</span>
+<span class="c1">// =&gt; true</span></code></pre></div>
+
+
+<p>使用 <code>exec</code></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/\d/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;abc123&quot;</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="o">!!</span><span class="nx">regex</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="p">);</span>
+<span class="c1">// =&gt; true</span></code></pre></div>
+
+
+<p>其中，最常用的是 <code>test</code>。</p>
+
+<blockquote><p>注意：<code>search</code> 和 <code>match</code>方法，参数如果是字符串，会把字符串转换为正则。</p></blockquote>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;2017.06.12&quot;</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">string</span><span class="p">.</span><span class="nx">search</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">));</span>
+<span class="c1">// =&gt; 0</span>
+<span class="c1">// 需要改成</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">string</span><span class="p">.</span><span class="nx">search</span><span class="p">(</span><span class="s2">&quot;\\.&quot;</span><span class="p">));</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">string</span><span class="p">.</span><span class="nx">search</span><span class="p">(</span><span class="sr">/\./</span><span class="p">));</span>
+<span class="c1">// =&gt; 4</span></code></pre></div>
+
+
+<h4>切分</h4>
+
+<p>在 JavaScript 中使用的是 <code>split</code>。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/,/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;html,css,javascript&quot;</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">string</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="nx">regex</span><span class="p">)</span> <span class="p">);</span>
+<span class="c1">// =&gt; [&quot;html&quot;, &quot;css&quot;, &quot;javascript&quot;]</span></code></pre></div>
+
+
+<h4>提取</h4>
+
+<p>使用 <code>match</code></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/^(\d{4})\D(\d{2})\D(\d{2})$/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;2017-06-26&quot;</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">string</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="nx">regex</span><span class="p">)</span> <span class="p">);</span>
+<span class="c1">// =&gt;[&quot;2017-06-26&quot;, &quot;2017&quot;, &quot;06&quot;, &quot;26&quot;, index: 0, input: &quot;2017-06-26&quot;]</span></code></pre></div>
+
+
+<p>使用 <code>exec</code></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/^(\d{4})\D(\d{2})\D(\d{2})$/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;2017-06-26&quot;</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">regex</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="p">);</span>
+<span class="c1">// =&gt;[&quot;2017-06-26&quot;, &quot;2017&quot;, &quot;06&quot;, &quot;26&quot;, index: 0, input: &quot;2017-06-26&quot;]</span></code></pre></div>
+
+
+<p>使用<code>test</code></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/^(\d{4})\D(\d{2})\D(\d{2})$/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;2017-06-26&quot;</span><span class="p">;</span>
+<span class="nx">regex</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">string</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nb">RegExp</span><span class="p">.</span><span class="nx">$1</span><span class="p">,</span> <span class="nb">RegExp</span><span class="p">.</span><span class="nx">$2</span><span class="p">,</span> <span class="nb">RegExp</span><span class="p">.</span><span class="nx">$3</span> <span class="p">);</span>
+<span class="c1">// =&gt; &quot;2017&quot; &quot;06&quot; &quot;26&quot;</span></code></pre></div>
+
+
+<p>使用<code>search</code></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/^(\d{4})\D(\d{2})\D(\d{2})$/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;2017-06-26&quot;</span><span class="p">;</span>
+<span class="nx">string</span><span class="p">.</span><span class="nx">search</span><span class="p">(</span><span class="nx">regex</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nb">RegExp</span><span class="p">.</span><span class="nx">$1</span><span class="p">,</span> <span class="nb">RegExp</span><span class="p">.</span><span class="nx">$2</span><span class="p">,</span> <span class="nb">RegExp</span><span class="p">.</span><span class="nx">$3</span> <span class="p">);</span>
+<span class="c1">// =&gt; &quot;2017&quot; &quot;06&quot; &quot;26&quot;</span></code></pre></div>
+
+
+<p>使用<code>replace</code></p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/^(\d{4})\D(\d{2})\D(\d{2})$/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;2017-06-26&quot;</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="nx">string</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">regex</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">match</span><span class="p">,</span> <span class="nx">year</span><span class="p">,</span> <span class="nx">month</span><span class="p">,</span> <span class="nx">day</span><span class="p">)</span> <span class="p">{</span>
+ <span class="nx">date</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">year</span><span class="p">,</span> <span class="nx">month</span><span class="p">,</span> <span class="nx">day</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">date</span><span class="p">);</span>
+<span class="c1">// =&gt; [&quot;2017&quot;, &quot;06&quot;, &quot;26&quot;]</span></code></pre></div>
+
+
+<p>其中，最常用的是<code>match</code>。</p>
+
+<h4>替换</h4>
+
+<p>比如把日期格式，从 yyyy-mm-dd 替换成 yyyy/mm/dd，使用<code>replace</code>进行替换。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;2017-06-26&quot;</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">today</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span> <span class="nx">string</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/-/g</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span> <span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">today</span> <span class="p">);</span>
+<span class="c1">// =&gt; Mon Jun 26 2017 00:00:00 GMT+0800 (中国标准时间)</span></code></pre></div>
+
+
+<p><br></p>
+
+<h3>相关API的使用要点</h3>
+
+<p>用于正则操作的方法，共有 6 个，字符串实例 4 个，正则实例 2 个
+- String#search
+- String#split
+- String#match
+- String#replace
+- RegExp#test
+- RegExp#exec</p>
+
+<h4>match 返回结果的格式问题</h4>
+
+<p><code>match</code>返回结果的格式，与正则对象是否有修饰符 <code>g</code>有关。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;2017.06.27&quot;</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">regex1</span> <span class="o">=</span> <span class="sr">/\b(\d+)\b/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">regex2</span> <span class="o">=</span> <span class="sr">/\b(\d+)\b/g</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">string</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="nx">regex1</span><span class="p">)</span> <span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">string</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="nx">regex2</span><span class="p">)</span> <span class="p">);</span>
+<span class="c1">// =&gt; [&quot;2017&quot;, &quot;2017&quot;, index: 0, input: &quot;2017.06.27&quot;]</span>
+<span class="c1">// =&gt; [&quot;2017&quot;, &quot;06&quot;, &quot;27&quot;]</span></code></pre></div>
+
+
+<p>没有 <code>g</code>，返回的是标准匹配格式，即，数组的第一个元素是整体匹配的内容，接下来是分组捕获的内容，然
+后是整体匹配的第一个下标，最后是输入的目标字符串。
+有 <code>g</code>，返回的是所有匹配的内容。
+当没有匹配时，不管有无 <code>g</code>，都返回 <code>null</code>。</p>
+
+<h4>exec 比 match 更强大</h4>
+
+<p>当正则没有 <code>g</code> 时，使用 <code>match</code> 返回的信息比多。但是有 <code>g</code> 后，就没有关键的信息 <code>index</code> 了。
+而 <code>exec</code> 方法就能解决这个问题，它能接着上一次匹配后继续匹配。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;2017.06.27&quot;</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">regex2</span> <span class="o">=</span> <span class="sr">/\b(\d+)\b/g</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">regex2</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">regex2</span><span class="p">.</span><span class="nx">lastIndex</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">regex2</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">regex2</span><span class="p">.</span><span class="nx">lastIndex</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">regex2</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">regex2</span><span class="p">.</span><span class="nx">lastIndex</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">regex2</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">regex2</span><span class="p">.</span><span class="nx">lastIndex</span><span class="p">);</span>
+<span class="c1">// =&gt; [&quot;2017&quot;, &quot;2017&quot;, index: 0, input: &quot;2017.06.27&quot;]</span>
+<span class="c1">// =&gt; 4</span>
+<span class="c1">// =&gt; [&quot;06&quot;, &quot;06&quot;, index: 5, input: &quot;2017.06.27&quot;]</span>
+<span class="c1">// =&gt; 7</span>
+<span class="c1">// =&gt; [&quot;27&quot;, &quot;27&quot;, index: 8, input: &quot;2017.06.27&quot;]</span>
+<span class="c1">// =&gt; 10</span>
+<span class="c1">// =&gt; null</span>
+<span class="c1">// =&gt; 0</span></code></pre></div>
+
+
+<p>其中正则实例 <code>lastIndex</code> 属性，表示下一次匹配开始的位置。在使用 exec 时，经常需要配合使用 while 循环。</p>
+
+<h4>修饰符 g，对 exex 和 test 的影响</h4>
+
+<p>尝试匹配时，从字符串的 <code>lastIndex</code> 位开始去匹配。字符串的四个方法，每次匹配时，都是从 0 开始的，即 <code>lastIndex</code> 属性始终不变。而正则实例的两个方法 <code>exec</code>、<code>test</code>，当正则是全局匹配时，每一次匹配完成后，都会修改 <code>lastIndex</code>。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/a/g</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">regex</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">),</span> <span class="nx">regex</span><span class="p">.</span><span class="nx">lastIndex</span> <span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">regex</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="s2">&quot;aba&quot;</span><span class="p">),</span> <span class="nx">regex</span><span class="p">.</span><span class="nx">lastIndex</span> <span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">regex</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="s2">&quot;ababc&quot;</span><span class="p">),</span> <span class="nx">regex</span><span class="p">.</span><span class="nx">lastIndex</span> <span class="p">);</span>
+<span class="c1">// =&gt; true 1</span>
+<span class="c1">// =&gt; true 3</span>
+<span class="c1">// =&gt; false 0</span></code></pre></div>
+
+
+<p>如果没有 <code>g</code>，自然都是从字符串第 0 个字符处开始尝试匹配</p>
+
+<h4>test 整体匹配时需要使用 ^ 和 $</h4>
+
+<p>因为 test 是看目标字符串中是否有子串匹配正则，即有部分匹配即可。如果要整体匹配，正则前后需要添加开头和结尾。</p>
+
+<h4>split 相关注意事项</h4>
+
+<p>有两个注意点。
+第一，它可以有第二个参数，表示结果数组的最大长度。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;html,css,javascript&quot;</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">string</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/,/</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="p">);</span>
+<span class="c1">// =&gt;[&quot;html&quot;, &quot;css&quot;]</span></code></pre></div>
+
+
+<p>第二，正则使用分组时，结果数组中是包含分隔符的：</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;html,css,javascript&quot;</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">string</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/(,)/</span><span class="p">)</span> <span class="p">);</span>
+<span class="c1">// =&gt;[&quot;html&quot;, &quot;,&quot;, &quot;css&quot;, &quot;,&quot;, &quot;javascript&quot;]</span></code></pre></div>
+
+
+<h4>replace 是很强大的</h4>
+
+<p><code>replace</code> 有两种使用形式，这是因为它的第二个参数，可以是字符串，也可以是函数。
+当第二个参数是字符串时，如下的字符有特殊的含义：
+- \$1,\$2,…,$99，匹配第 1-99 个 分组里捕获的文本。
+- $&amp;，匹配到的子串文本
+- $` ，匹配到的子串的左边文本
+- $'，匹配到的子串的右边文本
+- \$\$，美元符号</p>
+
+<h4>使用构造函数需要注意的问题</h4>
+
+<p>一般不推荐使用构造函数生成正则，而应该优先使用字面量。因为用构造函数会多写很多 <code>\</code>。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s2">&quot;2017-06-27 2017.06.27 2017/06/27&quot;</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/\d{4}(-|\.|\/)\d{2}\1\d{2}/g</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">string</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="nx">regex</span><span class="p">)</span> <span class="p">);</span>
+<span class="c1">// =&gt; [&quot;2017-06-27&quot;, &quot;2017.06.27&quot;, &quot;2017/06/27&quot;]</span>
+<span class="nx">regex</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="s2">&quot;\\d{4}(-|\\.|\\/)\\d{2}\\1\\d{2}&quot;</span><span class="p">,</span> <span class="s2">&quot;g&quot;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">string</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="nx">regex</span><span class="p">)</span> <span class="p">);</span>
+<span class="c1">// =&gt; [&quot;2017-06-27&quot;, &quot;2017.06.27&quot;, &quot;2017/06/27&quot;]</span></code></pre></div>
+
+
+<h4>修饰符</h4>
+
+<p>ES5 中修饰符，共 3 个</p>
+
+<ul>
+<li><code>g</code> 全局匹配，即找到所有匹配的，单词是 global。</li>
+<li><code>i</code> 忽略字母大小写，单词是 ingoreCase。</li>
+<li><code>m</code> 多行匹配，只影响 <code>^</code> 和 <code>$</code>，二者变成行的概念，即行开头和行结尾。单词是 multiline。</li>
+</ul>
+
+
+<p>对应正则对象的只读属性（如果存在这个修饰符就为true反之false）</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">regex</span> <span class="o">=</span> <span class="sr">/\w/img</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">regex</span><span class="p">.</span><span class="nx">global</span> <span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">regex</span><span class="p">.</span><span class="nx">ignoreCase</span> <span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">regex</span><span class="p">.</span><span class="nx">multiline</span> <span class="p">);</span>
+<span class="c1">// =&gt; true</span>
+<span class="c1">// =&gt; true</span>
+<span class="c1">// =&gt; true</span></code></pre></div>
+
+
+<h4>source 属性</h4>
+
+<p>正则实例对象属性，除了 <code>global</code>、<code>ingnoreCase</code>、<code>multiline</code>、<code>lastIndex</code> 属性之外，还有一个 <code>source</code>属性。</p>
+
+<h4>其他构造函数属性</h4>
+
+<p>有兼容性问题
+- <code>RegExp.input</code>，最近一次目标字符串，简写：<code>RegExp["$_"]</code>
+- <code>RegExp.lastMatch</code>，最近一次匹配的文本，简写：<code>RegExp["$&amp;"]</code>
+- <code>RegExp.lastParen</code>，最近一次捕获的文本，简写：<code>RegExp["$+"]</code>
+- <code>RegExp.leftContext</code>，目标字符串中<code>lastMatch</code>之前的文本，简写：RegExp["$<code>"]
+-</code>RegExp.rightContext<code>，目标字符串中</code>lastMatch<code>之后的文本，简写：</code>RegExp["$'"]`</p>
+
+<p>信息来源：
+<br>
+<a href="https://zhuanlan.zhihu.com/p/29707385">《javascript正则表达式迷你书》</a></p>
+
+  </article>
+
+  <div class="article-guide clearfix">
+    
+      <span class="article-pre">« <a href="/web%E5%89%8D%E7%AB%AF/2018/01/19/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%89%93%E5%8C%85%E8%84%9A%E6%9C%AC%E4%BC%98%E5%8C%96.html" rel="prev">记一次打包脚本优化</a></span>
+    
+    
+  </div>
+</div>
+
+
+        <!--Footer content-->
+        <footer class="site-footer">
+
+  <div class="wrapper">
+    <p class="footer-heading">Copyright © 2017 - <a href="/">库乐君的笔记本</a> - Base on <a href="http://github.com">Github</a> & <a href="http://jekyllrb.com">Jekyll</a></p>
+  </div>
+  <script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "https://hm.baidu.com/hm.js?075085658c25fed7cc4d8789f23c6519";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+</footer>
+
+      </div>
+    </div>
+
+    <div id="particles-js"></div>
+
+  </body>
+  <script>
+  particlesJS('particles-js',
+  
+  {
+      "particles": {
+      "number": {
+          "value": 50,
+          "density": {
+          "enable": true,
+          "value_area": 550
+          }
+      },
+      "color": {
+          "value": "#3385ff"
+      },
+      "shape": {
+          "type": "circle",
+          "stroke": {
+          "width": 0,
+          "color": "#000000"
+          },
+          "polygon": {
+          "nb_sides": 5
+          },
+          "image": {
+          "src": "img/github.svg",
+          "width": 100,
+          "height": 100
+          }
+      },
+      "opacity": {
+          "value": 0.25,
+          "random": false,
+          "anim": {
+          "enable": false,
+          "speed": 1,
+          "opacity_min": 0.1,
+          "sync": false
+          }
+      },
+      "size": {
+          "value": 5,
+          "random": true,
+          "anim": {
+          "enable": false,
+          "speed": 40,
+          "size_min": 0.1,
+          "sync": false
+          }
+      },
+      "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#3385ff",
+          "opacity": 0.4,
+          "width": 1
+      },
+      "move": {
+          "enable": true,
+          "speed": 3,
+          "direction": "none",
+          "random": false,
+          "straight": false,
+          "out_mode": "out",
+          "attract": {
+          "enable": false,
+          "rotateX": 600,
+          "rotateY": 1200
+          }
+      }
+      },
+      "interactivity": {
+      "detect_on": "canvas",
+      "events": {
+          "onhover": {
+          "enable": true,
+          "mode": "grab"
+          },
+          "onclick": {
+          "enable": true,
+          "mode": "push"
+          },
+          "resize": true
+      },
+      "modes": {
+          "grab": {
+          "distance": 100,
+          "line_linked": {
+              "opacity": 1
+          }
+          },
+          "bubble": {
+          "distance": 100,
+          "size": 40,
+          "duration": 2,
+          "opacity": 8,
+          "speed": 3
+          },
+          "repulse": {
+          "distance": 200
+          },
+          "push": {
+          "particles_nb": 4
+          },
+          "remove": {
+          "particles_nb": 2
+          }
+      }
+      },
+      "retina_detect": true,
+      "config_demo": {
+      "hide_card": false,
+      "background_color": "#b61924",
+      "background_image": "",
+      "background_position": "50% 50%",
+      "background_repeat": "no-repeat",
+      "background_size": "cover"
+      }
+  }
+
+  ); 
+  </script>
+</html>
