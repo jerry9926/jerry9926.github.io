@@ -9,8 +9,8 @@
     <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">
 
-    <title>生成目录结构的小工具</title>
-    <link rel="canonical" href="http://jerry9926.github.io/web%E5%89%8D%E7%AB%AF/2017/09/29/%E7%94%9F%E6%88%90%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E7%9A%84%E5%B0%8F%E5%B7%A5%E5%85%B7.html">
+    <title>关于几个meta标签</title>
+    <link rel="canonical" href="http://jerry9926.github.io/web%E5%89%8D%E7%AB%AF/2018/06/27/%E5%85%B3%E4%BA%8E%E5%87%A0%E4%B8%AAmeta%E6%A0%87%E7%AD%BE.html">
 
     <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link rel="stylesheet" href="/css/main.css">
@@ -49,58 +49,95 @@
 <div class="post">
 
   <header class="post-header clearfix">
-    <h1 class="post-title">生成目录结构的小工具</h1>
+    <h1 class="post-title">关于几个meta标签</h1>
     <span class="post-meta"> 分类：web前端 </span>
-    <span class="post-meta"> 标签：node工具</span>
-    <span class="post-meta">发布时间：2017-09-29</span>
+    <span class="post-meta"> 标签：html</span>
+    <span class="post-meta">发布时间：2018-06-27</span>
   </header>
 
   <article class="post-content">
-    <p>npm工具 tree-directory</p>
+    <p>在老项目里面遇到几个meta标签，不太清除作用。现在查阅一些资料，写这个读书笔记。</p>
 
 <!-- more -->
 
 
-<h3>安装</h3>
+<p><br>
+<br></p>
 
-<pre><code>npm install tree-directory
+<h3>meta http-equiv="X-UA-Compatible" content="IE=Edge"></h3>
+
+<p><code>X-UA-Compatible</code>是自从IE8新加的一个设置，对于IE8以下的浏览器是不识别的。 通过在<code>meta</code>中设置<code>X-UA-Compatible</code>的值，可以指定网页的兼容性模式设置。在网页中指定的模式优先权高于服务器中(通过HTTP Header)所指定的模式。 兼容性模式设置优先级。</p>
+
+<blockquote><p>meta tag > http header</p></blockquote>
+
+<pre><code>&lt;meta http-equiv="X-UA-Compatible" content="IE=7"&gt;  
+#以上代码告诉IE浏览器，无论是否用DTD声明文档标准，IE8/9都会以IE7引擎来渲染页面。  
+&lt;meta http-equiv="X-UA-Compatible" content="IE=8"&gt;  
+#以上代码告诉IE浏览器，IE8/9都会以IE8引擎来渲染页面。  
+&lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;  
+#以上代码告诉IE浏览器，IE8/9及以后的版本都会以最高版本IE来渲染页面。  
+&lt;meta http-equiv="X-UA-Compatible" content="IE=7,IE=9"&gt;  
+&lt;meta http-equiv="X-UA-Compatible" content="IE=7,9"&gt;  
+&lt;meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"&gt;
+#以上代码IE=edge告诉IE使用最新的引擎渲染网页，chrome=1则可以激活Chrome Frame.
 </code></pre>
 
-<h3>使用</h3>
+<p>参考：<a href="https://blogs.msdn.microsoft.com/ie/2010/06/16/ies-compatibility-features-for-site-developers/">IE’s Compatibility Features for Site Developers</a></p>
 
-<pre><code>const tree = require('tree-directory');
+<p><br></p>
 
-tree(__dirname, ['**/*', '!node_modules/**/*']).then(function (res) {
-    console.log(res)
-});
+<h3>meta name="renderer" content="webkit"></h3>
+
+<p>看到这个标签的出处是360浏览器。背景是说国内的浏览器多位双核浏览器，webkit内核与IE内核。使用此标签可以告诉浏览器使用什么内核进行渲染。</p>
+
+<pre><code>&lt;meta name="renderer" content="webkit"&gt;
 </code></pre>
 
-<h3>输出结果</h3>
+<p>补充：
+浏览器默认内核的指定只需在head标签中添加一行代码即可：
+- 若页面需默认用极速核，增加标签：<code>&lt;meta name="renderer" content="webkit"&gt;</code>
+- 若页面需默认用ie兼容内核，增加标签：<code>&lt;meta name="renderer" content="ie-comp"&gt;</code>
+- 若页面需默认用ie标准内核，增加标签：<code>&lt;meta name="renderer" content="ie-stand"&gt;</code>
+- <code>content</code>的取值为<code>webkit</code>,<code>ie-comp</code>,<code>ie-stand</code>之一，区分大小写，分别代表用webkit内核，IE兼容内核，IE标准内核。</p>
 
-<pre><code>├─ dist
-├─ gulpfile.js
-├─ node_modules
-├─ package.json
-├─ README.md
-├─ src
-├─ src/demo-01.html
-├─ src/js
-├─ src/js/components
-├─ src/js/components/aComponent
-├─ src/js/components/aComponent/a.js
-├─ src/js/pages
-├─ src/js/pages/demo-01.js
-└─ webpack.config.js
+<p>这个功能其实和IE9的<code>X-UA-Compatible</code>很类似。</p>
+
+<p>参考：<a href="http://se.360.cn/v6/help/meta.html">浏览器内核控制标签meta说明</a></p>
+
+<p><br></p>
+
+<h3>meta name="robots" content=""></h3>
+
+<p>这个标签主要告诉搜索引擎的爬虫是否抓取页面，建立快照等行为。</p>
+
+<p>在这里，<code>META NAME="ROBOTS"</code>是泛指所有的搜索引擎的，在这里我们也可以特指某个搜索引擎，例如<code>META NAME="Googlebot"</code>、<code>META NAME="Baiduspide"</code>等。<code>content</code>部分有四个命令：<code>index</code>、<code>noindex</code>、<code>follow</code>、<code>nofollow</code>，命令间以英文的“,”分隔。</p>
+
+<ul>
+<li>INDEX命令：告诉搜索引擎抓取这个页面</li>
+<li>FOLLOW命令：告诉搜索引擎可以从这个页面上找到链接，然后继续访问抓取下去。</li>
+<li>NOINDEX命令：告诉搜索引擎不允许抓取这个页面</li>
+<li>NOFOLLOW命令：告诉搜索引擎不允许从此页找到链接、拒绝其继续访问。</li>
+</ul>
+
+
+<pre><code>&lt;meta name="robots" content="index, follow"&gt;
+#以上标签表示， 可以抓取本页，而且可以顺着本页继续索引别的链接
+&lt;meta name="ROBOTS" content="NOINDEX,FOLLOW"&gt;
+#以上标签表示，不许抓取本页，但是可以顺着本页抓取索引别的链接
+&lt;meta name="ROBOTS" content="INDEX,NOFOLLOW"&gt;
+#以上标签表示，可以抓取本页，但是不许顺着本页抓取索引别的链接
+&lt;meta name="ROBOTS" content="NOINDEX,NOFOLLOW"&gt;
+#以上标签表示，不许抓取本页，也不许顺着本页抓取索引别的链接。
 </code></pre>
+
+<p>参考：<a href="https://www.metatags.org/meta_name_robots">What is the meaning of the meta name "robots" tag</a></p>
 
   </article>
 
   <div class="article-guide clearfix">
     
-      <span class="article-pre">« <a href="/web%E5%89%8D%E7%AB%AF/2017/09/14/Babel%E5%B0%8F%E8%AE%B0.html" rel="prev">Babel小记</a></span>
+      <span class="article-pre">« <a href="/web%E5%89%8D%E7%AB%AF/2018/03/01/%E3%80%8Ajavascript%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%BF%B7%E4%BD%A0%E4%B9%A6%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.html" rel="prev">《javascript正则表达式迷你书》读书笔记</a></span>
     
-    
-      <span class="article-next"><a href="/web%E5%89%8D%E7%AB%AF/2017/10/10/%E6%89%A9%E5%B1%95echarts%E5%9B%BE%E8%A1%A8%E7%B1%BB%E5%9E%8B.html" rel="next">扩展echarts图表类型</a> »</span>
     
   </div>
 </div>
