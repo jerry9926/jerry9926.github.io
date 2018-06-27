@@ -4,6 +4,8 @@
   "description": "blog",
   "main": "index.js",
   "scripts": {
+      "dev": "npm run build:fix",
+      "build:fix": "node script_fixmd.js"
   },
   "repository": {
     "type": "git",

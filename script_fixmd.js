@@ -29,7 +29,7 @@ fs.readdir(DIR, function(err, files) {
 			var isCodeEnd = true;
 
 			var fileBaseName = path.basename(file, SUFFIX);
-			var filePathNew = path.join(DIR, fileBaseName + ' - 2') + SUFFIX;
+			var filePathNew = path.join(DIR, fileBaseName + '.new') + SUFFIX;
 
 			console.log(filePath);
 			console.log(filePathNew);
