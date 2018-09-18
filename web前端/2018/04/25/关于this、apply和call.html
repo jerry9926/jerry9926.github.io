@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<!-- 两栏模版 -->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <title>关于this、apply和call</title>
+    <link rel="canonical" href="http://jerry9926.github.io/web%E5%89%8D%E7%AB%AF/2018/04/25/%E5%85%B3%E4%BA%8Ethis%E3%80%81apply%E5%92%8Ccall.html">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="/css/main.css">
+	<script src="/js/jquery-1.11.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+	<script src="/js/particles.min.js"></script>    
+</head>
+
+
+  <body>
+    <div class="container my-container">
+      <div class="side-bar">
+        <!--Sidebar content-->
+        <div class="head-wrapper">
+        <img src="/assets/images/ui/icon.jpg" alt="head-icon">
+        </div>
+        <h1 class="title">库乐君的笔记本</h1>
+        <h2 class="decs">所谓文艺，不过是多走一些路，多看一些风景罢了</h2>
+        <ul class="nav">
+        <li><a href="/">首页</a></li>
+            
+        <li><a href="/ios/" title="查看更多文章">ios 6</a>
+        </li>
+        
+        <li><a href="/编程相关/" title="查看更多文章">编程相关 4</a>
+        </li>
+        
+        <li><a href="/web前端/" title="查看更多文章">web前端 15</a>
+        </li>
+        
+        </ul>
+      </div>
+      <div class="content-contain">
+        <!--Body content-->
+        <!-- 文章模版 -->
+<div class="post">
+
+  <header class="post-header clearfix">
+    <h1 class="post-title">关于this、apply和call</h1>
+    <span class="post-meta"> 分类：web前端 </span>
+    <span class="post-meta"> 标签：Javascript</span>
+    <span class="post-meta">发布时间：2018-04-25</span>
+  </header>
+
+  <article class="post-content">
+    <p>js里面的this总是容易出错的地方。来理解一下this、apply和call。</p>
+
+<!-- more -->
+
+
+<p><br></p>
+
+<h3>this</h3>
+
+<p>this总是指向一个对象，而具体指向哪个对象是在运行时基于函数的执行环境动态绑定的，而非函数被声明时的环境。</p>
+
+<p>取出不常用的<code>with</code>和<code>eval</code>的情况，this的指向大致分为4种。</p>
+
+<ol>
+<li>作为对象的方法调用</li>
+<li>这时this指向该对象</li>
+<li>作为普通的函数调用</li>
+<li>当函数不作为对象的属性被调用时，this指向全局对象，浏览器环境下为<code>window</code></li>
+<li>构造器调用</li>
+<li>构造器跟普通函数一模一样，区别在于被调用的方式。当用<code>new</code>运算符调用函数创建对象时，这个函数就是构造器</li>
+<li>通常情况下，构造器里的this指向这个对象</li>
+<li>特殊情况，如果构造器显式地返回了一个<code>object</code>类型的对象，那么运算结果最终会返回这个对象，而不是this。如果构造器不显式地返回任何数据或者返回的是一个非对象类型的数据，就不会有这个问题。</li>
+<li><code>Function.prototype.call</code>或者<code>Function.prototype.apply</code>调用</li>
+<li>跟普通函数相比，用<code>Function.prototype.call</code>或<code>Function.prototype.apply</code>可以动态地改变传入函数的this</li>
+</ol>
+
+
+<p>意外的this情况
+情况一</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">myName</span><span class="o">:</span> <span class="s1">&#39;sven&#39;</span><span class="p">,</span>
+    <span class="nx">getName</span><span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">myName</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">getName</span><span class="p">()</span> <span class="p">);</span> <span class="c1">// 输出：&#39;sven&#39;</span>
+<span class="kd">var</span> <span class="nx">getName2</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">getName</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">getName2</span><span class="p">()</span> <span class="p">);</span> <span class="c1">// 输出：undefined</span></code></pre></div>
+
+
+<p>第一条打印。符合this指向第一类，作为对象的方法调用。所以输出符合预期。
+第二条打印。因为用一个变量来引用<code>obj.getName</code>，这是调用，属于作为普通函数调用，this指向<code>window</code>。所以输出<code>undefined</code></p>
+
+<p>情况二
+我们可能觉得<code>document.getElementById</code>这个方法名过长，而希望用一个短的函数替代它。如果我们这样做</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">getId</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">;</span>
+<span class="nx">getId</span><span class="p">(</span><span class="s1">&#39;div1&#39;</span><span class="p">);</span> <span class="c1">// 这时会报错</span></code></pre></div>
+
+
+<p>这会报错，因为在<code>document.getElementById</code>函数内部需要使用this，而本来this指向<code>document</code>。现在我们引用了之后，是作为普通函数使用，this指向了<code>window</code>。所以会报错。不会改变this指向的方式
+第一种方式</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">getId</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="nx">id</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+
+<p>这样实际上还是作为<code>document</code>对象的方法调用，符合作为对象的方法调用this指向<code>document</code>。</p>
+
+<p>第二种方式</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">func</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">func</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nb">document</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">})(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">getId</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">;</span></code></pre></div>
+
+
+<p>这里使用了apply强制this指向<code>document</code>，避免this丢失。</p>
+
+<p><br></p>
+
+<h3>apply和call</h3>
+
+<p>两者作用一样，区别在于传入的参数不同。
+<strong>apply接受两个参数，第一个参数指定了函数体内this对象的指向，第二个参数为一个带下标的集合</strong>，这个集合可以是数组或者类数组，apply把第二个参数作为参数传递给被调用的函数。</p>
+
+<p><strong>call传入的参数数量不固定，跟apply相同的是，第一个参数也是指定函数体内this的指向，从第二个参数开始，每个参数依次传入函数。</strong>call是包装在apply上面的语法糖，如果明确知道函数接受多少个参数，而且想明确表示需要的参数，可以使用call。</p>
+
+<p>使用apply和call的时候，如果传第一个参数为<code>null</code>，this会指向默认宿主对象，浏览器中为<code>window</code>。在严格模式下，传<code>null</code>，this就为<code>null</code>。</p>
+
+<p>用途一：改变this指向。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">obj1</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;sven&#39;</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">obj2</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;anne&#39;</span>
+<span class="p">}</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;window&#39;</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">getName</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">getName</span><span class="p">();</span>
+<span class="nx">getName</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">obj1</span><span class="p">);</span>
+<span class="nx">getName</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">obj2</span><span class="p">);</span></code></pre></div>
+
+
+<p>用途二：<code>Function.prototype.bind</code></p>
+
+<p>用途三：借用其他对象的方法。
+场景一，借用构造函数，实现类似继承的效果。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">A</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">B</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">A</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">B</span><span class="p">.</span><span class="nx">protoptype</span><span class="p">.</span><span class="nx">getName</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">B</span><span class="p">(</span><span class="s1">&#39;sven&#39;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">getName</span><span class="p">());</span></code></pre></div>
+
+
+<p>场景二，函数参数列表<code>arguments</code>不是数组，但是希望使用数组的方法。</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="p">[].</span><span class="nx">push</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">arguments</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arguments</span><span class="p">);</span> <span class="c1">// 输出[1,2,3]</span>
+<span class="p">})(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></code></pre></div>
+
+
+<p>参考：<a href="https://book.douban.com/subject/26382780/">《JavaScript设计模式与开发实践.曾探》</a></p>
+
+  </article>
+
+  <div class="article-guide clearfix">
+    
+      <span class="article-pre">« <a href="/web%E5%89%8D%E7%AB%AF/2018/03/01/%E3%80%8Ajavascript%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%BF%B7%E4%BD%A0%E4%B9%A6%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.html" rel="prev">《javascript正则表达式迷你书》读书笔记</a></span>
+    
+    
+      <span class="article-next"><a href="/web%E5%89%8D%E7%AB%AF/2018/06/27/%E5%85%B3%E4%BA%8E%E5%87%A0%E4%B8%AAmeta%E6%A0%87%E7%AD%BE.html" rel="next">关于几个meta标签</a> »</span>
+    
+  </div>
+</div>
+
+
+        <!--Footer content-->
+        <footer class="site-footer">
+
+  <div class="wrapper">
+    <p class="footer-heading">Copyright © 2017 - <a href="/">库乐君的笔记本</a> - Base on <a href="http://github.com">Github</a> & <a href="http://jekyllrb.com">Jekyll</a></p>
+  </div>
+  <script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "https://hm.baidu.com/hm.js?075085658c25fed7cc4d8789f23c6519";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+</footer>
+
+      </div>
+    </div>
+
+    <div id="particles-js"></div>
+
+  </body>
+  <script>
+  particlesJS('particles-js',
+  
+  {
+      "particles": {
+      "number": {
+          "value": 50,
+          "density": {
+          "enable": true,
+          "value_area": 550
+          }
+      },
+      "color": {
+          "value": "#3385ff"
+      },
+      "shape": {
+          "type": "circle",
+          "stroke": {
+          "width": 0,
+          "color": "#000000"
+          },
+          "polygon": {
+          "nb_sides": 5
+          },
+          "image": {
+          "src": "img/github.svg",
+          "width": 100,
+          "height": 100
+          }
+      },
+      "opacity": {
+          "value": 0.25,
+          "random": false,
+          "anim": {
+          "enable": false,
+          "speed": 1,
+          "opacity_min": 0.1,
+          "sync": false
+          }
+      },
+      "size": {
+          "value": 5,
+          "random": true,
+          "anim": {
+          "enable": false,
+          "speed": 40,
+          "size_min": 0.1,
+          "sync": false
+          }
+      },
+      "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#3385ff",
+          "opacity": 0.4,
+          "width": 1
+      },
+      "move": {
+          "enable": true,
+          "speed": 3,
+          "direction": "none",
+          "random": false,
+          "straight": false,
+          "out_mode": "out",
+          "attract": {
+          "enable": false,
+          "rotateX": 600,
+          "rotateY": 1200
+          }
+      }
+      },
+      "interactivity": {
+      "detect_on": "canvas",
+      "events": {
+          "onhover": {
+          "enable": true,
+          "mode": "grab"
+          },
+          "onclick": {
+          "enable": true,
+          "mode": "push"
+          },
+          "resize": true
+      },
+      "modes": {
+          "grab": {
+          "distance": 100,
+          "line_linked": {
+              "opacity": 1
+          }
+          },
+          "bubble": {
+          "distance": 100,
+          "size": 40,
+          "duration": 2,
+          "opacity": 8,
+          "speed": 3
+          },
+          "repulse": {
+          "distance": 200
+          },
+          "push": {
+          "particles_nb": 4
+          },
+          "remove": {
+          "particles_nb": 2
+          }
+      }
+      },
+      "retina_detect": true,
+      "config_demo": {
+      "hide_card": false,
+      "background_color": "#b61924",
+      "background_image": "",
+      "background_position": "50% 50%",
+      "background_repeat": "no-repeat",
+      "background_size": "cover"
+      }
+  }
+
+  ); 
+  </script>
+</html>
